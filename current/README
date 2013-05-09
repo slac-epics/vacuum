@@ -1,7 +1,31 @@
-2013-02-28
+2013-05-09
 
 A. Wallace
 
 This is a module for the vacuum IOCs. Basically I want to have one place to
 keep all the templates for the vacuum IOCs used in LCLS. Additionally, this will
 help keep everyone's IOC version up-to-date.
+
+To use it on your vacuum IOC make sure you release file looks like this:
+###############################################3
+# RELEASE
+# Defines location of external products
+include $(TOP)/RELEASE_SITE
+
+# ===============================================================
+# Define the version of our generic vacuum ioc and
+# use it's release settings
+# ===============================================================
+VAC_IOC_VERSION=<version of module you want to use>
+include $(EPICS_SITE_TOP)/modules/vacuum/$(VAC_IOC_VERSION)/configure/RELEASE
+
+VACUUM=$(EPICS_SITE_TOP)/modules/vacuum/$(VAC_IOC_VERSION)/
+##########################################################
+
+Also, add this line to your ***App/src/Makefile:
+iocname_LIBS += vacuum
+
+That should do it!
+
+Now you don't have to keep the .template files for the vacuum devices in your IOC files. They will be sourced from this module,
+which will make the vacuum IOC easier to maintain.
