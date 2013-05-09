@@ -1,0 +1,44 @@
+# Stream Device Protocol for the Varian Vxxx Turbomolecular Pumps
+
+locktimeout = 5000;
+OutTerminator = "";
+InTerminator = "";
+replytimeout = 1500;
+readtimeout  = 100;
+
+# $1 = device
+
+# Send an initial dummy command to clear out any garbage.
+#@init{out " ";}
+
+# Get Status
+#getStatus { out "I\xB7"; in "%01r%*1r"; wait 1500;}
+getStatus { out "\x02\x802050\x03%01.0<xor>"; in "\x02\x80205%6b5\x03%01.0<xor>"; }
+
+
+# Get Counters
+#getCounters { out "K\xB5"; in "%(\$1:CYCLETIME.VAL)#04r%(\$1:PUMPLIFE.VAL)#04r%(\$1:CYCLENUM.VAL)#02r%*1r"; wait 1500;}
+#getCounters { }
+getCounters { out "\x02\x803000\x03%01.0<xor>"; in "\x02\x80300%(\$1:CYCLETIME.VAL)08d\x03%01.0<xor>"; 
+              out "\x02\x803010\x03%01.0<xor>"; in "\x02\x80301%(\$1:CYCLENUM.VAL)08d\x03%01.0<xor>"; 
+              out "\x02\x803020\x03%01.0<xor>"; in "\x02\x80302%(\$1:PUMPLIFE.VAL)08d\x03%01.0<xor>"; }
+
+# Get Values
+#getValues { out "J\xB6"; in "%(\$1:I.A)01r%(\$1:V.A)01r%(\$1:RPM.VAL)01r%(\$1:TEMP.A)01r%*1r"; wait 1500;}
+getValues { out "\x02\x802000\x03%01.0<xor>"; in "\x02\x80200%(\$1:I.VAL)08d\x03%01.0<xor>"; 
+            out "\x02\x802010\x03%01.0<xor>"; in "\x02\x80201%(\$1:V.VAL)08d\x03%01.0<xor>"; 
+            out "\x02\x802040\x03%01.0<xor>"; in "\x02\x80204%(\$1:TEMP.VAL)08d\x03%01.0<xor>"; }
+# see note 3 in the manual about this; it can stop the pump
+#            out "\x02\x802100\x03%01.0<xor>"; in "\x02\x80210%(\$1:RPM.VAL)08d\x03%01.0<xor>"; }
+
+
+# Get Parameters
+#getParameters { out "G\xB9"; in "%(\$1:CYCLENUM2.VAL)#02r%(\$1:SPEEDTHR.VAL)#01r%(\$1:RUNUPTIME.VAL)#04r%(\$1:DEADTIME.VAL)01r%(\$1:SOFTSTART.VAL)01r%(\$1:WATER.VAL)01r%*1r"; wait 1500;}
+getParameters { out "\x02\x803010\x03%01.0<xor>"; in "\x02\x80301%(\$1:CYCLENUM2.VAL)#08r\x03%01.0<xor>"; 
+               out "\x02\x801210\x03%01.0<xor>"; in "\x02\x80121%(\$1:SPEEDTHR.VAL)#08r\x03%01.0<xor>"; 
+# these don't appear to be supported
+#               out "\x02\x801030\x03%01.0<xor>"; in "\x02\x80103%(\$1:RUNUPTIME.VAL)#08r\x03%01.0<xor>"; 
+#               out "\x02\x802040\x03%01.0<xor>"; in "\x02\x80204%(\$1:DEADTIME.VAL)#08r\x03%01.0<xor>"; 
+               out "\x02\x801000\x03%01.0<xor>"; in "\x02\x80100%(\$1:SOFTSTART.VAL)#08r\x03%01.0<xor>"; 
+               out "\x02\x801060\x03%01.0<xor>"; in "\x02\x80106%(\$1:WATER.VAL)#08r\x03%01.0<xor>"; }
+

@@ -1,0 +1,7 @@
+2013-02-28
+
+A. Wallace
+
+This is a module for the vacuum IOCs. Basically I want to have one place to
+keep all the templates for the vacuum IOCs used in LCLS. Additionally, this will
+help keep everyone's IOC version up-to-date.

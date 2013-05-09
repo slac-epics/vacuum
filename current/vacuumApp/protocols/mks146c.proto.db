@@ -1,0 +1,70 @@
+# Stream Device Protocol for the MKS 146C Pressure Regulator
+#
+# $1 = channel number: 1..2
+
+locktimeout = 5000;
+terminator   = CR;
+replytimeout = 1000;
+readtimeout  = 1000;
+extrainput   = Ignore;
+
+# Send an initial dummy command to clear out any garbage the mks has already received.
+@init{out " ";}
+
+## Controller...
+# Startup
+getpowerup	{ out "@609 ?"; in "@609 :%s"}
+
+# Firmware Version
+getfwversion	{ out "@701 ?"; in "@701 :%s"; }
+
+# Mode/Override
+getmode		{ in "@60C :%*c%{A|O|C|M|H}"}
+getover		{ out "@60C ?"; in "@60C :%1i"}
+setmode		{ out "@0211:%{A|O|C|H|M}"; in "@0211:OK"}
+
+# Get Proportional Control
+getpropctl	{ out "@60F ?"; in "@60F :%*c%f"}
+
+# Recipe/Polarity/Setpoint
+getrecipe	{ out "@60D ?"; in "@60D :%*c%i"}
+setrecipe	{ out "@0221:%i"; in "@0221:OK"}
+getpolarity	{ out "@0231?"; in "@0231:%{D|R}"}
+setpolarity	{ out "@0231:%{D|R}"; in "@0231:OK"}
+getsetpoint	{ out "@60E ?"; in "@60E :%*c%f"}
+setsetpoint	{ out "@041\$1:%.4f"; in "@041\$1:OK"}
+setlead		{ out "@042\$1:%f"; in "@042\$1:OK"}
+setgain		{ out "@043\$1:%f"; in "@043\$1:OK"}
+setsoftstart	{ out "@044\$1:%{D|E}"; in "@044\$1:OK"}
+setchannel	{ out "@047\$1:%i"; in "@047\$1:OK"}
+
+# Loop
+setintegral	{ out "@0311:%f"; in "@0311:OK"}
+setbase		{ out "@0321:%i"; in "@0321:OK"}
+setstart	{ out "@0331:%i"; in "@0331:OK"}
+setalpha	{ out "@0341:%i"; in "@0341:OK"}
+setpreset	{ out "@0351:%i"; in "@0351:OK"}
+setanalogoutput	{ out "@0361:%i"; in "@0361:OK"}
+setsoftspeed	{ out "@0371:%i"; in "@0371:OK"}
+
+# Configuration
+getconfig	{
+		ExtraInput = Ignore;
+		out "@704 ?"; in "@704 :%s\n";
+		in "%(\$1:CNFG2.VAL)s\n";
+		in "%(\$1:CNFG3.VAL)s\n";
+		in "%(\$1:CNFG4.VAL)s\n";
+		in "%(\$1:CNFG5.VAL)s\n"
+		}
+
+## Channel...
+# Channel Condition
+getcondx	{ out "@608\$1?"; in "@608\$1:%{A|B|C|D|E|F|G|H|I|J|K|L}"; }
+getreading	{ out "@608\$1?"; in "@608\$1:%*c%f"; @mismatch { in "@608\$1:%*c" } }
+
+# Range/Resolution
+setrange	{ out "@061\$1:%f"; in "@061\$1:OK"}
+setresolution	{ out "@062\$1:%i"; in "@062\$1:OK"}
+
+# Power
+setpower	{ out "@081\$1:%{OFF|ON}"; in "@081\$1:OK"}
