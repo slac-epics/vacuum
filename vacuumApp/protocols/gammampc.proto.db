@@ -1,0 +1,223 @@
+Terminator = "\r";
+
+@init{out " ";}
+ReplyTimeout = 10000;
+ReadTimeout = 10000;
+
+
+# Pump controller 
+
+getModel {
+	out "~ 05 01 %01<SUM8>";
+	in "05 OK 00 DIGITEL %s %0<SUM8>";
+	#in "05 OK %.1/00(.*)MPCe/ %0<SUM8>";
+	#in "%.1/<title>(.*)<\/title>/";
+}
+
+getFirmware {
+	out "~ 05 02 %01<SUM8>"; 
+	in "05 OK 00 FIRMWARE VERSION: %s %0<SUM8>"; 
+}
+
+getLinevoltage {
+	out "~ 05 22 %01<SUM8>";
+	in "05 OK 00 %i %0<SUM8>";
+}
+
+getLinefrequency {
+	out "~ 05 24 %01<SUM8>";
+	in "05 OK 00 %2i %(EGU)s %0<SUM8>";
+}
+
+setKeypadlock {
+	out "~ 05 %{45|44} %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+setAutostartHVE {
+	out "~ 05 68 %{NO|YES} %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+getAutostartHVE {
+	out "~ 05 69 %01<SUM8>";
+	in "05 OK 00 %{NO|YES} %0<SUM8>";
+}
+
+getAutostartPower {
+	out "~ 05 34 %01<SUM8>";
+	in "05 OK 00 %{NO|YES} %0<SUM8>";
+}
+
+setAutostartPower {
+	out "~ 05 33 %{NO|YES} %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+setPressunits {	
+	out "~ 05 0E %{Torr|MBR|PA} %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+setFan {
+	out "~ 05 32 %{OFF|ON} %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+getFan {
+	out "~ 05 60 %01<SUM8>";
+	in "05 OK 00 %{NO|YES} %0<SUM8>";
+}
+
+
+getDatetime {
+	out "~ 05 0F %01<SUM8>";
+	in "05 OK 00 %(\$1:TODDY.VAL)i %14c %0<SUM8>";
+}
+
+setDatetime {
+	out "~ 05 10 %(\$1:TODDYDES.RVAL)0i %(\$1:TODMODES.VAL)0i/%(\$1:TODDTDES.VAL)02i/%(\$1:TODYRDES.VAL)02i %(\$1:TODHRDES.VAL)02i\:%(\$1:TODMIDES.VAL)02i %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+masterReset {
+	out "~ 05 07 %01<SUM8>";
+}
+
+
+
+# Pump basic
+
+getCurrent {
+        out "~ 05 0A \$1 %01<SUM8>";
+        in "05 OK 00 %f %(EGU)s %0<SUM8>";
+}
+
+getPressure {
+        out "~ 05 0B \$1 %01<SUM8>";
+        in "05 OK 00 %f %(EGU)s %0<SUM8>";
+}
+
+getVoltage {
+        out "~ 05 0C \$1 %01<SUM8>";
+        in "05 OK 00 %i %0<SUM8>";
+}
+
+getState {
+	out "~ 05 61 \$1 %01<SUM8>";
+	in "05 OK 00 %{NO|YES} %0<SUM8>";
+}
+
+getStatus {
+        out "~ 05 0D \$1 %01<SUM8>";
+        in "05 OK 00 %{SAFE-CONN 00|SAFE-CONN 01|SAFE-CONN 02|SAFE-CONN 03|SAFE-CONN 04|SAFE-CONN 05|SAFE-CONN 06|SAFE-CONN 07|SAFE-CONN 08|SAFE-CONN 09|SAFE-CONN 10|RUNNING 00|RUNNING 01|RUNNING 02|RUNNING 03|RUNNING 04|RUNNING 05|RUNNING 06|RUNNING 07|RUNNING 08|RUNNING 09|RUNNING 10|COOL DOWN 00|COOL DOWN 01|COOL DOWN 02|COOL DOWN 03|COOL DOWN 04|COOL DOWN 05|COOL DOWN 06|COOL DOWN 07|COOL DOWN 08|COOL DOWN 09|COOL DOWN 10|PUMP ERROR 00|PUMP ERROR 01|PUMP ERROR 02|PUMP ERROR 03|PUMP ERROR 04|PUMP ERROR 05|PUMP ERROR 06|PUMP ERROR 07|PUMP ERROR 08|PUMP ERROR 09|PUMP ERROR 10|PUMP ERROR 11|INTERLOCK 00|INTERLOCK 01|INTERLOCK 02|INTERLOCK 03|INTERLOCK 04|INTERLOCK 05|INTERLOCK 06|INTERLOCK 07|INTERLOCK 08|INTERLOCK 09|INTERLOCK 10|SHUT DOWN 00|SHUT DOWN 01|SHUT DOWN 02|SHUT DOWN 03|SHUT DOWN 04|SHUT DOWN 05|SHUT DOWN 06|SHUT DOWN 07|SHUT DOWN 08|SHUT DOWN 09|SHUT DOWN 10|CALIBRATION 00|CALIBRATION 01|CALIBRATION 02|CALIBRATION 03|CALIBRATION 04|CALIBRATION 05|CALIBRATION 06|CALIBRATION 07|CALIBRATION 08|CALIBRATION 09|CALIBRATION 10|WAITING TO START|STANDBY} %0<SUM8>";
+}
+
+setOnoff {
+        out "~ 05 %{38|37} \$1 %01<SUM8>";
+        in "05 OK 00 %0<SUM8>";
+}
+
+
+
+
+# Pump diagnostic
+
+getHVStrapping {
+	out "~ 05 20 \$1 %01<SUM8>";
+	in "05 OK 00 %i %0<SUM8>";
+}
+
+setDisplaymode {
+	out "~ 05 25 \$1, %{V|C|P} %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+getAnalogoutmode {
+	out "~ 05 50 \$1 %01<SUM8>";
+	in "05 OK 00 %{0 Logarithmic pressure|1 Logarithmic current|2 Volts per 1.0uA|3 Volts per 10.0uA|4 Volts per 100.0uA|5 Volts per 1.0mA|6 Volts per 10.0mA|7 Volts per 50.0mA|1: LOGARITHMIC PRESSURE|2: LOGARITHMIC CURRENT|3: 1 VOLT PER 1 uA|4: 1 VOLT PER 10 uA|5: 1 VOLT PER 100 uA|6: 1 VOLT PER 1 mA|7: 1 VOLT PER 10 mA|8: 1 VOLT PER 50 mA} %0<SUM8>";
+#	@mismatch {in "05 OK 00 %{0: LOGARITHMIC PRESS|1: LOGARITHMIC CURRENT|2: 1 VOLT PER 1 uA} %0<SUM8>";}
+}
+
+setAnalogoutmode {
+	out "~ 05 51 \$1,%i %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+	# @init { out "~ 05 50 1 %01<SUM8>"; in "05 OK 00 %{0 Logarithmic pressure|1 Logarithmic current|2 Volts per 1.0uA|3 Volts per 10.0uA|4 Volts per 100.0uA|5 Volts per 1.0mA|6 Volts per 10.0mA|7 Volts per 50.0mA} %0<SUM8>"; }
+}
+
+getPumpsize {
+	out "~ 05 11 \$1 %01<SUM8>";
+	in "05 OK 00 %i %(EGU)s %0<SUM8>";
+}
+
+setPumpsize {
+	out "~ 05 12 \$1, %i %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+getCalibfactor {
+	out "~ 05 1D \$1 %01<SUM8>";
+	in "05 OK 00 %f %0<SUM8>";
+}
+
+setCalibfactor {
+	out "~ 05 1E \$1, %1.2f %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+getSupplysize {
+	out "~ 05 1C \$1 %01<SUM8>";
+	in "05 OK 00 %{MEDIUM|LARGE} %0<SUM8>";
+}
+
+
+
+
+# Process set points
+
+getSetpoint {
+	out "~ 05 3C \$1 %01<SUM8>";
+	in "05 OK 00 \$1,%(\$2:PSTAT\$3SUP.VAL)1c,%(\$2:PSTAT\$3ON.VAL)f,%(\$2:PSTAT\$3OFF.VAL)f,%1i %0<SUM8>";
+}
+
+setSetpointSup {
+	out "~ 05 3D \$1,%(\$2:PSTAT\$3SUPDES.VAL)i,%(\$2:PSTAT\$3ON.VAL)1.1E,%(\$2:PSTAT\$3OFF.VAL)1.1E %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+setSetpointOff {
+	out "~ 05 3D \$1,%(\$2:PSTAT\$3SUP.VAL)i,%(\$2:PSTAT\$3ON.VAL)1.1E,%(\$2:PSTAT\$3OFFCALCHYS.VAL)1.1E %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+setSetpointOn {
+	out "~ 05 3D \$1,%(\$2:PSTAT\$3SUP.VAL)i,%(\$2:PSTAT\$3ONDES.VAL)1.1E,%(\$2:PSTAT\$3OFFCALCON.VAL)1.1E %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+setSetpointLow {
+	out "~ 05 3D \$1,1,1.0E-07,1.0E-06 %01<SUM8>";
+}
+
+setSetpointHigh {
+	out "~ 05 3D \$1,2,1.0E-07,1.0E-06 %01<SUM8>";
+}
+
+# commands that only work on MPCe:
+
+setCommMode {
+	out "~ 05 D3 %{0|1|2} %01<SUM8>";
+	in "05 OK 00 %0<SUM8>";
+}
+
+getCommMode {
+	out "~ 05 D4 %01<SUM8>";
+	in "05 OK 00 %{0|1|2} %0<SUM8>";
+}
+
+# Debug
+
+debug {
+	ExtraInput = Ignore;
+	out "%s"; in "%39c";
+}
