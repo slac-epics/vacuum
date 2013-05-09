@@ -1,7 +1,0 @@
-include "base.dbd"
-include "iocAdmin.dbd"
-include "autosaveSupport.dbd"
-include "asyn.dbd"
-include "stream.dbd"
-include "modbus.dbd"
-include "modbusSupport.dbd"
