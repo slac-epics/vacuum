@@ -1,0 +1,309 @@
+# Stream Device Protocol for the MKS 937B Multi-Sensor System in 937B mode
+# This protocol uses features defined in Stream Device Version 1.5
+#
+# M Boyes July-09-11
+# 
+#
+# $1 = channel number: 1 - 5
+# $2 = 937B Serial Address defined in controller (default=048)
+# $3 = setpoint: Range, Value
+
+locktimeout = 5000;
+terminator   = ";FF";
+replytimeout = 750;
+readtimeout  = 750;
+extrainput   = Ignore;
+
+# Send an initial dummy command to clear out any garbage the mks has already received.
+# This makes it more likely that the first command sent is received OK.
+# NB we dont wait for a response to the dummy command because if it didnt arrive (e.g. rs232 unplugged) then
+# streams would issue a replyTimeout exception and stop the ioc.
+@init{out " ";}
+
+# Pressure  and Status reading commands
+##############################################
+
+pressure   { out "@\$2PR\$1?"; in "\$2ACK%E"; @mismatch {in "\$2ACK%(\$3.VAL)s";}}
+          
+
+# Query the Combined gauge combination. HH, MM and LL are the gauge channel (A1, A2, B1, B2, C1, C2, NA)
+getCombo   { out "@\$2SPC\$1?";  in "\$2ACK%s";}
+getComboLL { out "@\$2SPC\$1?";  in "\$2ACK%{A1|A2|B1|B2|C1|C2|NA},\?\?";ExtraInput = Ignore;}
+getComboMM { out "@\$2SPC\$1?";  in "\$2ACK\?\?,%{A1|A2|B1|B2|C1|C2|NA},\?\?";ExtraInput = Ignore;}
+getComboHH { out "@\$2SPC\$1?";  in "\$2ACK\?\?,\?\?,%{A1|A2|B1|B2|C1|C2|NA}";ExtraInput = Ignore;}
+
+#Query the Combined gauge P,          
+pressCombo { out "@\$2PC\$1?"; in "\$2ACK%E"; @mismatch {in "\$2ACK%(\$3.VAL)s";}; } # Reponds "NAK181 if Combination Mode disabled  #need to implement error handling
+
+#States and Status
+raw        { out "@\$2PR\$1?"; in "\$2ACK%s"; }
+state      { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
+status     { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
+stateCM    { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|>\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
+statusCM   { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|>\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
+
+# Pirani and convection Pirani control commands
+##############################################
+
+# Send an atmospheric pressure to perform ATM calibration. The PR/CP must be at 
+#    atmospheric pressure when running ATM calibration.
+getATM     { out "@\$2ATM\$1?"        ; in "\$2ACK%E"; } # Not Tested
+setATM     { out "@\$2ATM\$1!%E"      ; in "\$2ACK%E"; @init { getATM; }} # Not Tested
+
+#Zero a PR/CP on channel n. Execute only when the pressure reading is less than 1X10-2 torr.
+setVAC     { out "@\$2VAC\$1!"   ; in "\$2ACK%{OK|NAK}"; }
+                                                    
+##Query or set an autozero (CC or HC) control channel n for a PR/CP, or disable autozero (NA)  
+getAZ   { out "@\$2AZ\$1?";                        in "\$2ACK%{A1|A2|B1|B2|C1|C2|NA}"; } 
+setAZ   { out "@\$2AZ\$1!%{A1|A2|B1|B2|C1|C2|NA}"; in "\$2ACK%{A1|A2|B1|B2|C1|C2|NA}"; 
+            @init { getAZ; }  } 
+
+# Query or set a gas type for PR/CP/CC on channel n.
+getGT   { out "@\$2GT\$1?";                          in "\$2ACK%{NITROGEN|ARGON|HELIUM}"; }
+setGT   { out "@\$2GT\$1!%{NITROGEN|ARGON|Helium}";  in "\$2ACK%{NITROGEN|ARGON|HELIUM}";
+            @init { getGT; }  }   
+
+#Query/Set the channel power status for PR, CP, HC or high voltage status for CC.
+setCP     { out "@\$2CP\$1!%{OFF|ON}"             ; in "\$2ACK%{OFF|ON}"; } # only for channels n=1,3,5
+getCP     { out "@\$2CP\$1?"                      ; in "\$2ACK%{OFF|ON}"; } # only for channels n=1,3,5
+
+
+
+# Cold Cathode, Hot Cathode
+##############################################
+
+#Query or set  the channel power status
+ccenable   { out "@\$2CP\$1!%{OFF|ON}"; in "\$2ACK%{OFF|ON}"; } # only for channels n=1,3,5
+getccenable{ out "@\$2CP\$1?"         ; in "\$2ACK%{OFF|ON}"; } # only for channels n=1,3,5
+
+#AUTO: ion gauge can be turned on & off by the controlling gauge.
+#   SAFE, ion gauge can be turned off, but, not be turned on by the controlling gauge. 
+#   If no PR/CP exists, this function can not be enabled.
+setCTL     { out "@\$2CTL\$1!%{AUTO|SAFE|OFF}"; in "\$2ACK%{AUTO|SAFE|OFF}"; } # only for channels n=1,3,5 
+getCTL     { out "@\$2CTL\$1?"                ; in "\$2ACK%{AUTO|SAFE|OFF}"; } # only for channels n=1,3,5 
+
+#Query or set protection setpoint 
+getPRO     { out "@\$2PRO\$1?"        ; in "\$2ACK%E"; } 
+setPRO     { out "@\$2PRO\$1!%E"   ; in "\$2ACK%E"; @init { getPRO; }} 
+
+#Query and set control setpoint 
+getCSP     { out "@\$2CSP\$1?"        ; in "\$2ACK%E"; } 
+setCSP     { out "@\$2CSP\$1!%E"      ; in "\$2ACK%E"; @init { getCSP; }} 
+                
+#Query and set control setpoint hysteresis 
+getCHP     { out "@\$2CHP\$1?"        ; in "\$2ACK"; } 
+
+
+#Query, enable/disable the control channel status
+getCSE     { out "@\$2CSE\$1?"        ; in "\$2ACK%{A1|A2|B1|B2|C1|C2|OFF}"; } 
+setCSE     { out "@\$2CSE\$1!%{A1|A2|B1|B2|C1|C2|OFF}"   ; in "\$2ACK%{A1|A2|B1|B2|C1|C2|OFF}";@init { getCSE; } } 
+
+# Ion gauge status query.
+#   P = PROTECT,C = Control, R = Rear panel Ctrl off, W = WAIT O = OFF G = GOOD
+setT     { out "@\$2T\$1!%{W|O|G|P|C|R}"; in "\$2ACK%{W|O|G|P|C|R}"; } #  Not Tested, not yet in DB
+getT     { out "@\$2T\$1?"              ; in "\$2ACK%{W|O|G|P|C|R}"; } #  Not Tested, not yet in DB
+
+#Query or set the pressure to trigger fast relay control output. 
+#   Only available for special CC board with fast -3 relay, and 
+#   the setpoint value needs to between 5x10 to 2x10-10 torr.
+getFRC     { out "@\$2FRC\$1?"     ; in "\$2ACK%E"; } 
+setFRC     { out "@\$2FRC\$1!%E"   ; in "\$2ACK%E";  @init { getFRC; }} #Not Tested, not yet in DB
+
+# Query or set a gas type for PR/CP/CC on channel n.
+# See Pirani
+#   getGT 
+
+# Hot Cathode Control Commands
+##############################################
+#Command 	Parameter 	Response 	Function 	
+				
+#PROn 	d.dd E+/-ee (d,e=0 to 9) 	d.dd E+/-ee (d,e=0 to 9) 	Query or set protection setpoint value for ion gauge for 
+#                                                                channel n. The valid PRO range is 1x10-5 to 1x10-2 torr.
+#                                                                 Default value is 5x10-3 torr. 	(n=1, 3, 5)
+#Query or set protection setpoint value for ion gauge for channel n.
+# Use the following from Cold Cathode
+#   getPRO   Not Tested, not yet in DB
+#   setPRO 				
+ 				
+				
+#CSPn 	d.dd E+/-ee (d,e=0 to 9) 	d.dd E+/-ee (d,e=0 to 9) 	Query and set control setpoint value for an ion gauge on 
+#                                                                channel n. Valid CSP range is 5x10-4 to 1x10-2 torr for 
+#                                                                Pirani, and is 2x10-3 to 1x10-2 torr for convention Pirani. 	
+#				                                                (n=1, 3, 5) 
+#Query and set control setpoint 
+# Use the following from Cold Cathode
+#   getCSP
+#   setCSP
+			
+#XSPn 	ON or OFF 	ON or OFF 	                                Extend the upper control setpoint range from 1x10-2 torr 
+#                                                                to 9.5x10-1 torr. 	(n=1, 3, 5) 				
+#
+				
+#CHPn 	d.dd E+/-ee (d,e=0 to 9) 	d.dd E+/-ee (d,e=0 to 9) 	Query and set control setpoint hysteresis value for an 
+#                                                                ion gauge on channel n. Valid CHP range is 5.5x10-4 to 
+#                                                                1.1x10-2 torr for Pirani, and is 2.2x10-3 to 1.1x10-2 torr 
+#                                                                for convention Pirani. Default value is 1.5X the control 
+#                                                                setpoint value. (n=1, 3, 5) 				
+# Use the following from Cold Cathode
+#   getCHP
+#   setCHP
+
+				
+#CSEn 	A1, B1, A2, B2, C1, C2, OFF  A1, B1, A2, B2, C1, C2, OFF    Query, enable/disable the control channel status 
+#                                                                for an ion gauge on channel n. 	(n=1, 3, 5) 				
+#Query, enable/disable the control channel status
+# Use the following from Cold Cathode
+#   getCSE
+#   setCSE
+				
+#CTLn 	AUTO, SAFE, OFF 	AUTO, SAFE, OFF 	                AUTO: ion gauge can be turned on & off by the controlling 
+#                                                                gauge (PR/CP). SAFE, ion gauge can be turned off, but, 
+#                                                                not be turned on by the controlling gauge. If no PR/CP 
+#                                                                exists, this function can not be enabled. 	(n=1, 3, 5) 				
+
+# Use the following from Cold Cathode
+#   setCTL
+#   getCTL     
+			
+#AFn 	1 or 2 	1 or 2 	                                        Query or set active filament for HC. (n=1,3, 5) 				
+#Query or set active filament for HC.
+getActF    { out "@\$2AF\$1?"; in "\$2ACK%{1|2}";}    #Not Tested, not yet in DB
+setActF    { out "@\$2AF\$1!%(1|2)"; in "\$2ACK%{1|2}";    
+               @init { getActF; } 
+            }                                         #Not Tested, not yet in DB
+
+				
+#ECn 	20UA 100UA AUTO20 AUTO100 	20UA 100UA AUTO20 AUTO100 	Query or set emission current. 	(n=1,3, 5) 				
+#				
+#GCn 	dd.d 	dd.d 	                                        Query or set a gas correction factor for a HC gauge on 
+#                                                                Channel n. Valid range is from 0.1 to 50. 	
+#                                                                (n=1,3, 5) 	(d=0 to 9) 	(d=0 to 9) 		
+#				
+
+#CPn 	ON or OFF 	ON or OFF 	                                Query the channel power status for PR, CP, HC or high 
+#                                                                voltage status for CC. Turn on/off the channel power for 
+#                                                                PR, CP, HC, or high voltage for CC). (n=1,3, 5) 				
+#				
+#Query/Set the channel power status for PR, CP, HC or high voltage status for CC.
+# Use the following from Pirani
+#   setCP    #Not Tested, not yet in DB
+#   getCP    #Not Tested, not yet in DB
+
+#SENn 	dd.d 	dd.d 	                                        Query or set a gas sensitivity for a HC gauge on Channel n. 
+#                                                                Valid range is from 1 to 50. (n=1,3, 5) 	(d=0 to 9) 	(d=0 to 9) 		
+#				
+
+#DGn 	ON or OFF 	ON or OFF 	                                Query the HC degas status Turn on/off degas (n=1,3, 5) 				
+#				
+
+#DGTn 	d 	6	                                                Query and set the HC degas time. 
+#                                                                (n=1,3, 5) 	(d=5-240) 	(d=5-240) 		
+#				
+
+#GTn 	Nitrogen Argon Helium 	Nitrogen Argon Helium 	        Query or set a gas type for HC/CC on channel n. (n=1,3, 5) 				
+#				
+
+#Tn 		W, O, P, D, C, R, F, N 	                            Ion gauge status query. (n=1,3, 5) 				
+#                                                        		W = WAIT	C = Control
+#			                                                    O = OFF	R = Rear panel Ctrl off F = HC filament fault N = No gauge 
+#			                                                    P = PROTECT D = DEGAS 	
+#
+# Ion gauge status query.
+#   P = PROTECT,C = Control, R = Rear panel Ctrl off, W = WAIT O = OFF G = GOOD
+# Use the following from Cold Cathode
+#   setT  maybe NOT
+#   getT  maybe NOT
+
+				#XRLn 	d.dd E+/-ee (d,e=0 to 9) 	d.dd E+/-ee (d,e=0 to 9) 			
+#Query or set the X-ray limit for a HC sensor. The valid range is from 0 to 1X10-9 torr.  (n=1,3,5)
+getXRL     { out "@\$2XRL\$1?"        ; in "\$2ACK%f"; } #Not Tested, not yet in DB
+setXRL     { out "@\$2XRL\$1!%(VAL)"   ; in "\$2ACK%f"; } #Not Tested, not yet in DB
+
+
+
+
+# Capacitance monometer control commands ($1=n= 1to 6)
+##############################################
+
+getRange  { out "@\$2RNG\$1?"; in "\$2ACK%f"; } #get Range 0.01 to 20000 torr
+setRange  { out "@\$2RNG\$1!\$3"; in "\$2ACK%f"; } #get Range ???? not sure
+setZeroCM { out "@\$2VAC\$1!"; in "\$2ACK%{OK|NAK}"; } #Only works when signal is less than 5% of full scale
+
+
+# Relay Setpoints ($1=n= 1to 12)
+##############################################
+
+getsp       { out "@\$2SP\$1?"; in "\$2ACK%f"; }
+setsp       { out "@\$2SP\$1!%0.1E"; in "\$2ACK%f"; @init { getsp; }}
+
+getspALL    { out "@\$2SSA?"; in "\$2ACK%#b"; }
+setSpDIS    { out "@\$2SS\$1!CLEAR"; in "\$2ACK"; }
+
+getSpDir    { out "@\$2SD\$1?"; in "\$2ACK%{BELOW|ABOVE}";} #error is NAK162 (CC&HC relay dir=below)
+setSpDir    { out "@\$2SD\$1!%{BELOW|ABOVE}"; in "\$2ACK%{BELOW|ABOVE}"; 
+                    @init { getSpDir; }} #error is NAK162 (CC&HC relay dir=below)
+
+# Relays Status
+##############################################
+
+#ENABLE enables, SET forces relay reguardless of pressure, CLEAR disables the relay
+getRlyENA   { out "@\$2ENA?"; in "\$2ACK%#B02"; } # 0: clear; 1: set; 2: enable; we will only use 0 & 2 so remap 0,2 to bit 0,1
+getRlyEn    { out "@\$2EN\$1?"; in "\$2ACK%{CLEAR|SET|ENABLE}"; } 
+setRlyDIS   { out "@\$2EN\$1!CLEAR"; in "\$2ACK"; }
+setRlyEn    { out "@\$2EN\$1!%{CLEAR|SET|ENABLE}"; in "\$2ACK%{CLEAR|SET|ENABLE}";    
+               @init { getRlyEn; } 
+            }
+            
+# Hysteresis Setpoints ($1=n= 1to 12)
+##############################################
+
+getHysp       { out "@\$2SH\$1?"; in "\$2ACK%f"; }
+
+# Relay State
+##############################################
+
+relaystats  { out "@\$2SSA?";  in "\$2ACK"; } # 0: clear(Faulted); 1: set(OK)
+relaystat1  { out "@\$2SSA?";  in "\$2ACK%{0|1}\?\?\?\?\?\?\?\?\?\?\?";}
+relaystat2  { out "@\$2SSA?";  in "\$2ACK\?%{0|1}\?\?\?\?\?\?\?\?\?\?"; }
+relaystat3  { out "@\$2SSA?";  in "\$2ACK\?\?%{0|1}\?\?\?\?\?\?\?\?\?"; }
+relaystat4  { out "@\$2SSA?";  in "\$2ACK\?\?\?%{0|1}\?\?\?\?\?\?\?\?"; }
+relaystat5  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?%{0|1}\?\?\?\?\?\?\?"; }
+relaystat6  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?%{0|1}\?\?\?\?\?\?"; }
+relaystat7  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?%{0|1}\?\?\?\?\?"; }
+relaystat8  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?%{0|1}\?\?\?\?"; }
+relaystat9  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?%{0|1}\?\?\?"; }
+relaystat10 { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?\?%{0|1}\?\?"; }
+relaystat11 { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?\?\?%{0|1}\?"; }
+relaystat12 { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?\?\?\?%{0|1}"; }
+
+
+
+# Controller parameters
+##############################################
+
+unit     { out "@\$2U?" ;  in "\$2ACK%s"; }
+version  { out "@\$2SN?";  in "\$2ACK%s"; }
+getModT1 { out "@\$2MT?";  in "\$2ACK%{CC|HC|CM|PR|NC|NA}\?\?\?";ExtraInput = Ignore;}
+getModT2 { out "@\$2MT?";  in "\$2ACK\?\?,%{CC|HC|CM|PR|NC|NA},\?\?";ExtraInput = Ignore;}
+getModT3 { out "@\$2MT?";  in "\$2ACK\?\?,\?\?,%{CC|HC|CM|PR|NC|NA},\?";ExtraInput = Ignore;}
+getSenrA { out "@\$2STA?"; in "\$2ACK%{CC|PR|CP|CM|MB|GB|LN|24|NC}";}
+getSenrB { out "@\$2STB?"; in "\$2ACK%{CC|PR|CP|CM|MB|GB|LN|24|NC}\?\?";}
+getSenrC { out "@\$2STC?"; in "\$2ACK%{CC|PR|CP|CM|MB|GB|LN|24|NC}\?";}
+
+#User calibration
+cal     { out "@\$2CAL%{Enable|Disable}" ;  in "\$2ACK%s"; }
+
+# TODO
+#getLOCK  { out "@\$2LOCK?";in "\$2ACK%{OFF|ON}"; }   # Enable (ON) or disable (OFF) front panel lock
+#setLOCK  { out "@\$2LOCK\$1!%{OFF|ON}"; in "\$2ACK%{OFF|ON}"; @init { getLOCK; } 
+
+#Firmware version
+#n=1=Slot A; n=2=Slot B; n=3=Slot C n=4=AIO; n=5=COMM; n=6=Main
+#getFV    { out "@\2FV\$1!" ;  in "\$2ACK%s"; }
+
+
+#Query or set controller address (1 to 253). 254 is reserved for broadcasting. Default = 253.
+getAD       { out "@\254AD?"; in "\254ACK%f"; }
+#setAD       { out "@254AD\$1!%0.1E"; in "\$2ACK%f"; @init { getAD; }}
+
+
