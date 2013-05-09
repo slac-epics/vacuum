@@ -1,0 +1,67 @@
+# Stream Device Protocol for the MKS 937A Multi-Sensor System
+# This protocol uses features defined in Stream Device Version 1.5
+#
+# Pete Owens 22-1-02
+#
+
+locktimeout = 5000;
+terminator   = CR;
+replytimeout = 500;
+readtimeout  = 500;
+extrainput   = Ignore;
+
+# Send an initial dummy command to clear out any garbage the mks has already received.
+@init{out " ";}
+
+# $1 = channel number: 1 - 5
+#pressure { out "R\$1"; in "%f"; }
+pressure { out "R\$1"; in "%f"; @mismatch {in "%s";} }
+raw      { out "R\$1"; in "%s"; }
+state    { out "R\$1"; in "%{\?.|  \?E|HI|A|Lo|F|H|W|L|CON|P|NOG|M|NOT|Not|C}"; }
+status   { out "P\$1"; in "%{\?.|  \?E|HI|A|Lo|F|H|W|L|CON|P|NOG|M|NOT|Not|C|N}";@mismatch {in "%s";}}
+#status   { out "P\$1"; in "%{\?.|  \?E|HI|A|Lo|F|H|W|L|CON|P|NOG|M|NOT|Not|C|N}";}
+
+# $1 = channel number: 1..2
+ccenable { out "%{X|E}CC\$1"; in "OK"; }
+
+# $1 = channel number: 1..5
+ryenable { out "%{X|E}R\$1"; in "OK"; }
+
+# Setpoints
+# $1 = channel number: 1..5
+# $2 = setpoint:       RLY|PRO|CTL
+getsp   { out "\$2\$1"; in "%f";@mismatch {in "%s";}}
+#getsp   { out "\$2\$1"; in "%f";}
+setsp   { out "\$2\$1=%0.1E"; in "OK"; }
+dissp   { out "\$2\$1=0"; in "OK"; }
+
+relaystat1 { out "RELAYS"; in "rly%{0|1}\?\?\?\?"; }
+relaystat2 { out "RELAYS"; in "rly\?%{0|1}\?\?\?"; }
+relaystat3 { out "RELAYS"; in "rly\?\?%{0|1}\?\?"; }
+relaystat4 { out "RELAYS"; in "rly\?\?\?%{0|1}\?"; }
+relaystat5 { out "RELAYS"; in "rly\?\?\?\?%{0|1}"; }
+
+
+# Controller parameters
+delay   { out "DELAY"; in "%d"; }
+freq    { out "FREQ"; in "%d"; }
+unit    { out "UNIT"; in "%s"; }
+ctlv    { out "VER"; in "%4f,"; }
+comv    { out "VER"; in "\?\?\?\?,%f"; }
+vers    { out "VER"; in "%s"; }
+gauges  { out "GAUGES"; in "%s"; }
+modcc   { out "GAUGES"; in "%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}"; }
+moda    { out "GAUGES"; in "\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}"; }
+modb    { out "GAUGES"; in "\?\?\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}"; }
+
+# Command Lock
+setcom  { out "%{E|X}COM"; in "OK"; }
+getcom  { out "COM"; in "COM%{FREE|LOCK}"; }
+
+# Front Panel Lock
+setfp   { out "%{E|X}FRONT"; in "OK"; }
+getfp   { out "FRONT"; in "FP %{FREE|LOCK}"; }
+
+# User Calibrate Lock
+setcal  { out "%{E|X}CAL"; in "OK"; }
+getcal  { out "CAL"; in "CAL%{FREE|LOCK}"; }
