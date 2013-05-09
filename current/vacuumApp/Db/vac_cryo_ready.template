@@ -1,0 +1,10 @@
+record(calcout, "$(PUMP):PUMPREADY") {
+  field(DESC, "Pump Ready or Not")
+  field(INPA, "$(PUMP):PUMP_READY NPP MS")
+  field(CALC, "A")
+  field(OOPT, "On Change")
+  field(DOPT, "Use CALC")
+  field(OUT,  "$(PUMP):PERMISSIVE CPP")
+  field(SCAN, "1 second")
+}
+
