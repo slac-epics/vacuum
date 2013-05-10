@@ -25,6 +25,49 @@ VACUUM=$(EPICS_SITE_TOP)/modules/vacuum/$(VAC_IOC_VERSION)/
 Also, add this line to your ***App/src/Makefile:
 iocname_LIBS += vacuum
 
+**** Sometimes the build will fail unless you include this line in your src makefile: PROD_SYS_LIBS_DEFAULT += pcre ****
+
+**** Using the sync templates ****
+
+1. Edit the Db/Makefile to install the sync_master.db: DB += sync_master.db
+2. Edit all gauge controller sub files to use the sync templates, also you must now include the subfile events and phase, see example:
+#################################
+
+#==============================================================================
+#
+# Name: mks937a_R35-22a.substitutions 
+#
+# Macros:
+#        IOC     : IOC Name
+#==============================================================================
+#
+file sync_mks937a_serial.template
+{
+    pattern { controller       ,  port             , slowEvt, phase }
+    	    { XPP:R35:GCT:22:A ,  XPP:R35:GCT:22:A,       3,     9 }
+}
+
+file sync_mks937a_serial_cc.template
+{
+    pattern { device        , port            , channel , slot, fastEvt, slowEvt }
+	    { XPP:SB3:GCC:01, XPP:R35:GCT:22:A, 1, CC ,       1,       3 }
+	    { XPP:SB3:GCC:02, XPP:R35:GCT:22:A, 2, A1,       1,       3 }
+}
+
+file sync_mks937a_serial_pr.template
+{
+    pattern { device        , port            , channel , slot, fastEvt, slowEvt }
+	    { XPP:SB3:GPI:01, XPP:R35:GCT:22:A, 4, B1,       1,       3 }
+	    { XPP:SB3:GPI:02, XPP:R35:GCT:22:A, 5, B2,       1,       3 }
+}
+
+##############################
+3. Rebuild Db
+4. Add this line to your st.cmd (replace IOC:XPP:VACUUM with the IOC name): dbLoadRecords("$(VACUUM)/db/sync_master.db", "IOC=IOC:XPP:VACUUM,scanRate='1 second',fastEvt=1,medEvt=2,slowEvt=3")
+5. Reload the IOC, all the MKS controllers should be perfectly happy now and never go bad!
+
+Add info here for using the sync templates
+
 That should do it!
 
 Now you don't have to keep the .template files for the vacuum devices in your IOC files. They will be sourced from this module,
