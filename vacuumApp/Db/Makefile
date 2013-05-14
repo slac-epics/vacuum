@@ -29,6 +29,7 @@ DB += vac_gammampc_serial_setpoint.template
 DB += vac_cryo_ready.template
 DB += vac_varianturbo_plc.template
 DB += vac_varianturbo_serial.template
+DB += vac_pumps_serial.db
 
 
 #----------------------------------------------------
