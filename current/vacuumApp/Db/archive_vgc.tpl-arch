@@ -1,0 +1,9 @@
+# Archive list for Gate Valve
+$(device):CLSALM			30
+$(device):CLS_DI			30
+$(device):ILKALM			30
+$(device):OPNALM			30
+$(device):OPN_DI			30
+$(device):OPN_DO			30
+$(device):SNSALM			30
+$(device):OPN_SW			30	monitor

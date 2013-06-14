@@ -1,7 +1,16 @@
+#################################
+# Master Scanner
+# Concieved by DHZang, Implemented here by A. Wallace.
+# Basically this controls the process of records that will use the serial communication with the 937B controller.
+# The objective is to see less lockouts/ timeouts in the IOC from too many requests being made of the serial port at one time.
+# Previously the mks937B template files used scan times. This lead to surges in serial requests which in turn lead to timeout issues with the 937Bs.
+# This sync master DB creates three events of different frequencies, slow med and fast. These are used to ensure the 937B is not overloaded with requests all at once.
+# Things like pressure and status information is collected fast, relay setpoints, directions, and other information is collected more slowly (because it is less likely to change).
+#################################
 record(calcout, "$(IOC):ScanPacer") {
   field(DESC, "Master Scan Pacer")
   field(SCAN, "$(scanRate)")
-  field(CALC, "(A+1)%4")
+  field(CALC, "(A+1)%2")
   field(INPA, "$(IOC):ScanPacer")
   field(OUT,  "$(IOC):ScanEvtSeq.PROC")
   field(OOPT, "When Zero")
@@ -24,4 +33,3 @@ record(event, "$(IOC):ScanEvtGen") {
   field(DESC, "Master Scan Event Generator")
   field(SCAN, "Passive")
 }
-

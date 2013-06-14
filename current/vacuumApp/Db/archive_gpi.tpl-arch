@@ -1,0 +1,15 @@
+# Archive list for Pirani gauge
+$(device):PSTATSPRBCK		30
+$(device):PMONRAW			30
+$(device):PSTATENRBCK		30
+$(device):PSTATMON			30
+$(device):SP1_DI			30
+$(device):STATUSMON			30
+$(device):STATE				30
+$(device):PMON				30
+$(device):STATUSRAW			30
+
+$(device):PSTATSPDES		30	monitor
+$(device):PSTATSPOUT		30	monitor
+$(device):PSTATENOUT		30	monitor
+$(device):PSTATEN			30	monitor
