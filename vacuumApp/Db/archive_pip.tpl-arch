@@ -1,0 +1,37 @@
+# Archive list for Ion Pump
+$(device):CALFACTOR				30
+$(device):IMON					30
+$(device):PMON					30
+$(device):PSTAT1OFF				30
+$(device):PSTAT1ON				30
+$(device):PSTAT2OFF				30
+$(device):PSTAT2ON				30
+$(device):PUMPSIZE				30
+$(device):VDESRBCK				30
+$(device):VMON					30
+$(device):CALFACTORDES			30	monitor
+$(device):PSTAT1HYSDES			30	monitor
+$(device):PSTAT1ONDES			30	monitor
+$(device):PSTAT2HYSDES			30	monitor
+$(device):PSTAT2ONDES			30	monitor
+$(device):PUMPSIZEDES			30	monitor
+$(device):PSTAT1MON				30
+$(device):PSTAT2MON				30
+$(device):STATEMON				30
+$(device):SUPPLYSIZE			30
+$(device):PSTAT1SETH			30	monitor
+$(device):PSTAT1SETL			30	monitor
+$(device):PSTAT2SETH			30	monitor
+$(device):PSTAT2SETL			30	monitor
+$(device):STATEDES				30	monitor
+$(device):AOMODE				30
+$(device):PSTAT1SUP				30
+$(device):PSTAT2SUP				30
+$(device):STATUS				30
+$(device):STATUSCODE			30
+$(device):STATUSRAW				30
+$(device):AOMODEDES				30	monitor
+$(device):DISPDES				30	monitor
+$(device):PSTAT1SUPDES			30	monitor
+$(device):PSTAT2SUPDES			30	monitor
+$(device):VPCNAME				30

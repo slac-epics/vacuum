@@ -1,0 +1,15 @@
+#==============================================================================
+#
+# Abs:  Database template for serial control of Varian Turbo Pump.
+#
+# Name:  vac_li20_turbo_serial.substitutions
+#
+# Macros:
+#        ID     - Beamline ID
+#==============================================================================
+#
+file vac_varianturbo_serial.template
+{
+   pattern {  device	   ,	port   , imax , vmax, smax , ihihi, ihi }
+           {  SXR:GMD:$(PTM),	$(PTM) ,  2.5 , 130 ,  56  , 0.5  , 0.3 }
+}

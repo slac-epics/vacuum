@@ -10,7 +10,6 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Create and install (or just install)
 # databases, templates, substitutions like this
-DB_INSTALLS += $(IOCADMIN)/db/iocAdmin.db
 
 DB += sync_master.db
 DB += sync_mks937a_serial.template
@@ -23,6 +22,9 @@ DB += vac_mks937a_serial.template
 DB += vac_mks937a_serial_cc.template
 DB += vac_mks937a_serial_pr.template
 DB += vac_mks937a_serial_tc.template
+DB += vac_mks937b_serial_cc.template
+DB += vac_mks937b_serial_pr.template
+DB += vac_mks937b_serial.template
 DB += vac_gammampc_serial_controller.template
 DB += vac_gammampc_serial_pump.template
 DB += vac_gammampc_serial_setpoint.template
@@ -30,6 +32,7 @@ DB += vac_cryo_ready.template
 DB += vac_varianturbo_plc.template
 DB += vac_varianturbo_serial.template
 DB += vac_pumps_serial.db
+DB += ptm_serial.substitutions
 
 
 #----------------------------------------------------
@@ -37,15 +40,27 @@ DB += vac_pumps_serial.db
 # Archive files, templates, substitutions like this
 #
 
+ARCHIVE += archive_gcc.tpl-arch
+ARCHIVE += archive_gpi.tpl-arch
+ARCHIVE += archive_gtc.tpl-arch
+ARCHIVE += archive_pip.tpl-arch
+ARCHIVE += archive_ptm.tpl-arch
+ARCHIVE += archive_vgc.tpl-arch
+ARCHIVE += archive_rtd.tpl-arch
+ARCHIVE += archive_vcn.tpl-arch
+ARCHIVE += archive_ghc.tpl-arch
 
 #----------------------------------------------------
 # Create and install (or just install)
 # Autosave request files, templates, substitutions like this
 #
 
-
-# Nothing to build for autosave, just install from $AUTOSAVE/db
-DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
+REQ += autosave_pip.tpl-req
+REQ += autosave_gtc.tpl-req
+REQ += autosave_gpi.tpl-req
+REQ += autosave_gcc.tpl-req
+REQ += autosave_ptm.tpl-req
+REQ += autosave_vgc.tpl-req
 
 include $(TOP)/configure/RULES
 #----------------------------------------

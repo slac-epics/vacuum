@@ -1,0 +1,36 @@
+# Archive list for GCC Gauge
+$(device):PCTRLSPRBCK		30
+$(device):PMONRAW			30
+$(device):PPROTSPRBCK		30
+$(device):PSTATSPRBCK		30
+
+$(device):ENBL_DO			30
+$(device):OPN_DO			30
+$(device):PCTRL				30
+$(device):PCTRLENRBCK		30
+$(device):PPROT				30
+$(device):PPROTENRBCK		30
+$(device):PSTATENRBCK		30
+$(device):PSTATMON			30
+$(device):SP1_DI			30
+$(device):STATE				30
+$(device):STATUSMON			30
+$(device):PMON				30
+
+$(device):PCTRLSPDES		30	monitor
+$(device):PCTRLSPOUT		30	monitor
+$(device):PPROTSPDES		30	monitor
+$(device):PPROTSPOUT		30	monitor
+$(device):PSTATSPDES		30	monitor
+$(device):PSTATSPOUT		30	monitor
+
+$(device):ENBL_SW			30	monitor
+$(device):OPN_SW			30	monitor
+$(device):PCTRLENOUT		30	monitor
+$(device):PPROTENOUT		30	monitor
+$(device):PSTATENOUT		30	monitor
+$(device):STATEDES			30	monitor
+$(device):PCTRLEN			30	monitor
+$(device):PPROTEN			30	monitor
+$(device):PSTATEN			30	monitor
+

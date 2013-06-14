@@ -1,0 +1,63 @@
+# Autosave list for GCC Gauge
+
+# Relay Set Point value
+$(device):PSTATSPDES.VAL
+
+# Relay set point value readback limits and alarms
+$(device):PSTATSPRBCK.HIHI
+$(device):PSTATSPRBCK.HIGH
+$(device):PSTATSPRBCK.LOW
+$(device):PSTATSPRBCK.LOLO
+$(device):PSTATSPRBCK.HHSV
+$(device):PSTATSPRBCK.HSV
+$(device):PSTATSPRBCK.LSV
+$(device):PSTATSPRBCK.LLSV
+
+# Relay set point enable value
+$(device):PSTATEN.VAL
+
+# Relay set point enable readback alarms
+$(device):PSTATENRBCK.ZSV
+$(device):PSTATENRBCK.OSV
+
+# Control set point value
+$(device):PCTRLSPDES.VAL
+
+# Control set point value readback limits and alarms
+$(device):PCTRLSPRBCK.HIHI
+$(device):PCTRLSPRBCK.HIGH
+$(device):PCTRLSPRBCK.LOW
+$(device):PCTRLSPRBCK.LOLO
+$(device):PCTRLSPRBCK.HHSV
+$(device):PCTRLSPRBCK.HSV
+$(device):PCTRLSPRBCK.LSV
+$(device):PCTRLSPRBCK.LLSV
+# Control set point enable value
+$(device):PCTRLEN.VAL
+# Control set point enable readback alarms
+$(device):PCTRLENRBCK.ZSV
+$(device):PCTRLENRBCK.OSV
+
+# Protection Set Point value
+$(device):PPROTSPDES.VAL
+# Protection set point value readback limits and alarms
+$(device):PPROTSPRBCK.HIHI
+$(device):PPROTSPRBCK.HIGH
+$(device):PPROTSPRBCK.LOW
+$(device):PPROTSPRBCK.LOLO
+$(device):PPROTSPRBCK.HHSV
+$(device):PPROTSPRBCK.HSV
+$(device):PPROTSPRBCK.LSV
+$(device):PPROTSPRBCK.LLSV
+# Protection set point enable value
+$(device):PPROTEN.VAL
+# Protection set point enable readback alarms
+$(device):PPROTENRBCK.ZSV
+$(device):PPROTENRBCK.OSV
+
+# PLC Enable
+$(device):ENBL_SW.VAL
+
+# HV Enable
+$(device):STATEDES.VAL
+

@@ -221,3 +221,9 @@ debug {
 	ExtraInput = Ignore;
 	out "%s"; in "%39c";
 }
+
+
+pumpStart { 
+    out "~ \$Addr 37 \$1 %01<sum>"; 
+    in "%s";
+}

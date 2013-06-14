@@ -1,0 +1,7 @@
+# Autosave list for Turbo Molecular Pump
+
+# Run/Stop Switch
+$(device):RUN_SW.VAL
+$(device):RUN_SW.ZSV
+$(device):RUN_SW.OSV
+

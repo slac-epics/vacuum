@@ -1,0 +1,172 @@
+# substitutions:
+# controller  - controller name
+# port    - serial port (steam device port setup in the st.cmd file)
+# channel - MKS 937B channel number (1-4)
+# addr	  - MKS 937B Address (default 253)
+
+record(stringin, "$(controller):UNIT") {
+  field(DESC, "Unit")
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db unit($(channel),$(addr)) $(port) 0")
+  field(SCAN, "Event")
+  field(EVNT, "$(slowEvt)")
+  field(FLNK, "$(controller):VERSION")
+}
+
+record(stringin, "$(controller):VERSION") {
+  field(DESC, "Version")
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db version($(channel),$(addr)) $(port) 0")
+  field(FLNK, "$(controller):SLOTA")
+}
+
+record(mbbi, "$(controller):SLOTA") {
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db getSenrA($(channel),$(addr)) $(port) 0")
+  field(DESC, "Slot A Type")
+  field(ZRST, "CC")
+  field(ONST, "PR")
+  field(TWST, "CP")
+  field(THST, "CM")
+  field(FRST, "MB")
+  field(FVST, "GB")
+  field(SXST, "LN")
+  field(SVST, "24")
+  field(EIST, "NC")
+  field(UNSV, "MAJOR")
+  field(ZRSV, "NO_ALARM")
+  field(ONSV, "MINOR")
+  field(TWSV, "MINOR")
+  field(THSV, "MINOR")
+  field(FRSV, "MINOR")
+  field(FVSV, "MINOR")
+  field(SXSV, "MINOR")
+  field(SVSV, "MINOR")
+  field(EISV, "MINOR")
+  field(FLNK, "$(controller):SLOTB")
+}
+
+record(mbbi, "$(controller):SLOTB") {
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db getSenrB($(channel),$(addr)) $(port) 0")
+  field(DESC, "Slot A Type")
+  field(ZRST, "CC")
+  field(ONST, "PR")
+  field(TWST, "CP")
+  field(THST, "CM")
+  field(FRST, "MB")
+  field(FVST, "GB")
+  field(SXST, "LN")
+  field(SVST, "24")
+  field(EIST, "NC")
+  field(UNSV, "MAJOR")
+  field(ZRSV, "NO_ALARM")
+  field(ONSV, "NO_ALARM")
+  field(TWSV, "NO_ALARM")
+  field(THSV, "MINOR")
+  field(FRSV, "MINOR")
+  field(FVSV, "MINOR")
+  field(SXSV, "MINOR")
+  field(SVSV, "MINOR")
+  field(EISV, "MINOR")
+  field(FLNK, "$(controller):SLOTC")
+}
+
+record(mbbi, "$(controller):SLOTC") {
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db getSenrC($(channel),$(addr)) $(port) 0")
+  field(DESC, "Slot A Type")
+  field(ZRST, "CC")
+  field(ONST, "PR")
+  field(TWST, "CP")
+  field(THST, "CM")
+  field(FRST, "MB")
+  field(FVST, "GB")
+  field(SXST, "LN")
+  field(SVST, "24")
+  field(EIST, "NC")
+  field(UNSV, "MAJOR")
+  field(ZRSV, "MINOR")
+  field(ONSV, "NO_ALARM")
+  field(TWSV, "NO_ALARM")
+  field(THSV, "MINOR")
+  field(FRSV, "MINOR")
+  field(FVSV, "MINOR")
+  field(SXSV, "MINOR")
+  field(SVSV, "MINOR")
+  field(EISV, "MINOR")
+  field(FLNK, "$(controller):MODTYPE_A")
+}
+
+record(mbbi, "$(controller):MODTYPE_A") {
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db getModT1($(channel),$(addr)) $(port) 0")
+  field(DESC, "Sensor SLOT A Type")
+  field(ZRST, "CC")
+  field(ONST, "HC")
+  field(TWST, "CM")
+  field(THST, "PR")
+  field(FRST, "NC")
+  field(FVST, "NA")
+  field(FLNK, "$(controller):MODTYPE_B")
+}
+
+record(mbbi, "$(controller):MODTYPE_B") {
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db getModT2($(channel),$(addr)) $(port) 0")
+  field(DESC, "Sensor SLOT B Type")
+  field(ZRST, "CC")
+  field(ONST, "HC")
+  field(TWST, "CM")
+  field(THST, "PR")
+  field(FRST, "NC")
+  field(FVST, "NA")
+  field(FLNK, "$(controller):MODTYPE_C")
+}
+
+record(mbbi, "$(controller):MODTYPE_C") {
+  field(DTYP, "stream")
+  field(INP, "@mks937b.proto.db getModT3($(channel),$(addr)) $(port) 0")
+  field(DESC, "Sensor SLOT C Type")
+  field(ZRST, "CC")
+  field(ONST, "HC")
+  field(TWST, "CM")
+  field(THST, "PR")
+  field(FRST, "NC")
+  field(FVST, "NA")
+}
+
+#record(longin, "$(controller):ADDR") {
+#  field(DESC, "GCT Address")
+#  field(DTYP, "stream")
+#  field(INP, "@mks937b.proto.db getAD($(channel),$(addr)) $(port) 0")
+#  field(SCAN, "10 second")
+#  field(EGU, "Sec")
+#}
+
+#record(bi, "$(controller):CAL") {
+#  field(DESC, "User Calibrate Status")
+#  field(SCAN, "Event")
+#  field(DTYP, "stream")
+#  field(INP, "@mks937b.proto.db cal($(channel),$(addr)) $(port) 0")
+#  field(ZSV, "NO_ALARM")
+#  field(OSV, "MINOR")
+#  field(ZNAM, "ENABLED")
+#  field(ONAM, "DISABLED")
+#}
+
+record(mbbiDirect, "$(controller):PSTATALL") {
+  field(DTYP, "stream")
+  field(DESC, "ALL 12 Relay Status in CTRL")
+  field(SCAN, "Event")
+  field(EVNT, "$(medEvt)")
+  field(INP, "@mks937b.proto.db getspALL($(channel),$(addr)) $(port) 0")
+  field(FLNK, "$(controller):PSTATENALL")
+}
+
+record(mbbiDirect, "$(controller):PSTATENALL") {
+  field(DTYP, "stream")
+  field(DESC, "ALL 12 Relay Status in CTRL")
+  field(INP, "@mks937b.proto.db getRlyENA($(channel),$(addr)) $(port) 0")
+}
+

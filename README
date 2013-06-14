@@ -3,11 +3,11 @@
 A. Wallace
 
 This is a module for the vacuum IOCs. Basically I want to have one place to
-keep all the templates for the vacuum IOCs used in LCLS. Additionally, this will
+keep all the templates and protocols for the vacuum IOCs used in LCLS. Additionally, this will
 help keep everyone's IOC version up-to-date.
 
-To use it on your vacuum IOC make sure you release file looks like this:
-###############################################3
+To use it on your vacuum IOC make your release file looks like this:
+###############################################
 # RELEASE
 # Defines location of external products
 include $(TOP)/RELEASE_SITE
@@ -22,15 +22,57 @@ include $(EPICS_SITE_TOP)/modules/vacuum/$(VAC_IOC_VERSION)/configure/RELEASE
 VACUUM=$(EPICS_SITE_TOP)/modules/vacuum/$(VAC_IOC_VERSION)/
 ##########################################################
 
-Also, add this line to your ***App/src/Makefile:
+Add this line to your ***App/src/Makefile:
 iocname_LIBS += vacuum
+Remove all libraries/ .dbd other than:
+base, modbus, modbusSupport, ModBusTCPClnt, asyn, stream, autosave, autosaveSupport, iocadmin, iocAdmin, devIocStats 
 
-**** Sometimes the build will fail unless you include this line in your src makefile: PROD_SYS_LIBS_DEFAULT += pcre ****
+Sometimes the build will fail unless you include this line in your src makefile: 
+PROD_SYS_LIBS_DEFAULT += pcre
+
+Change all autosave and archive sub files to look for tpl-req or tpl-arch (for the most recent archiver and autosave version).
+
+
+######### Protocol files #################
+It is highly encouraged that you use the vacuum ioc module protocols. The preferred way to do this is to source them directly from the module (no copying).
+Change this line in the st.cmd:
+epicsEnvSet( "STREAM_PROTOCOL_PATH", "protocol" )
+to this:
+epicsEnvSet("STREAM_PROTOCOL_PATH", "$(VACUUM)/vacuumApp/protocols")
+
+Delete the protocols from your protocol directories.
+
+Note: Make sure envpaths is called before you set the protocol file path in the st.cmd. Otherwise the $(VACUUM) macro will be undefined.
+########################################################
+
+
+
+######### Modbus changes #################
+Due to the modbus update some of the port setup has changed. An extra slave parameter is now available but if not configured will cause the port setup in the st.cmd
+to fail. Add this parameter like so:
+Before
+drvModbusAsynConfigure("HXX_Xn_Bit","HXX:PLC:VAC",2,04000,96,0,100,"Koyo")
+After
+drvModbusAsynConfigure("HXX_Xn_Bit","HXX:PLC:VAC",0,2,04000,96,0,100,"Koyo")
+##########################################
+
+
+
+######### Gamma pump changes #############
+Add the vacuum module root as the parent directory for the gamma pump db files:
+
+old - dbLoadRecords("db/vac_pumps_serial.db", "micrc=CXI:R51:PCI,unitc=01,port=CXI:R51:PCI:01,micr1=CXI:DG1:PIP,micr2=CXI:DG1:PIP,unit1=01,unit2=02")
+
+new - dbLoadRecords("$(VACUUM)/db/vac_pumps_serial.db", "micrc=CXI:R51:PCI,unitc=01,port=CXI:R51:PCI:01,micr1=CXI:DG1:PIP,micr2=CXI:DG1:PIP,unit1=01,unit2=02")
+
+###########################################
+
+
 
 **** Using the sync templates ****
 
-1. Edit the Db/Makefile to install the sync_master.db: DB += sync_master.db
-2. Edit all gauge controller sub files to use the sync templates, also you must now include the subfile events and phase, see example:
+1. dbLoadRecords("$(VACUUM)/db/sync_master.db", "IOC=IOC:XPP:VACUUM,scanRate='1 second',fastEvt=1,medEvt=2,slowEvt=3")
+2. Edit all gauge controller sub files to use the sync templates (note there is a script for this), also you must now include the subfile events and phase, see example:
 #################################
 
 #==============================================================================
@@ -63,12 +105,15 @@ file sync_mks937a_serial_pr.template
 
 ##############################
 3. Rebuild Db
-4. Add this line to your st.cmd (replace IOC:XPP:VACUUM with the IOC name): dbLoadRecords("$(VACUUM)/db/sync_master.db", "IOC=IOC:XPP:VACUUM,scanRate='1 second',fastEvt=1,medEvt=2,slowEvt=3")
+4. Add this line to your st.cmd (replace IOC:XPP:VACUUM with the IOC name): 
+dbLoadRecords("$(VACUUM)/db/sync_master.db", "IOC=IOC:XPP:VACUUM,scanRate='1 second',fastEvt=1,medEvt=2,slowEvt=3")
+5. Remove all streamfix related items from the st.cmd and Db directory (makefile and other files).
 5. Reload the IOC, all the MKS controllers should be perfectly happy now and never go bad!
 
-Add info here for using the sync templates
+**************************************
+
 
 That should do it!
 
 Now you don't have to keep the .template files for the vacuum devices in your IOC files. They will be sourced from this module,
-which will make the vacuum IOC easier to maintain.
+which will make the vacuum IOC easier to maintain. Please remove the templates from the Db directory so they will be sourced from the module.

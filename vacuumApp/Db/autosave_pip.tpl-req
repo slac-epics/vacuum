@@ -1,0 +1,66 @@
+# Autosave list for Ion Pump
+
+# High Voltage Autostart
+$(device):ASHVEDES.VAL
+$(device):ASHVE.ZSV
+$(device):ASHVE.OSV
+
+# Power Loss Autostart 
+$(device):ASPOWERDES.VAL
+$(device):ASPOWER.ZSV
+$(device):ASPOWER.OSV
+
+# Power Loss Autostart 
+$(device):ASPOWERDES.VAL
+$(device):ASPOWER.ZSV
+$(device):ASPOWER.OSV
+
+# Get Supply Size
+$(device):SUPPLYSIZE.ZSV
+$(device):SUPPLYSIZE.OSV
+
+# Analog output mode: Value and limits
+$(device):AOMODEDES.VAL
+$(device):AOMODE.VAL
+$(device):AOMODE.ZRSV
+$(device):AOMODE.ONSV
+$(device):AOMODE.TWSV
+$(device):AOMODE.THSV
+$(device):AOMODE.FRSV
+$(device):AOMODE.FVSV
+$(device):AOMODE.SXSV
+$(device):AOMODE.SVSV
+$(device):AOMODE.EISV
+$(device):AOMODE.NISV
+$(device):AOMODE.TESV
+$(device):AOMODE.ELSV
+$(device):AOMODE.TVSV
+$(device):AOMODE.TTSV
+$(device):AOMODE.FTSV
+$(device):AOMODE.FFSV
+
+# Readout modes: Value only
+$(device):PEGUDES.VAL
+
+# Set Calibration Factor: Value and limits
+$(device):CALFACTORDES.VAL
+$(device):CALFACTORDES.HIHI
+$(device):CALFACTORDES.HIGH
+$(device):CALFACTORDES.LOW
+$(device):CALFACTORDES.LOLO
+$(device):CALFACTORDES.HHSV
+$(device):CALFACTORDES.HSV
+$(device):CALFACTORDES.LSV
+$(device):CALFACTORDES.LLSV
+
+# Set Pump Size: Value and limits
+$(device):PUMPSIZEDES.VAL
+$(device):PUMPSIZEDES.HIHI
+$(device):PUMPSIZEDES.HIGH
+$(device):PUMPSIZEDES.LOW
+$(device):PUMPSIZEDES.LOLO
+$(device):PUMPSIZEDES.HHSV
+$(device):PUMPSIZEDES.HSV
+$(device):PUMPSIZEDES.LSV
+$(device):PUMPSIZEDES.LLSV
+

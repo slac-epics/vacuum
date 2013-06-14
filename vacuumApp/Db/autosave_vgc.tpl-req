@@ -1,0 +1,6 @@
+# Autosave list for Gate Valve
+
+# Gate Valve PLC Logic Enable/Disable
+$(device):OPN_SW.VAL
+$(device):OPN_SW.ZSV
+$(device):OPN_SW.OSV
