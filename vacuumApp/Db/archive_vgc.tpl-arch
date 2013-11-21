@@ -7,3 +7,4 @@ $(device):OPN_DI			30
 $(device):OPN_DO			30
 $(device):SNSALM			30
 $(device):OPN_SW			30	monitor
+

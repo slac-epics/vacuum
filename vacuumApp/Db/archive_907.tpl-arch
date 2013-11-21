@@ -1,0 +1,6 @@
+# Archive list for $(device)
+$(device):PRESS		30
+$(device):AT_VAC	30
+$(device):PRESS_OK	30
+$(device):VAC_SP	30	monitor
+
