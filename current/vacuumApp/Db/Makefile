@@ -32,7 +32,7 @@ DB += vac_cryo_ready.template
 DB += vac_varianturbo_plc.template
 DB += vac_varianturbo_serial.template
 DB += vac_pumps_serial.db
-DB += ptm_serial.substitutions
+DB += ptm_serial.db
 
 
 #----------------------------------------------------
@@ -49,6 +49,10 @@ ARCHIVE += archive_vgc.tpl-arch
 ARCHIVE += archive_rtd.tpl-arch
 ARCHIVE += archive_vcn.tpl-arch
 ARCHIVE += archive_ghc.tpl-arch
+ARCHIVE += archive_903.tpl-arch
+ARCHIVE += archive_907.tpl-arch
+ARCHIVE += archive_ivcs-vgc.tpl-arch
+ARCHIVE += archive_ivcs-vic.tpl-arch
 
 #----------------------------------------------------
 # Create and install (or just install)

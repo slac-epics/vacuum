@@ -51,19 +51,19 @@ comv    { out "VER"; in "\?\?\?\?,%f"; }
 vers    { out "VER"; in "%s";            @init { out "VER"; in "%s";    } }
 gauges  { out "GAUGES"; in "%s";         @init { out "GAUGES"; in "%s"; } }
 modcc   { out "GAUGES"; in "%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
-          @init {
-          out "GAUGES"; in "%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
-                }
+#          @init {
+#          out "GAUGES"; in "%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";@mismatch {in "%s";}
+#                }
         }
 moda    { out "GAUGES"; in "\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
-          @init {
-          out "GAUGES"; in "\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
-                }
+#          @init {
+#          out "GAUGES"; in "\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
+#                }
         }
 modb    { out "GAUGES"; in "\?\?\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
-          @init {
-          out "GAUGES"; in "\?\?\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
-                }
+#          @init {
+#          out "GAUGES"; in "\?\?\?\?%{Hc|Cc|Pr|Cv|Tc|Cm|P1|C1|T1|M1|Nc|Wc}";
+#                }
         }
 
 # Command Lock
