@@ -41,7 +41,9 @@ DB += ptm_serial.db
 #
 
 ARCHIVE += archive_gcc.tpl-arch
+ARCHIVE += archive_gcc_937a.tpl-arch
 ARCHIVE += archive_gpi.tpl-arch
+ARCHIVE += archive_gpi_937a.tpl-arch
 ARCHIVE += archive_gtc.tpl-arch
 ARCHIVE += archive_pip.tpl-arch
 ARCHIVE += archive_ptm.tpl-arch
