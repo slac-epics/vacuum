@@ -1,0 +1,7 @@
+# Archive list for GCC Gauge
+$(device):SP1_DI			30
+$(device):STATE				30
+$(device):PMON				30
+$(device):ENBL_DO			30 monitor
+$(device):STATUSMON			30 monitor
+

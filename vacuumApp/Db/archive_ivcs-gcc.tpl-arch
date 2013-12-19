@@ -1,0 +1,7 @@
+# Archive list for GCC Gauge
+$(device):PRESS			30
+
+$(device):HV_SW			30	monitor
+$(device):AT_VAC		30	monitor
+$(device):PRESS_OK		30	monitor
+

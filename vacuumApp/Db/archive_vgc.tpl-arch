@@ -2,6 +2,7 @@
 $(device):CLSALM			30
 $(device):CLS_DI			30
 $(device):ILKALM			30
+$(device):OPN_OK			30
 $(device):OPNALM			30
 $(device):OPN_DI			30
 $(device):OPN_DO			30

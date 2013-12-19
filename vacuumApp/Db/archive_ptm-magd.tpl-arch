@@ -1,0 +1,14 @@
+# Archive list for Turbo Molecular Pump
+$(device):FLTALM			30
+$(device):NORMAL_DI			30
+$(device):WARNING_DI		30
+$(device):ACCEL_DI			30
+$(device):DECEL_DO			30
+$(device):START_OK			30
+$(device):START_SW			30	monitor
+$(device):I					5
+$(device):V					5
+$(device):POWER				5
+$(device):RPM				5
+$(device):TEMP				5
+$(device):TEMPSTAT			5
