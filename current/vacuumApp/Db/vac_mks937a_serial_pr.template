@@ -202,7 +202,7 @@ record(sel, "$(device):PMON") {
   field(SELM, "Specified")
   field(NVL, "$(device):STATUSCALC")
   field(INPA, "$(device):PMONRAW PP MS")
-  field(INPB, "0")
+  field(INPB, "1E-3")
   field(DESC, "Pressure")
   field(FLNK, "$(device):PLOG")
   field(PREC, "11")

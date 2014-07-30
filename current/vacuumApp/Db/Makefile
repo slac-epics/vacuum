@@ -47,6 +47,7 @@ ARCHIVE += archive_gpi_937a.tpl-arch
 ARCHIVE += archive_gtc.tpl-arch
 ARCHIVE += archive_pip.tpl-arch
 ARCHIVE += archive_ptm.tpl-arch
+ARCHIVE += archive_ptm-magd.tpl-arch
 ARCHIVE += archive_vgc.tpl-arch
 ARCHIVE += archive_rtd.tpl-arch
 ARCHIVE += archive_vcn.tpl-arch
@@ -67,6 +68,7 @@ REQ += autosave_gpi.tpl-req
 REQ += autosave_gcc.tpl-req
 REQ += autosave_ptm.tpl-req
 REQ += autosave_vgc.tpl-req
+REQ += autosave_ivcs_vac_gauge.tpl-req
 
 include $(TOP)/configure/RULES
 #----------------------------------------

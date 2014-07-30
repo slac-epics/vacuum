@@ -22,10 +22,45 @@ include $(EPICS_SITE_TOP)/modules/vacuum/$(VAC_IOC_VERSION)/configure/RELEASE
 VACUUM=$(EPICS_SITE_TOP)/modules/vacuum/$(VAC_IOC_VERSION)/
 ##########################################################
 
-Add this line to your ***App/src/Makefile:
-iocname_LIBS += vacuum
-Remove all libraries/ .dbd other than:
-base, modbus, modbusSupport, ModBusTCPClnt, asyn, stream, autosave, autosaveSupport, iocadmin, iocAdmin, devIocStats 
+Your ***App/src/Makefile should include these lines:
+
+# Build an ioc application
+# Use PROD_IOC_RTEMS for RTEMS only
+# Use PROD_IOC_Linux for Linux only
+PROD_IOC = vacuum
+
+# vacuum.dbd will be created and installed
+DBD += vacuum.dbd
+
+# vacuum.dbd will be made up from these files:
+vacuum_DBD += base.dbd
+vacuum_DBD += iocAdmin.dbd
+vacuum_DBD += autosaveSupport.dbd
+vacuum_DBD += asyn.dbd
+vacuum_DBD += stream.dbd
+vacuum_DBD += modbus.dbd
+vacuum_DBD += modbusSupport.dbd
+
+# <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
+vacuum_SRCS += vacuum_registerRecordDeviceDriver.cpp
+vacuum_SRCS_DEFAULT += vacuumMain.cpp
+
+# Add locally compiled object code
+#vacuum_SRCS += dbSubExample.c
+
+vacuum_LIBS += devIocStats
+vacuum_LIBS += autosave
+vacuum_LIBS += ModBusTCPClnt
+vacuum_LIBS += modbus
+vacuum_LIBS += asyn
+vacuum_LIBS += stream
+vacuum_LIBS += $(EPICS_BASE_IOC_LIBS)
+vacuum_LIBS += vacuum
+
+PROD_SYS_LIBS_DEFAULT += pcre
+
+########################################
+
 
 Sometimes the build will fail unless you include this line in your src makefile: 
 PROD_SYS_LIBS_DEFAULT += pcre
@@ -71,7 +106,7 @@ new - dbLoadRecords("$(VACUUM)/db/vac_pumps_serial.db", "micrc=CXI:R51:PCI,unitc
 
 **** Using the sync templates ****
 
-1. dbLoadRecords("$(VACUUM)/db/sync_master.db", "IOC=IOC:XPP:VACUUM,scanRate='1 second',fastEvt=1,medEvt=2,slowEvt=3")
+1. Add the following to your st.cmd:  dbLoadRecords("$(VACUUM)/db/sync_master.db", "IOC=IOC:<hutch name>:VACUUM,scanRate='1 second',fastEvt=1,medEvt=2,slowEvt=3")
 2. Edit all gauge controller sub files to use the sync templates (note there is a script for this), also you must now include the subfile events and phase, see example:
 #################################
 

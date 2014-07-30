@@ -56,7 +56,7 @@ record(mbbi, "$(device):STATE") {
 }
 
 record(calc, "$(device):STATUSCALC") {
-  field(CALC, "A<=1?0:1")
+  field(CALC, "MIN(A,8)")
   field(INPA, "$(device):STATE.VAL")
   field(FLNK, "$(device):PMON")
 }
@@ -64,8 +64,11 @@ record(calc, "$(device):STATUSCALC") {
 record(sel, "$(device):PMON") {
   field(SELM, "Specified")
   field(NVL,  "$(device):STATUSCALC")
-  field(INPA, "$(device):PMONRAW PP MS")
-  field(INPB, "0")
+  field(INPA, "$(device):PMONRAW PP MS") #0
+  field(INPB, "$(device):PMONRAW PP MS") #1
+  field(INPC, "$(device):PMONRAW PP MS") #2
+  field(INPD, "$(device):PMONRAW PP MS") #3
+  field(INPB, "1E-3") #8
   field(DESC, "Pressure")
   field(PREC, "11")
   field(EGU,  "Torr")

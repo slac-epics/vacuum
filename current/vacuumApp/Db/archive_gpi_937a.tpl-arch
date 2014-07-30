@@ -1,4 +1,4 @@
-# Archive list for GCC Gauge
+# Archive list for GPI Gauge
 $(device):SP1_DI			30
 $(device):STATE				30
 $(device):PMON				30
