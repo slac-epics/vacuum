@@ -10,6 +10,10 @@ record(calc, "$(device):PLOG") {
   field(INPA, "$(device):PMON NPP MS")
   field(HOPR, "-2")
   field(LOPR, "-11")
+  field(HIHI, "0.01")
+  field(LOLO, "5E-11")
+  field(HHSV, "MAJOR")
+  field(LOLO, "MINOR")
 }
 
 record(calcout, "$(device):PADEL") {
