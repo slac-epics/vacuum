@@ -23,7 +23,7 @@ extrainput   = Ignore;
 # Pressure  and Status reading commands
 ##############################################
 
-pressure   { out "@\$2PR\$1?"; in "\$2ACK%E"; @mismatch {in "@\$2ACK%(\$3.VAL)s";}}
+pressure   { out "@\$2PR\$1?"; in "\$2ACK%E"; @mismatch {in "\$2ACK%(\$3.VAL)s";}}
           
 
 # Query the Combined gauge combination. HH, MM and LL are the gauge channel (A1, A2, B1, B2, C1, C2, NA)
@@ -33,11 +33,11 @@ getComboMM { out "@\$2SPC\$1?";  in "\$2ACK\?\?,%{A1|A2|B1|B2|C1|C2|NA},\?\?";Ex
 getComboHH { out "@\$2SPC\$1?";  in "\$2ACK\?\?,\?\?,%{A1|A2|B1|B2|C1|C2|NA}";ExtraInput = Ignore;}
 
 #Query the Combined gauge P,          
-pressCombo { out "@\$2PC\$1?"; in "@\$2ACK%E"; @mismatch {in "@\$2ACK%(\$3.VAL)s";}; } # Reponds "NAK181 if Combination Mode disabled  #need to implement error handling
+pressCombo { out "@\$2PC\$1?"; in "\$2ACK%E"; @mismatch {in "\$2ACK%(\$3.VAL)s";}; } # Reponds "NAK181 if Combination Mode disabled  #need to implement error handling
 
 #States and Status
-raw        { out "@\$2PR\$1?"; in "\$2ACK%s"; @mismatch {in "@\$2ACK%(\$3.VAL)s";}}
-state      { out "@\$2PR\$1?"; in "\@\$2ACK%{\?.|-\?.|LO<E\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
+raw        { out "@\$2PR\$1?"; in "\$2ACK%s"; }
+state      { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
 status     { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
 stateCM    { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|>\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
 statusCM   { out "@\$2PR\$1?"; in "\$2ACK%{\?.|-\?.|LO<E\?\?\?|>\?\?\?|ATM|OFF|RP_OFF|WAIT|LowEmis|CTRL_OFF|PROT_OFF|MISCONN|NOGAUGE|NAK}"; }
@@ -51,7 +51,7 @@ getATM     { out "@\$2ATM\$1?"        ; in "\$2ACK%E"; } # Not Tested
 setATM     { out "@\$2ATM\$1!%E"      ; in "\$2ACK%E"; @init { getATM; }} # Not Tested
 
 #Zero a PR/CP on channel n. Execute only when the pressure reading is less than 1X10-2 torr.
-setVAC     { out "@\$2VAC\$1!"   ; in "@\$2ACK%{OK|NAK}"; }
+setVAC     { out "@\$2VAC\$1!"   ; in "\$2ACK%{OK|NAK}"; }
                                                     
 ##Query or set an autozero (CC or HC) control channel n for a PR/CP, or disable autozero (NA)  
 getAZ   { out "@\$2AZ\$1?";                        in "\$2ACK%{A1|A2|B1|B2|C1|C2|NA}"; } 
@@ -247,34 +247,34 @@ setSpDir    { out "@\$2SD\$1!%{BELOW|ABOVE}"; in "\$2ACK%{BELOW|ABOVE}";
 ##############################################
 
 #ENABLE enables, SET forces relay reguardless of pressure, CLEAR disables the relay
-getRlyENA   { out "@\$2ENA?"; in "@\$2ACK%#B02"; } # 0: clear; 1: set; 2: enable; we will only use 0 & 2 so remap 0,2 to bit 0,1
-getRlyEn    { out "@\$2EN\$1?"; in "@\$2ACK%{CLEAR|SET|ENABLE}"; } 
-setRlyDIS   { out "@\$2EN\$1!CLEAR"; in "@\$2ACK"; }
-setRlyEn    { out "@\$2EN\$1!%{CLEAR|SET|ENABLE}"; in "@\$2ACK%{CLEAR|SET|ENABLE}";    
+getRlyENA   { out "@\$2ENA?"; in "\$2ACK%#B02"; } # 0: clear; 1: set; 2: enable; we will only use 0 & 2 so remap 0,2 to bit 0,1
+getRlyEn    { out "@\$2EN\$1?"; in "\$2ACK%{CLEAR|SET|ENABLE}"; } 
+setRlyDIS   { out "@\$2EN\$1!CLEAR"; in "\$2ACK"; }
+setRlyEn    { out "@\$2EN\$1!%{CLEAR|SET|ENABLE}"; in "\$2ACK%{CLEAR|SET|ENABLE}";    
                @init { getRlyEn; } 
             }
             
 # Hysteresis Setpoints ($1=n= 1to 12)
 ##############################################
 
-getHysp       { out "@\$2SH\$1?"; in "@\$2ACK%f"; }
+getHysp       { out "@\$2SH\$1?"; in "\$2ACK%f"; }
 
 # Relay State
 ##############################################
 
-relaystats  { out "@\$2SSA?";  in "\?\$2ACK"; } # 0: clear(Faulted); 1: set(OK)
-relaystat1  { out "@\$2SSA?";  in "\@253ACK%{0|1}\?\?\?\?\?\?\?\?\?\?\?";}
-relaystat2  { out "@\$2SSA?";  in "\@\$2ACK\?%{0|1}\?\?\?\?\?\?\?\?\?\?"; }
-relaystat3  { out "@\$2SSA?";  in "@\$2ACK\?\?%{0|1}\?\?\?\?\?\?\?\?\?"; }
-relaystat4  { out "@\$2SSA?";  in "\@\$2ACK\?\?\?%{0|1}\?\?\?\?\?\?\?\?"; }
-relaystat5  { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?%{0|1}\?\?\?\?\?\?\?"; }
-relaystat6  { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?\?%{0|1}\?\?\?\?\?\?"; }
-relaystat7  { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?\?\?%{0|1}\?\?\?\?\?"; }
-relaystat8  { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?\?\?\?%{0|1}\?\?\?\?"; }
-relaystat9  { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?\?\?\?\?%{0|1}\?\?\?"; }
-relaystat10 { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?\?\?\?\?\?%{0|1}\?\?"; }
-relaystat11 { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?\?\?\?\?\?\?%{0|1}\?"; }
-relaystat12 { out "@\$2SSA?";  in "@\$2ACK\?\?\?\?\?\?\?\?\?\?\?%{0|1}"; }
+relaystats  { out "@\$2SSA?";  in "\$2ACK"; } # 0: clear(Faulted); 1: set(OK)
+relaystat1  { out "@\$2SSA?";  in "\$2ACK%{0|1}\?\?\?\?\?\?\?\?\?\?\?";}
+relaystat2  { out "@\$2SSA?";  in "\$2ACK\?%{0|1}\?\?\?\?\?\?\?\?\?\?"; }
+relaystat3  { out "@\$2SSA?";  in "\$2ACK\?\?%{0|1}\?\?\?\?\?\?\?\?\?"; }
+relaystat4  { out "@\$2SSA?";  in "\$2ACK\?\?\?%{0|1}\?\?\?\?\?\?\?\?"; }
+relaystat5  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?%{0|1}\?\?\?\?\?\?\?"; }
+relaystat6  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?%{0|1}\?\?\?\?\?\?"; }
+relaystat7  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?%{0|1}\?\?\?\?\?"; }
+relaystat8  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?%{0|1}\?\?\?\?"; }
+relaystat9  { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?%{0|1}\?\?\?"; }
+relaystat10 { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?\?%{0|1}\?\?"; }
+relaystat11 { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?\?\?%{0|1}\?"; }
+relaystat12 { out "@\$2SSA?";  in "\$2ACK\?\?\?\?\?\?\?\?\?\?\?%{0|1}"; }
 
 
 
@@ -304,6 +304,6 @@ cal     { out "@\$2CAL%{Enable|Disable}" ;  in "\$2ACK%s"; }
 
 #Query or set controller address (1 to 253). 254 is reserved for broadcasting. Default = 253.
 getAD       { out "@\254AD?"; in "\254ACK%f"; }
-#setAD       { out "@254AD\$1!%0.1E"; in "@\$2ACK%f"; @init { getAD; }}
+#setAD       { out "@254AD\$1!%0.1E"; in "\$2ACK%f"; @init { getAD; }}
 
 
