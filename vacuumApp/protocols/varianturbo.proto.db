@@ -71,13 +71,56 @@ setZeroPumpTimes { out "F\xBA";  in ACK; }
 # Where
 #    <ADDR> (Unit address) = 0x80 (for RS 232) 
 #    <ADDR> (Unit address) = 0x80 + device number (0 to 31) (for RS 485) 
-#    <WIN> (Window) = string of 3 numeric char indicating the window # ( Ô000Õ #to Ô999Õ)
+#    <WIN> (Window) = string of 3 numeric char indicating the window # ( ï¿½000ï¿½ #to ï¿½999ï¿½)
 #    <COM> (Command) = 0x30 to read the window, 0x31 to write into the window 
 #    <DATA> = an alphanumeric ASCII string with the data to be written into the window. 
 ADDR = 0x80;   
 RCOM = 0x30;
 WCOM = 0x31;
 
+        
+# Get pump current WIN=200
+getPumpCurrent { WIN = "200"; 
+                    out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
+                    in  STX,$ADDR,$WIN,"%d"ETX"%01<xor>";
+                     }
+
+# Get pump voltage WIN=201
+getPumpVoltage { WIN = "201"; 
+                    out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
+                    in  STX,$ADDR,$WIN,"%d"ETX"%01<xor>";
+                     }
+
+# Get pump power WIN=202
+getPumpPower { WIN = "202"; 
+                    out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
+                    in  STX,$ADDR,$WIN,"%d"ETX"%01<xor>";
+                     }
+                     
+# Get pump speed (Hz) WIN=203
+getPumpFrequency { WIN = "203"; 
+                    out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
+                    in  STX,$ADDR,$WIN,"%d"ETX"%01<xor>";
+                     }  
+
+# Get pump temperature WIN=204
+getPumpTemp { WIN = "204"; 
+                    out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
+                    in  STX,$ADDR,$WIN,"%d"ETX"%01<xor>";
+                     }
+
+# Get pump status WIN=205
+getPumpStatus { WIN = "205"; 
+                    out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
+                    in  STX,$ADDR,$WIN,"%i"ETX"%01<xor>";
+                     }
+
+# Get pump error WIN=206
+getPumpError { WIN = "206"; 
+                    out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
+                    in  STX,$ADDR,$WIN,"%i"ETX"%01<xor>";
+                     }
+                     
 # Get Pressure reading (Format = X.X E XX) WIN=224
 getPress { WIN = "224"; 
                     out STX,$ADDR,$WIN,$RCOM,ETX"%01<xor>";
