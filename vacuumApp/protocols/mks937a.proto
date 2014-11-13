@@ -14,8 +14,9 @@ extrainput   = Ignore;
 @init{out " ";}
 
 # $1 = channel number: 1 - 5
-#pressure { out "R\$1"; in "%f"; }
-pressure { out "R\$1"; in "%f"; @mismatch {in "%s";} }
+#pressure { out "P\$1"; in "%f"; }
+
+pressure { out "P\$1"; in "%f"; @mismatch {in "\?\?\?\?\?";} }
 raw      { out "R\$1"; in "%s"; }
 state    { out "R\$1"; in "%{\?.|  \?E|HI|A|Lo|F|H|W|L|CON|P|NOG|M|NOT|Not|C}"; }
 status   { out "P\$1"; in "%{\?.|  \?E|HI|A|Lo|F|H|W|L|CON|P|NOG|M|NOT|Not|C|N}";@mismatch {in "%s";}}

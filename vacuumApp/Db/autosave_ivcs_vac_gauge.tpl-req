@@ -1,4 +1,6 @@
 #Autosave list for vacuum gauges in the Integrated Vacuum Control System
 
 $(DEVICE):VAC_SP.VAL
-
+$(DEVICE):PG.VAL
+$(DEVICE):HV_RO.VAL
+$(DEVICE):TYPE.VAL
