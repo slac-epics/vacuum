@@ -54,6 +54,7 @@ ARCHIVE += archive_vcn.tpl-arch
 ARCHIVE += archive_ghc.tpl-arch
 ARCHIVE += archive_903.tpl-arch
 ARCHIVE += archive_907.tpl-arch
+ARCHIVE += archive_ivcs-gcc.tpl-arch
 ARCHIVE += archive_ivcs-vgc.tpl-arch
 ARCHIVE += archive_ivcs-vic.tpl-arch
 
