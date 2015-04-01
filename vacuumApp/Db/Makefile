@@ -57,6 +57,7 @@ ARCHIVE += archive_907.tpl-arch
 ARCHIVE += archive_ivcs-gcc.tpl-arch
 ARCHIVE += archive_ivcs-vgc.tpl-arch
 ARCHIVE += archive_ivcs-vic.tpl-arch
+ARCHIVE += archive_ivcs-vg.tpl-arch
 
 #----------------------------------------------------
 # Create and install (or just install)
