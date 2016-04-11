@@ -115,7 +115,7 @@ record(sub, "$(DEVICE):STREAMRELOAD") {
   field(SNAM, "streamReload")
 }
 
-record(mbbi, "$(DEVICE):STATUSRAW") {
+record(ai, "$(DEVICE):STATUSRAW") {
   field(DTYP, "stream")
   field(INP, "@gammampc.proto.db getStatus($(CHANNEL)) $(PORT)")
   field(FLNK, "$(DEVICE):STATUSCALC PP")
