@@ -7,7 +7,7 @@ record(ai, "$(DEVICE):VMON") {
   field(DTYP, "stream")
   field(INP, "@gammampc.proto.db getVoltage($(CHANNEL)) $(PORT)")
   field(EGU, "V")
-  field(FLNK, "$(DEVICE):STATUSRAW")
+  field(FLNK, "$(DEVICE):STATUS")
 }
 
 record(ao, "$(DEVICE):PUMPSIZEDES") {
@@ -115,20 +115,10 @@ record(sub, "$(DEVICE):STREAMRELOAD") {
   field(SNAM, "streamReload")
 }
 
-record(ai, "$(DEVICE):STATUSRAW") {
-  field(DTYP, "stream")
-  field(INP, "@gammampc.proto.db getStatus($(CHANNEL)) $(PORT)")
-  field(FLNK, "$(DEVICE):STATUSCALC PP")
-}
-
-record(calc, "$(DEVICE):STATUSCALC") {
-  field(CALC, "A==77?7:A==78?8:FLOOR(A/11)")
-  field(INPA, "$(DEVICE):STATUSRAW NPP MS")
-  field(FLNK, "$(DEVICE):STATUS PP")
-}
 
 record(mbbi, "$(DEVICE):STATUSCODE") {
-  field(INP, "$(DEVICE):STATUSCODECL NPP MS")
+  field(INP, "11")
+  field(DTYP, "Soft Channel")
   field(ZRST, "NO_ERROR")
   field(ONST, "TOO_MANY_COOLDN")
   field(TWST, "RUN_P_HIGH")
@@ -140,6 +130,7 @@ record(mbbi, "$(DEVICE):STATUSCODE") {
   field(EIST, "COOL_SPLY_MLFN")
   field(NIST, "COOL_V_LOW")
   field(TEST, "COOL_ARC_DETCT")
+  field(ELST, "Not Initialized")
   field(ZRSV, "NO_ALARM")
   field(ONSV, "MAJOR")
   field(TWSV, "MAJOR")
@@ -155,8 +146,8 @@ record(mbbi, "$(DEVICE):STATUSCODE") {
 }
 
 record(mbbi, "$(DEVICE):STATUS") {
-  field(FLNK, "$(DEVICE):STATUSCODECL PP")
-  field(INP, "$(DEVICE):STATUSCALC NPP MS")
+  field(DTYP, "stream")
+  field(INP, "@gammampc.proto.db getStatus($(CHANNEL),$(DEVICE):STATUSCODE) $(PORT)")
   field(ZRST, "SAFECONN")
   field(ONST, "RUNNING")
   field(TWST, "COOLDOWN")
@@ -175,18 +166,13 @@ record(mbbi, "$(DEVICE):STATUS") {
   field(SXSV, "MAJOR")
   field(SVSV, "MINOR")
   field(EISV, "MAJOR")
+  field(FLNK, "$(DEVICE):STATUSCODE")
 }
 
 record(bo, "$(DEVICE):STATEDES") {
   field(DTYP, "stream")
   field(OUT, "@gammampc.proto.db setOnoff($(CHANNEL)) $(PORT)")
   field(ASG, "VACWRITE")
-}
-
-record(calc, "$(DEVICE):STATUSCODECL") {
-  field(INPA, "$(DEVICE):STATUSRAW NPP MS")
-  field(CALC, "A>=77?0: A%11")
-  field(FLNK, "$(DEVICE):STATUSCODE PP")
 }
 
 record(mbbo, "$(DEVICE):DISPDES") {
