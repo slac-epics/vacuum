@@ -21,6 +21,7 @@ vacuum_DBD += stream.dbd
 vacuum_DBD += modbus.dbd
 vacuum_DBD += modbusSupport.dbd
 vacuum_DBD += ether_ip.dbd
+vacuum_DBD += caPutLog.dbd
 
 LIBRARY_IOC = vacuum
 
@@ -38,6 +39,7 @@ LIB_LIBS += modbus
 LIB_LIBS += asyn
 LIB_LIBS += stream
 LIB_LIBS += ether_ip
+LIB_LIBS += caPutLog
 LIB_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 PROD_SYS_LIBS_DEFAULT += pcre

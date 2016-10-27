@@ -33,6 +33,8 @@ DB += vac_varianturbo_plc.template
 DB += vac_varianturbo_serial.template
 DB += vac_pumps_serial.db
 DB += ptm_serial.db
+DB += vac_mks500_serial.template
+DB += modbus_vg_state.template
 
 
 #----------------------------------------------------
