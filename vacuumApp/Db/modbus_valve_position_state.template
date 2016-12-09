@@ -1,0 +1,18 @@
+#Matched as well as possible to gauge state enum in vac lib > 1.10
+record(mbbi,"$(P)$(R)") {
+    field(DTYP,"asynUInt32Digital")
+    field(INP,"@asynMask($(PORT) $(OFFSET) $(MASK))")
+    field(SCAN,"$(SCAN)")
+    field(ZRVL="0")
+    field(ONVL="1")
+    field(TWVL="2")
+    field(THVL="3)
+    field(ZRST="Open")
+    field(ONST="Closed")
+    field(TWST="Moving")
+    field(THST="Invalid")
+    field(ZRSV="NO_ALARM")
+    field(ONSV="MAJOR")
+    field(TWSV="MINOR")
+    field(THSV="INVALID")
+}

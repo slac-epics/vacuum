@@ -23,7 +23,7 @@ MODBUS_MODULE_VERSION=R2.6.0-0.2.3
 STREAM_MODULE_VERSION=R2.6-0.1.1
 ETHER_IP_MODULE_VERSION=current
 PLCADMIN_MODULE_VERSION=R1.1.0-0.0.0
-CAPUTLOG_MODULE_VERSION=R3.4-0.5.0
+CAPUTLOG_MODULE_VERSION=R3.4-0.3.0
 
 # ============================================================
 # External Support module path definitions

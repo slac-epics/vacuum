@@ -1,0 +1,99 @@
+record(bi, "$(PUMP):PSTAT$(PSTATNUM)MON") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getSetpoint($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+  field(ZNAM, "FAULT")
+  field(ONAM, "OK")
+  field(SCAN, "Event")
+  field(EVNT, "$(scanEvt)")
+  field(PHAS, "$(phase)")
+  field(ZSV,  "$(PSTATFLTSV)")
+  field(OSV,  "$(PSTATOKSV)")
+  field(FLNK, "$(PUMP):PSTAT$(PSTATNUM)ON")
+}
+
+record(ai, "$(PUMP):PSTAT$(PSTATNUM)ON") {
+  field(FLNK, "$(PUMP):PSTAT$(PSTATNUM)OFF")
+}
+
+record(ai, "$(PUMP):PSTAT$(PSTATNUM)OFF") {
+  field(FLNK, "$(PUMP):PSTAT$(PSTATNUM)SUP")
+}
+
+record(mbbi, "$(PUMP):PSTAT$(PSTATNUM)SUP") {
+  field(ZRST, "INACTIVE")
+  field(ONST, "SUPPLY_1")
+  field(TWST, "SUPPLY_2")
+  field(THST, "BAKE_SUPPLY_1")
+  field(FRST, "BAKE_SUPPLY_2")
+  field(ZRSV, "$(INACTSV)")
+  field(ONSV, "$(SUP1SV)")
+  field(TWSV, "$(SUP2SV)")
+  field(THSV, "MAJOR")
+  field(FRSV, "MAJOR")
+  field(FLNK, "$(PUMP):PSTAT$(PSTATNUM)HYS")
+}
+
+record(calc, "$(PUMP):PSTAT$(PSTATNUM)HYS") {
+  field(CALC, "(B/A-1)*100")
+  field(INPA, "$(PUMP):PSTAT$(PSTATNUM)ON.VAL")
+  field(INPB, "$(PUMP):PSTAT$(PSTATNUM)OFF.VAL")
+  field(EGU,  "%")
+  field(PREC, "0")
+}
+
+record(ao, "$(PUMP):PSTAT$(PSTATNUM)ONDES") {
+  field(DRVL, "1.0E-10")
+  field(DRVH, "9.4E-5")
+  field(EGU,  "TORR")
+  field(ASG,  "VACWRITE")
+  field(FLNK, "$(PUMP):PSTAT$(PSTATNUM)OFFCALCON")
+}
+
+record(calcout, "$(PUMP):PSTAT$(PSTATNUM)OFFCALCON") {
+  field(DTYP, "stream")
+  field(CALC, "A*(C/100+1)<B?A*(C/100+1):B")
+  field(INPA, "$(PUMP):PSTAT$(PSTATNUM)ONDES.VAL")
+  field(INPB, "1E-4")
+  field(INPC, "$(PUMP):PSTAT$(PSTATNUM)HYS.VAL")
+  field(OUT,  "@gammampc.proto setSetpointOn($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+}
+
+record(mbbo, "$(PUMP):PSTAT$(PSTATNUM)SUPDES") {
+  field(ZRST, "INACTIVE")
+  field(ONST, "SUPPLY_1")
+  field(TWST, "SUPPLY_2")
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setSetpointSup($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+  field(ASG,  "VACWRITE")
+}
+
+record(ao, "$(PUMP):PSTAT$(PSTATNUM)HYSDES") {
+  field(DRVH, "99999900")
+  field(DRVL, "10")
+  field(EGU,  "%")
+  field(PREC, "0")
+  field(ASG,  "VACWRITE")
+  field(FLNK, "$(PUMP):PSTAT$(PSTATNUM)OFFCALCHYS")
+}
+
+record(calcout, "$(PUMP):PSTAT$(PSTATNUM)OFFCALCHYS") {
+  field(DTYP, "stream")
+  field(CALC, "A*(C/100+1)<B?A*(C/100+1):B")
+  field(INPA, "$(PUMP):PSTAT$(PSTATNUM)ON.VAL")
+  field(INPB, "1E-4")
+  field(INPC, "$(PUMP):PSTAT$(PSTATNUM)HYSDES.VAL")
+  field(OUT,  "@gammampc.proto setSetpointOff($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+}
+
+record(bo, "$(PUMP):PSTAT$(PSTATNUM)SETL") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setSetpointLow($(SP),$(PSTATNUM)) $(PORT)")
+  field(ASG,  "VACWRITE")
+}
+
+record(bo, "$(PUMP):PSTAT$(PSTATNUM)SETH") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setSetpointHigh($(SP),$(PSTATNUM)) $(PORT)")
+  field(ASG,  "VACWRITE")
+}
+

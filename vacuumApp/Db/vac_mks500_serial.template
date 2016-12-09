@@ -1,0 +1,74 @@
+# MKS 500
+
+record(stringin, "$(controller):FW") {
+  field(DESC, "Firmware Version")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db getfwversion")
+  field(SCAN, "60 second")
+}
+
+record(ai, "$(controller):IG") {
+  field(DESC, "Ion Gauge state")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db setig")
+  field(SCAN, "1 second")
+}
+
+record(ai, "$(controller):DOSE") {
+  field(DESC, "Dose in coulombs")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db getdose")
+  field(SCAN, "1 second")
+}
+
+record(stringin, "$(controller):DT") {
+  field(DESC, "Get diagnostic test results")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db getdt")
+  field(SCAN, "10 second")
+}
+
+record(stringin, "$(controller):RDZ") {
+  field(DESC, "Voltage, discharge current, impedence")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db getrdz")
+  field(SCAN, "10 second")
+}
+
+record(stringin, "$(controller):UPTIME") {
+  field(DESC, "Get uptime")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db getuptime")
+  field(SCAN, "1 second")
+}
+
+record(stringin, "$(controller):LOG") {
+  field(DESC, "Get log")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db getlog")
+  field(SCAN, "10 second")
+}
+
+record(ao, "$(controller):RESETGC") {
+  field(DESC, "Reset the gauge controller")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db resetgc")
+  field(SCAN, "1 second")
+}
+
+record(ai, "$(controller):TEMP") {
+  field(DESC, "Get temperature")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db resetgc")
+  field(SCAN, "1 second")
+}
+
+record(ai, "$(controller):PRESSIG") {
+  field(DESC, "Get Pressure")
+  field(DTYP, "stream")
+  field(INP, "@mks500a.proto.db getpressid")
+  field(SCAN, "1 second")
+}
+
+
+

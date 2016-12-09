@@ -1,0 +1,12 @@
+#########################################################
+# Pfeiffer Analog input template
+# Uses the port naming convention found in the ../../etc/beckhoffModbusPorts.config file
+########################################################
+
+# longin record template for register inputs 
+record(longin,"$(P):SPD") { 
+	field(DTYP,"asynInt32") 
+	field(INP,"@asyn(aiLONG_PORT $(OFFSET))INT32_LE") 
+	field(SCAN, "I/O Intr") 
+	field(EGU, "Hz") 
+}

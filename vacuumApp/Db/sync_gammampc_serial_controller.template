@@ -1,0 +1,188 @@
+record(stringin, "$(PUMPPS):MODEL") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getModel $(PORT)")
+  field(PINI, "YES")
+  field(FLNK, "$(PUMPPS):FWVERSION")
+}
+
+record(stringin, "$(PUMPPS):FWVERSION") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getFirmware $(PORT)")
+  field(FLNK, "$(PUMPPS):LINEV")
+}
+
+record(ai, "$(PUMPPS):LINEV") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getLinevoltage $(PORT)")
+  field(EGU,  "V")
+  field(FLNK, "$(PUMPPS):LINEFREQ")
+}
+
+record(ai, "$(PUMPPS):LINEFREQ") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getLinefrequency $(PORT)")
+  field(EGU,  "Hz")
+}
+
+record(stringin, "$(PUMPPS):CHAN1NAME") {
+  field(VAL,  "$(CHANNEL1)")
+  field(PINI, "YES")
+}
+
+record(stringin, "$(PUMPPS):CHAN2NAME") {
+  field(VAL,  "$(CHANNEL2)")
+  field(PINI, "YES")
+}
+
+record(stringin, "$(PUMPPS):TOD") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getDatetime($(PUMPPS)) $(PORT)")
+  field(SCAN, "Event")
+  field(EVNT, "$(scanEvt)")
+  field(PHAS, "$(phase)")
+  field(FLNK, "$(PUMPPS):TODDY")
+}
+
+record(mbbi, "$(PUMPPS):TODDY") {
+  field(ZRST, "NONE")
+  field(ONST, "SUNDAY")
+  field(TWST, "MONDAY")
+  field(THST, "TUESDAY")
+  field(FRST, "WEDNESDAY")
+  field(FVST, "THURSDAY")
+  field(SXST, "FRIDAY")
+  field(SVST, "SATURDAY")
+  field(FLNK, "$(PUMPPS):ASHVE")
+}
+
+record(bi, "$(PUMPPS):ASHVE") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getAutostartHVE $(PORT)")
+  field(ZNAM, "DISABLED")
+  field(ONAM, "ENABLED")
+  field(ZSV,  "MAJOR")
+  field(OSV,  "NO_ALARM")
+  field(FLNK, "$(PUMPPS):ASPOWER")
+}
+
+record(bi, "$(PUMPPS):ASPOWER") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getAutostartPower $(PORT)")
+  field(ZNAM, "DISABLED")
+  field(ONAM, "ENABLED")
+  field(ZSV,  "NO_ALARM")
+  field(OSV,  "MAJOR")
+  field(FLNK, "$(PUMPPS):FAN")
+}
+
+record(bi, "$(PUMPPS):FAN") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getFan $(PORT)")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+  field(ZSV,  "MINOR")
+  field(OSV,  "NO_ALARM")
+}
+
+record(bo, "$(PUMPPS):TODLOAD") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setDatetime($(PUMPPS)) $(PORT)")
+  field(ASG,  "VACWRITE")
+  field(FLNK, "$(PUMPPS):TOD")
+}
+
+record(mbbo, "$(PUMPPS):TODDYDES") {
+  field(ZRST, "SUNDAY")
+  field(ZRVL, "1")
+  field(ONST, "MONDAY")
+  field(ONVL, "2")
+  field(TWST, "TUESDAY")
+  field(TWVL, "3")
+  field(THST, "WEDNESDAY")
+  field(THVL, "4")
+  field(FRST, "THURSDAY")
+  field(FRVL, "5")
+  field(FVST, "FRIDAY")
+  field(FVVL, "6")
+  field(SXST, "SATURDAY")
+  field(SXVL, "7")
+}
+
+record(ao, "$(PUMPPS):TODMIDES") {
+  field(PREC, "0")
+  field(DRVH, "59")
+  field(DRVL, "0")
+}
+
+record(ao, "$(PUMPPS):TODHRDES") {
+  field(PREC, "0")
+  field(DRVH, "23")
+  field(DRVL, "0")
+}
+
+record(ao, "$(PUMPPS):TODMODES") {
+  field(PREC, "0")
+  field(DRVH, "12")
+  field(DRVL, "1")
+}
+
+record(ao, "$(PUMPPS):TODDTDES") {
+  field(PREC, "0")
+  field(DRVH, "31")
+  field(DRVL, "1")
+}
+
+record(ao, "$(PUMPPS):TODYRDES") {
+  field(PREC, "0")
+  field(DRVH, "99")
+  field(DRVL, "00")
+}
+
+record(bo, "$(PUMPPS):ASHVEDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setAutostartHVE $(PORT)")
+  field(FLNK, "$(PUMPPS):ASHVE")
+  field(ZNAM, "DISABLE")
+  field(ONAM, "ENABLE")
+  field(ASG,  "VACWRITE")
+}
+
+record(bo, "$(PUMPPS):ASPOWERDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setAutostartPower $(PORT)")
+  field(ZNAM, "DISABLE")
+  field(ONAM, "ENABLE")
+  field(ASG,  "VACWRITE")
+  field(FLNK, "$(PUMPPS):ASPOWER")
+}
+
+record(mbbo, "$(PUMPPS):PEGUDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setPressunits $(PORT)")
+  field(ZRST, "TORR")
+  field(ONST, "MBR")
+  field(TWST, "PA")
+  field(ASG,  "VACWRITE")
+}
+
+record(bo, "$(PUMPPS):KEYLOCKDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setKeypadlock $(PORT)")
+  field(ASG,  "VACWRITE")
+}
+
+record(bo, "$(PUMPPS):MASTERRESET") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto masterReset $(PORT)")
+  field(ONAM, "RESET")
+  field(ASG,  "VACWRITE")
+  field(SDIS, "@")
+  field(HIGH, "1")
+  field(ZSV,  "NO_ALARM")
+  field(OSV,  "MAJOR")
+}
+
+record(sub, "$(PUMPPS):STREAMRELOAD") {
+  field(SNAM, "streamReload")
+}
+

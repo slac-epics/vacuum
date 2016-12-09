@@ -34,9 +34,15 @@ DB += vac_varianturbo_serial.template
 DB += vac_pumps_serial.db
 DB += ptm_serial.db
 #DB += vac_mks500_serial.template
-#DB += modbus_vg_state.template
+DB += modbus_vg_state.template
+DB += modbus_valve_position_state.template
+DB += modbus_turboPump_state.template
+DB += sync_gammampc_serial_controller.template
+DB += sync_gammampc_serial_pump.template
+DB += sync_gammampc_serial_setpoint.template
+DB += sync_gammampc_serial.db
 
-
+DB += sync_varianturbo_serial.template
 #----------------------------------------------------
 # Create and install (or just install)
 # Archive files, templates, substitutions like this

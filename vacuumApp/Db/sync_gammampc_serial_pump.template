@@ -1,0 +1,251 @@
+record(ai, "$(DEVICE):PUMPSIZE") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getPumpsize($(CHANNEL)) $(PORT)")
+  field(PINI, "YES")
+  field(FLNK, "$(DEVICE):SUPPLYSIZE")
+}
+
+record(bi, "$(DEVICE):SUPPLYSIZE") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getSupplysize($(CHANNEL)) $(PORT)")
+  field(ZNAM, "MEDIUM")
+  field(ONAM, "LARGE")
+  field(ZSV,  "NO_ALARM")
+  field(OSV,  "MAJOR")
+  field(FLNK, "$(DEVICE):AOMODE")
+}
+
+record(mbbi, "$(DEVICE):AOMODE") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getAnalogoutmode($(CHANNEL)) $(PORT)")
+  field(ZRST, "LOG_P")
+  field(ONST, "LOG_I")
+  field(TWST, "V_PER_1_UA")
+  field(THST, "V_PER_10_UA")
+  field(FRST, "V_PER_100_UA")
+  field(FVST, "V_PER_1_MA")
+  field(SXST, "V_PER_10_MA")
+  field(SVST, "V_PER_50_MA")
+  field(ZRSV, "NO_ALARM")
+  field(ONSV, "MAJOR")
+  field(TWSV, "MAJOR")
+  field(THSV, "MAJOR")
+  field(FRSV, "MAJOR")
+  field(FVSV, "MAJOR")
+  field(SXSV, "MAJOR")
+  field(SVSV, "MAJOR")
+  field(EIST, "LOG_P")
+  field(NIST, "LOG_I")
+  field(TEST, "V_PER_1_UA")
+  field(ELST, "V_PER_10_UA")
+  field(TVST, "V_PER_100_UA")
+  field(TTST, "V_PER_1_MA")
+  field(FTST, "V_PER_10_MA")
+  field(FFST, "V_PER_50_MA")
+  field(EISV, "NO_ALARM")
+  field(NISV, "MAJOR")
+  field(TESV, "MAJOR")
+  field(ELSV, "MAJOR")
+  field(TVSV, "MAJOR")
+  field(TTSV, "MAJOR")
+  field(FTSV, "MAJOR")
+  field(FFSV, "MAJOR")
+  field(FLNK, "$(DEVICE):CALFACTOR")
+}
+
+record(ai, "$(DEVICE):CALFACTOR") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getCalibfactor($(CHANNEL)) $(PORT)")
+  field(PREC, "2")
+}
+
+record(stringin, "$(DEVICE):VPCNAME") {
+  field(VAL,  "$(PUMPPS)")
+  field(PINI, "YES")
+}
+
+record(ai, "$(DEVICE):PMON") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getPressure($(CHANNEL)) $(PORT)")
+  field(EGU,  "T")
+  field(SCAN, "Event")
+  field(EVNT, "$(scanEvt)")
+  field(PHAS, "$(phase)")
+  field(FLNK, "$(DEVICE):PMONLOG")
+}
+
+record(calc, "$(DEVICE):PMONLOG") {
+  field(CALC, "LOG(A)")
+  field(HOPR, "-2")
+  field(LOPR, "-11")
+  field(INPA, "$(DEVICE):PMON")
+  field(FLNK, "$(DEVICE):VMON")
+}
+
+record(ai, "$(DEVICE):VMON") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getVoltage($(CHANNEL)) $(PORT)")
+  field(EGU,  "V")
+  field(LOLO, "$(vlolo)")
+  field(LLSV, "MAJOR")
+  field(LOW,  "$(vlo)")
+  field(LSV,  "MINOR")
+  field(HIGH, "$(vhi)")
+  field(HSV,  "MINOR")
+  field(HIHI, "$(vhihi)")
+  field(HHSV, "MAJOR")
+  field(FLNK, "$(DEVICE):IMON")
+}
+
+record(ai, "$(DEVICE):IMON") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getCurrent($(CHANNEL)) $(PORT)")
+  field(EGU,  "A")
+  field(LOLO, "$(ilolo)")
+  field(LLSV, "MAJOR")
+  field(LOW,  "$(ilo)")
+  field(LSV,  "MINOR")
+  field(HIGH, "$(ihi)")
+  field(HSV,  "MINOR")
+  field(HIHI, "$(ihihi)")
+  field(HHSV, "MAJOR")
+  field(FLNK, "$(DEVICE):STATUSRAW")
+}
+
+record(mbbi, "$(DEVICE):STATUSRAW") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getStatus($(CHANNEL)) $(PORT)")
+  field(FLNK, "$(DEVICE):STATUSCALC PP")
+}
+
+record(calc, "$(DEVICE):STATUSCALC") {
+  field(CALC, "A==77?7:A==78?8:FLOOR(A/11)")
+  field(INPA, "$(DEVICE):STATUSRAW NPP MS")
+  field(FLNK, "$(DEVICE):STATUS PP")
+}
+
+record(mbbi, "$(DEVICE):STATUS") {
+  field(INP,  "$(DEVICE):STATUSCALC NPP MS")
+  field(ZRST, "SAFECONN")
+  field(ONST, "RUNNING")
+  field(TWST, "COOLDOWN")
+  field(THST, "PUMP_ERROR")
+  field(FRST, "INTERLOCK")
+  field(FVST, "SHUT_DOWN")
+  field(SXST, "CALIBRATION")
+  field(SVST, "WAIT_TO_START")
+  field(EIST, "STANDBY")
+  field(ZRSV, "MAJOR")
+  field(ONSV, "NO_ALARM")
+  field(TWSV, "MAJOR")
+  field(THSV, "MAJOR")
+  field(FRSV, "MAJOR")
+  field(FVSV, "MAJOR")
+  field(SXSV, "MAJOR")
+  field(SVSV, "MINOR")
+  field(EISV, "MAJOR")
+  field(FLNK, "$(DEVICE):STATUSCODECL PP")
+}
+
+record(calc, "$(DEVICE):STATUSCODECL") {
+  field(INPA, "$(DEVICE):STATUSRAW NPP MS")
+  field(CALC, "A>=77?0: A%11")
+  field(FLNK, "$(DEVICE):STATUSCODE PP")
+}
+
+record(mbbi, "$(DEVICE):STATUSCODE") {
+  field(INP,  "$(DEVICE):STATUSCODECL NPP MS")
+  field(ZRST, "NO_ERROR")
+  field(ONST, "TOO_MANY_COOLDN")
+  field(TWST, "RUN_P_HIGH")
+  field(THST, "RUN_I_HIGH")
+  field(FRST, "START_P_HIGH")
+  field(FVST, "COOL_PUMP_PWR")
+  field(SXST, "COOL_SPLY_I")
+  field(SVST, "COOL_SHORT_CIRC")
+  field(EIST, "COOL_SPLY_MLFN")
+  field(NIST, "COOL_V_LOW")
+  field(TEST, "COOL_ARC_DETCT")
+  field(ZRSV, "NO_ALARM")
+  field(ONSV, "MAJOR")
+  field(TWSV, "MAJOR")
+  field(THSV, "MAJOR")
+  field(FRSV, "MAJOR")
+  field(FVSV, "MAJOR")
+  field(SXSV, "MAJOR")
+  field(SVSV, "MAJOR")
+  field(EISV, "MAJOR")
+  field(NISV, "MAJOR")
+  field(TESV, "MAJOR")
+  field(FLNK, "$(DEVICE):VDESRBCK")
+}
+
+record(ai, "$(DEVICE):VDESRBCK") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getHVStrapping($(CHANNEL)) $(PORT)")
+  field(EGU,  "V")
+  field(FLNK, "$(DEVICE):STATEMON")
+}
+
+record(bi, "$(DEVICE):STATEMON") {
+  field(DTYP, "stream")
+  field(INP,  "@gammampc.proto getState($(CHANNEL)) $(PORT)")
+  field(OSV,  "NO_ALARM")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+  field(ZSV,  "MAJOR")
+}
+
+record(ao, "$(DEVICE):PUMPSIZEDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setPumpsize($(CHANNEL)) $(PORT)")
+  field(DRVH, "1200")
+  field(DRVL, "10")
+  field(ASG,  "VACWRITE")
+  field(FLNK, "$(DEVICE):PUMPSIZE")
+}
+
+record(mbbo, "$(DEVICE):AOMODEDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setAnalogoutmode($(CHANNEL)) $(PORT)")
+  field(ZRST, "LOG_P")
+  field(ONST, "LOG_I")
+  field(TWST, "V_PER_1_UA")
+  field(THST, "V_PER_10_UA")
+  field(FRST, "V_PER_100_UA")
+  field(FVST, "V_PER_1_MA")
+  field(SXST, "V_PER_10_MA")
+  field(SVST, "V_PER_50_MA")
+  field(ASG,  "VACWRITE")
+  field(FLNK, "$(DEVICE):AOMODE")
+}
+
+record(ao, "$(DEVICE):CALFACTORDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setCalibfactor($(CHANNEL)) $(PORT)")
+  field(DRVH, "0")
+  field(DRVL, "9.99")
+  field(PREC, "2")
+  field(ASG,  "VACWRITE")
+  field(FLNK, "$(DEVICE):CALFACTOR")
+}
+
+record(bo, "$(DEVICE):STATEDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setOnoff($(CHANNEL)) $(PORT)")
+  field(ASG,  "VACWRITE")
+}
+
+record(mbbo, "$(DEVICE):DISPDES") {
+  field(DTYP, "stream")
+  field(OUT,  "@gammampc.proto setDisplaymode($(CHANNEL)) $(PORT)")
+  field(ZRST, "VOLTAGE")
+  field(ONST, "CURRENT")
+  field(TWST, "PRESSURE")
+  field(ASG,  "VACWRITE")
+}
+
+record(sub, "$(DEVICE):STREAMRELOAD") {
+  field(SNAM, "streamReload")
+}
+

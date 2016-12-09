@@ -1,0 +1,241 @@
+record(seq, "$(device):ReadSeq") {
+  field(DESC, "Master Read Sequencer")
+  field(SCAN, "Event")
+  field(EVNT, "$(scanEvt)")
+  field(PHAS, "$(phase)")
+  field(SELM, "All")
+  field(DLY1, "0.0")
+  field(DOL1, "1")
+  field(LNK1, "$(device):STATUSRAW.PROC PP")
+  field(DLY2, "3.0")
+  field(DOL2, "1")
+  field(LNK2, "$(device):COUNTERSRAW.PROC PP")
+  field(DLY3, "3.0")
+  field(DOL3, "1")
+  field(LNK3, "$(device):VALUESRAW.PROC PP")
+  field(DLY4, "3.0")
+  field(DOL4, "1")
+  field(LNK4, "$(device):PARAMSRAW.PROC PP")
+}
+
+record(longin, "$(device):STATUSRAW") {
+  field(DESC, "Raw Status")
+  field(DTYP, "stream")
+  field(INP,  "@varianturbo.proto getStatus $(port) 0")
+  field(FLNK, "$(device):STATCALC")
+}
+
+record(calc, "$(device):STATCALC") {
+  field(DESC, "Raw Status")
+  field(CALC, "A&B")
+  field(INPA, "$(device):STATUSRAW.VAL NPP MS")
+  field(INPB, "0xF")
+  field(FLNK, "$(device):STATUSMON")
+}
+
+record(mbbi, "$(device):STATUSMON") {
+  field(DESC, "Status")
+  field(INP,  "$(device):STATCALC NPP MS")
+  field(ZRST, "STOP")
+  field(ONST, "INTERLOCK")
+  field(TWST, "STARTING")
+  field(THST, "NORMAL")
+  field(FRST, "HIGH_LOAD")
+  field(FVST, "HIGH_LOAD")
+  field(SXST, "FAILURE")
+  field(SVST, "NEAR_LOW_SPEED")
+  field(ZRSV, "NO_ALARM")
+  field(ONSV, "MAJOR")
+  field(TWSV, "NO_ALARM")
+  field(THSV, "NO_ALARM")
+  field(FRSV, "MINOR")
+  field(FVSV, "MINOR")
+  field(SXSV, "MAJOR")
+  field(SVSV, "NO_ALARM")
+  field(FLNK, "$(device):R2CALC")
+}
+
+record(calc, "$(device):R2CALC") {
+  field(DESC, "Raw Status")
+  field(CALC, "A&B=B?1:0")
+  field(INPA, "$(device):STATUSRAW.VAL NPP MS")
+  field(INPB, "0x10")
+  field(FLNK, "$(device):R2STATMON")
+}
+
+record(bi, "$(device):R2STATMON") {
+  field(DESC, "RPM Relay 2 Status")
+  field(INP,  "$(device):R2CALC.VAL NPP MS")
+  field(OSV,  "NO_ALARM")
+  field(ZSV,  "MINOR")
+  field(ONAM, "NORMAL")
+  field(ZNAM, "ABOVE")
+  field(FLNK, "$(device):R1CALC")
+}
+
+record(calc, "$(device):R1CALC") {
+  field(DESC, "Raw Status")
+  field(CALC, "A&B=B?1:0")
+  field(INPA, "$(device):STATUSRAW.VAL NPP MS")
+  field(INPB, "0x20")
+  field(FLNK, "$(device):R1STATMON")
+}
+
+record(bi, "$(device):R1STATMON") {
+  field(DESC, "RPM Relay 1 Status")
+  field(INP,  "$(device):R1CALC.VAL NPP MS")
+  field(OSV,  "NO_ALARM")
+  field(ZSV,  "MINOR")
+  field(ONAM, "NORMAL")
+  field(ZNAM, "BELOW")
+}
+
+record(longin, "$(device):COUNTERSRAW") {
+  field(DESC, "Raw Counters")
+  field(DTYP, "stream")
+  field(INP,  "@varianturbo.proto getCounters($(device)) $(port) 0 ")
+  field(SIOL, "@")
+  field(FLNK, "$(device):CYCLETIME")
+}
+
+record(ai, "$(device):CYCLETIME") {
+  field(SDIS, "$(device):COUNTERSRAW NPP MS")
+  field(EGU,  "min")
+  field(FLNK, "$(device):PUMPLIFE")
+}
+
+record(ai, "$(device):PUMPLIFE") {
+  field(SDIS, "$(device):COUNTERSRAW NPP MS")
+  field(EGU,  "hours")
+  field(FLNK, "$(device):CYCLENUM")
+}
+
+record(ai, "$(device):CYCLENUM") {
+  field(SDIS, "$(device):COUNTERSRAW NPP MS")
+  field(EGU,  "cycles")
+}
+
+record(longin, "$(device):VALUESRAW") {
+  field(DTYP, "stream")
+  field(INP,  "@varianturbo.proto getValues($(device)) $(port) 0 ")
+  field(SIOL, "@")
+  field(FLNK, "$(device):I")
+}
+
+record(calc, "$(device):I") {
+  field(SDIS, "$(device):VALUESRAW.VAL NPP MS")
+  field(CALC, "A*B/255")
+  field(INPB, "$(imax)")
+  field(EGU,  "Amps")
+  field(PREC, "2")
+  field(HOPR, "$(imax)")
+  field(LOPR, "0")
+  field(ADEL, ".01")
+  field(MDEL, ".01")
+  field(HIHI, "$(ihihi)")
+  field(HHSV, "MAJOR")
+  field(HIGH, "$(ihi)")
+  field(HSV,  "MINOR")
+  field(FLNK, "$(device):V")
+}
+
+record(calc, "$(device):V") {
+  field(SDIS, "$(device):VALUESRAW.VAL NPP MS")
+  field(CALC, "A*B/255")
+  field(INPB, "$(vmax)")
+  field(EGU,  "Volts")
+  field(PREC, "1")
+  field(HOPR, "$(vmax)")
+  field(LOPR, "0")
+  field(ADEL, ".1")
+  field(MDEL, ".1")
+  field(FLNK, "$(device):RPM")
+}
+
+record(ai, "$(device):RPM") {
+  field(SDIS, "$(device):VALUESRAW.VAL NPP MS")
+  field(EGU,  "kRPM")
+  field(PREC, "0")
+  field(HOPR, "$(smax)")
+  field(LOPR, "0")
+  field(ADEL, "0")
+  field(MDEL, "0")
+  field(FLNK, "$(device):TEMP")
+}
+
+record(calc, "$(device):TEMP") {
+  field(SDIS, "$(device):VALUESRAW.VAL NPP MS")
+  field(CALC, "A=255?(-9999):A")
+  field(PREC, "0")
+  field(HOPR, "100")
+  field(LOPR, "0")
+  field(ADEL, "0")
+  field(MDEL, "0")
+  field(EGU,  "DegC")
+  field(HIHI, "55")
+  field(HHSV, "MAJOR")
+  field(HIGH, "50")
+  field(HSV,  "MINOR")
+  field(LOLO, "-9999")
+  field(LLSV, "INVALID")
+  field(FLNK, "$(device):TEMPCALC")
+}
+
+record(calc, "$(device):TEMPCALC") {
+  field(CALC, "A=B?0:1")
+  field(INPA, "$(device):TEMP NPP MS")
+  field(INPB, "-9999")
+  field(FLNK, "$(device):TEMPSTAT")
+}
+
+record(bi, "$(device):TEMPSTAT") {
+  field(INP,  "$(device):TEMPCALC NPP MS")
+  field(ZSV,  "MAJOR")
+  field(OSV,  "NO_ALARM")
+  field(ZNAM, "OVER_TEMP")
+  field(ONAM, "OK")
+}
+
+record(longin, "$(device):PARAMSRAW") {
+  field(DESC, "Raw Parameters")
+  field(DTYP, "stream")
+  field(INP,  "@varianturbo.proto getParameters($(device)) $(port) 0 ")
+  field(SIOL, "@")
+  field(FLNK, "$(device):CYCLENUM2")
+}
+
+record(ai, "$(device):CYCLENUM2") {
+  field(SDIS, "$(device):PARAMSRAW NPP MS")
+  field(EGU,  "rpm")
+  field(FLNK, "$(device):SPEEDTHR")
+}
+
+record(ai, "$(device):SPEEDTHR") {
+  field(SDIS, "$(device):PARAMSRAW NPP MS")
+  field(EGU,  "rpm")
+  field(FLNK, "$(device):RUNUPTIME")
+}
+
+record(ai, "$(device):RUNUPTIME") {
+  field(SDIS, "$(device):PARAMSRAW NPP MS")
+  field(EGU,  "sec")
+  field(FLNK, "$(device):DEADTIME")
+}
+
+record(ai, "$(device):DEADTIME") {
+  field(SDIS, "$(device):PARAMSRAW NPP MS")
+  field(EGU,  "mins")
+  field(FLNK, "$(device):SOFTSTART")
+}
+
+record(ai, "$(device):SOFTSTART") {
+  field(SDIS, "$(device):PARAMSRAW NPP MS")
+  field(EGU,  "")
+  field(FLNK, "$(device):WATER")
+}
+
+record(ai, "$(device):WATER") {
+  field(SDIS, "$(device):PARAMSRAW NPP MS")
+  field(EGU,  "degC")
+}
+
