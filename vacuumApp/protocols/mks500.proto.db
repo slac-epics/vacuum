@@ -1,0 +1,43 @@
+# Stream Device Protocol for the MKS 500
+#
+# $1 = channel number: 1..2
+# DOSE, DT, IG, LOG, RDZ, RST, TEMP, UPTIME, PRESSURE?
+
+locktimeout = 5000;
+terminator   = CR;
+replytimeout = 1000;
+readtimeout  = 1000;
+extrainput   = Ignore;
+
+# Send an initial dummy command to clear out any garbage the mks has already received.
+@init{out " ";}
+
+# Set and get Cold Cathode Ion Gauge 
+getig { out "\#01 IG"; in "*01 %i %{OFF|ON}"; }
+setig { out "\#01 IG %{0|1}"; in "%{*|?}01 %{PROGM OK|RANGE ER|INVALID|LOCKED}"; }
+
+# Get pressure
+getpressid { out "\#01 RD PRESSIG"; in "*01 {%E|IG OFF|NO DISCHARGE}"; }
+
+# Firmware Version
+getfwversion { out "\#01 VER"; in "*01 %s"; }
+
+# Dose in Coulombs
+getdose { out "\#01 DOSE"; in "*01 %e"; }
+
+# Run Diagnostics Tests
+getdt { out "\#01 DT \$1"; in "*01 %s"; }
+
+# Get node voltage, discharge current, and measured impedance 
+getrdz { out "\#01 RDZ"; in "*01 %s"; }
+
+# Get uptime. Power on time since last RST or POR
+getuptime { out "\#01 UPTIME"; in "*01 %s"; }
+
+getlog { out "\#01 LOG \$1 \$2"; in "%s"; }
+
+# Reset gauge controller
+resetgc { out "\#01 RST"; in "*%s"; }
+
+# Temperature
+gettemp { out "\#01 TEMP"; in "*01 %s"; }
