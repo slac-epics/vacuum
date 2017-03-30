@@ -12,7 +12,7 @@ record(mbbi,"$(P)$(R)") {
     field(TWST,"Moving")
     field(THST,"Invalid")
     field(ZRSV,"NO_ALARM")
-    field(ONSV,"MAJOR")
-    field(TWSV,"MINOR")
+    field(ONSV,"NO_ALARM")
+    field(TWSV,"NO_ALARM")
     field(THSV,"INVALID")
 }
