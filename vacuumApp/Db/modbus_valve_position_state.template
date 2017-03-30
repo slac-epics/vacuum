@@ -1,4 +1,4 @@
-#Matched as well as possible to gauge state enum in vac lib > 1.10
+#Matched as well as possible to valve state enum in vac lib > 1.10
 record(mbbi,"$(P)$(R)") {
     field(DTYP,"asynUInt32Digital")
     field(INP,"@asynMask($(PORT) $(OFFSET) $(MASK))")
