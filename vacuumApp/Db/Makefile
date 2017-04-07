@@ -12,6 +12,7 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 
 DB += sync_master.db
+DB += sync_mks146c_serial.template
 DB += sync_mks937a_serial.template
 DB += sync_mks937a_serial_cc.template
 DB += sync_mks937a_serial_pr.template
