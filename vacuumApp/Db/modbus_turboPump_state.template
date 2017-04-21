@@ -11,8 +11,8 @@ record(mbbi,"$(P)$(R)") {
     field(ONST,"STARTING")
     field(TWST,"RUNNING")
     field(THST,"FAULT")
-    field(ZRSV,"NO_ALARM")
-    field(ONSV,"NO_ALARM")
+    field(ZRSV,"MAJOR")
+    field(ONSV,"MINOR")
     field(TWSV,"NO_ALARM")
     field(THSV,"MAJOR")
 }
