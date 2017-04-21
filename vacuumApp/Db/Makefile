@@ -42,6 +42,7 @@ DB += sync_gammampc_serial_controller.template
 DB += sync_gammampc_serial_pump.template
 DB += sync_gammampc_serial_setpoint.template
 DB += sync_gammampc_serial.db
+DB += rough_pump.template
 
 DB += sync_varianturbo_serial.template
 #----------------------------------------------------

@@ -1,18 +1,18 @@
-record(longout, "$(PUMP):SECS") {
+record(longout, "$(PUMP)SECS") {
   field(DESC, "Pump running time (secs)")
   field(PINI, "YES")
-  field(FLNK, "$(PUMP):HOURS")
+  field(FLNK, "$(PUMP)HOURS")
   field(EGU, "sec")
 }
 
 
-record(calcout, "$(PUMP):_CALC_SECS") {
+record(calcout, "$(PUMP)_CALC_SECS") {
   field(DESC, "Pump running time calc")
   field(SCAN, "1 second")
   field(CALC, "A")
-  field(INPA, "$(PUMP):STATUS CPP MS")
-  field(INPB, "$(PUMP):SECS")
-  field(OUT, "$(PUMP):SECS PP")
+  field(INPA, "$(PUMP)STATUS CPP MS")
+  field(INPB, "$(PUMP)SECS")
+  field(OUT, "$(PUMP)SECS PP")
   field(OOPT, "When Non-zero")
   field(DOPT, "Use OCAL")
   field(OCAL, "B+1")
@@ -20,10 +20,10 @@ record(calcout, "$(PUMP):_CALC_SECS") {
 }
 
 
-record(calc, "$(PUMP):HOURS") {
+record(calc, "$(PUMP)HOURS") {
   field(DESC, "Pump running time (hours)")
   field(CALC, "A/3600")
-  field(INPA, "$(PUMP):SECS")
+  field(INPA, "$(PUMP)SECS")
   field(EGU, "hrs")
   field(PREC, "1")
   field(HOPR, "10000")
