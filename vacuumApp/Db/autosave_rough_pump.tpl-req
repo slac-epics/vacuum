@@ -1,0 +1,3 @@
+$(device):SECS
+$(device):LO_SP
+$(device):HI_SP
