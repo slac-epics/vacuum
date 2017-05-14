@@ -81,6 +81,7 @@ REQ += autosave_gcc.tpl-req
 REQ += autosave_ptm.tpl-req
 REQ += autosave_vgc.tpl-req
 REQ += autosave_ivcs_vac_gauge.tpl-req
+REQ += autosave_rough_pump.tpl-req
 
 include $(TOP)/configure/RULES
 #----------------------------------------
