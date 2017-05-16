@@ -79,6 +79,7 @@ REQ += autosave_gtc.tpl-req
 REQ += autosave_gpi.tpl-req
 REQ += autosave_gcc.tpl-req
 REQ += autosave_ptm.tpl-req
+REQ += autosave_ptm_fee.tpl-req
 REQ += autosave_vgc.tpl-req
 REQ += autosave_ivcs_vac_gauge.tpl-req
 REQ += autosave_rough_pump.tpl-req
