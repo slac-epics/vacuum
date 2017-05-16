@@ -1,0 +1,57 @@
+# RELEASE.local
+#
+# Read definitions of:
+#   EPICS_SITE_TOP
+#   BASE_MODULE_VERSION
+#   EPICS_MODULES 
+# from one of the following options
+-include $(TOP)/../../RELEASE_SITE
+-include $(TOP)/RELEASE_SITE
+
+# Check that EPICS_MODULES was defined in a RELEASE_SITE file
+-include $(TOP)/../../RELEASE_SITE.check
+
+# ==========================================================
+# Define the version strings for all needed modules
+# ==========================================================
+AUTOSAVE_MODULE_VERSION     = R5.7.1-2.0.0
+ASYN_MODULE_VERSION         = R4.31-1.0.0
+CALC_MODULE_VERSION         = R3.6.1-0.1.0
+CAPUTLOG_MODULE_VERSION     = R3.5-1.0.0
+ETHER_IP_MODULE_VERSION     = R2.26-0.1.0
+IOCADMIN_MODULE_VERSION     = R3.1.15-1.0.1
+MODBUSTCPCLNT_MODULE_VERSION= R2.3.0-1.0.0
+MODBUS_MODULE_VERSION       = R2.9-2.0.2
+PLCADMIN_MODULE_VERSION     = R3.1.0
+STREAMDEVICE_MODULE_VERSION = R2.7.7-1.4
+
+# ==========================================================
+# External Support module path definitions
+#
+# If any of these macros expand to a path which
+# contains an "include" directory, that directory will be
+# included in the compiler include path.
+#
+# If any of these macros expand to a path which
+# contains a "lib/<arch>" directory, that directory will be
+# included in the compiler link path for that architecture.
+#
+# If your build fails, look for these paths in your build output
+# ==========================================================
+AUTOSAVE        = $(EPICS_MODULES)/autosave/$(AUTOSAVE_MODULE_VERSION)
+ASYN            = $(EPICS_MODULES)/asyn/$(ASYN_MODULE_VERSION)
+CALC            = $(EPICS_MODULES)/calc/$(CALC_MODULE_VERSION)
+CAPUTLOG        = $(EPICS_MODULES)/caPutLog/$(CAPUTLOG_MODULE_VERSION)
+ETHER_IP        = $(EPICS_MODULES)/ether_ip/$(ETHER_IP_MODULE_VERSION)
+IOCADMIN        = $(EPICS_MODULES)/iocAdmin/$(IOCADMIN_MODULE_VERSION)
+MODBUS          = $(EPICS_MODULES)/modbus/$(MODBUS_MODULE_VERSION)
+MODBUSTCPCLNT   = $(EPICS_MODULES)/ModBusTCPClnt/$(MODBUSTCPCLNT_MODULE_VERSION)
+STREAMDEVICE    = $(EPICS_MODULES)/streamdevice/$(STREAMDEVICE_MODULE_VERSION)
+PLCADMIN        = $(EPICS_MODULES)/plcAdmin/$(PLCADMIN_MODULE_VERSION)
+
+# Set EPICS_BASE last so it appears last in the DB, DBD, INCLUDE, and LIB search paths
+EPICS_BASE = $(EPICS_SITE_TOP)/base/$(BASE_MODULE_VERSION)
+
+# Check for invalid or undefined EPICS_BASE
+-include $(TOP)/../../EPICS_BASE.check
+

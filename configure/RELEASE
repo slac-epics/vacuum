@@ -1,51 +1,40 @@
-# ===============================================================
-# Define the location and version of EPICS base
-# ===============================================================
-EPICS_BASE=/reg/g/pcds/package/epics/3.14/base/R3.14.12-0.4.0
-#
-# NOTE: Please do any development for R3.14.12-0.4.0 or newer
-# under $REPO/trunk/pcds/epics/modules/event/current
-#
+# RELEASE
+# Defines location of external products
+# Run "gnumake clean uninstall install" in the application
+# top directory each time this file is changed.
+-include $(TOP)/configure/RELEASE.local
 
-# EPICS module releases are kept here
-EPICS_MODULES=/reg/g/pcds/package/epics/3.14/modules
-EPICS_DEV_MODULES=/reg/g/pcds/package/epics/3.14-dev/modules
+# Check for valid macro definitions for module release directories
+# You can add tests here to make sure RELEASE.local defined valid
+# macros for all the module dependencies
+ifeq ($(wildcard $(EPICS_BASE)/include),)
+$(error Invalid EPICS_BASE: $(EPICS_BASE))
+endif
+ifeq ($(wildcard $(ASYN)/include),)
+$(error Invalid ASYN: $(ASYN))
+endif
+ifeq ($(wildcard $(AUTOSAVE)/include),)
+$(error Invalid AUTOSAVE: $(AUTOSAVE))
+endif
+ifeq ($(wildcard $(CAPUTLOG)/include),)
+$(error Invalid CAPUTLOG: $(CAPUTLOG))
+endif
+ifeq ($(wildcard $(ETHER_IP)/include),)
+$(error Invalid ETHER_IP: $(ETHER_IP))
+endif
+ifeq ($(wildcard $(IOCADMIN)/include),)
+$(error Invalid IOCADMIN: $(IOCADMIN))
+endif
+ifeq ($(wildcard $(MODBUS)/include),)
+$(error Invalid MODBUS: $(MODBUS))
+endif
+ifeq ($(wildcard $(MODBUSTCPCLNT)/include),)
+$(error Invalid MODBUSTCPCLNT: $(MODBUSTCPCLNT))
+endif
+ifeq ($(wildcard $(PLCADMIN)/dbd),)
+$(error Invalid PLCADMIN: $(PLCADMIN))
+endif
+ifeq ($(wildcard $(STREAMDEVICE)/include),)
+$(error Invalid STREAMDEVICE: $(STREAMDEVICE))
+endif
 
-# ===============================================================
-# Define the version of modules needed by
-# IOC apps or other Support apps
-# ===============================================================
-AUTOSAVE_MODULE_VERSION=R5.7.1-0.1.0
-IOCADMIN_MODULE_VERSION=R3.0.0-2.0.2
-ASYN_MODULE_VERSION=R4.30-0.1.0
-MODBUSTCPCLNT_MODULE_VERSION=R2.2.2-0.2.0
-MODBUS_MODULE_VERSION=R2.9.0-0.1.0
-STREAM_MODULE_VERSION=R2.6-0.1.1
-ETHER_IP_MODULE_VERSION=current
-PLCADMIN_MODULE_VERSION=R1.1.0-0.0.0
-CAPUTLOG_MODULE_VERSION=R3.4-0.3.0
-
-# ============================================================
-# External Support module path definitions
-#
-# If any of these macros expand to a path which
-# contains an "include" directory, that directory will be
-# included in the compiler include path.
-#
-# If any of these macros expand to a path which
-# contains a "lib/<arch>" directory, that directory will be
-# included in the compiler link path for that architecture.
-#
-# If your build fails, look for these paths in your build output
-# ============================================================
-AUTOSAVE=$(EPICS_MODULES)/autosave/$(AUTOSAVE_MODULE_VERSION)
-IOCADMIN=$(EPICS_MODULES)/iocAdmin/$(IOCADMIN_MODULE_VERSION)
-ASYN=$(EPICS_MODULES)/asyn/$(ASYN_MODULE_VERSION)
-MODBUS=$(EPICS_MODULES)/modbus/$(MODBUS_MODULE_VERSION)
-#MODBUS=/reg/g/pcds/package/epics/3.14-dev/modules/modbus/current/
-MODBUSTCPCLNT=$(EPICS_MODULES)/ModBusTCPClnt/$(MODBUSTCPCLNT_MODULE_VERSION)
-#STREAM=$(EPICS_MODULES)/streamdevice/$(STREAM_MODULE_VERSION)
-STREAM=$(EPICS_DEV_MODULES)/streamdevice/R2.6-asyn_R4.30/
-ETHER_IP=$(EPICS_DEV_MODULES)/ether_ip/$(ETHER_IP_MODULE_VERSION)
-PLCADMIN=$(EPICS_MODULES)/plcAdmin/$(PLCADMIN_MODULE_VERSION)
-CAPUTLOG=$(EPICS_MODULES)/caPutLog/$(CAPUTLOG_MODULE_VERSION)

@@ -1,1 +1,30 @@
-0.1.0 -- First release of the vacuum IOC module.
+#
+# RELEASE_NOTES
+#
+R1.1.1	2017-05-15, Bruce Hill
+	Updated to git workflow and latest modules
+
+R1.1.0	2016-10-27	Alex Wallace
+	caPutLogger. Good bye anon vacuum system control. Hello accountability!
+
+R1.0.5	2016-04-12	Alex Wallace
+	Solving the statusraw issues with the gateway (hopefully...)
+	Simplified using streamdevice redirect.
+
+R1.0.4	2016-03-05	Alex Wallace
+	Adding the new config stuff for the ports.
+	Adding the modbus port config file. Should be standard for all Beckhoff PLC systems.
+	Updated the autosave req template for the generic gauge object
+
+R1.0.3	2016-03-01	Scott A. Stubbs
+	Bumped asyn/stream, build for all arches
+
+R1.0.2	2016-01-20	Scott A. Stubbs
+	Bumped some modules
+	Adding the archiving template for generic vacuum gauges.
+
+R1.0.1	2014-11-14	Alex Wallace
+	Fixed the missing ivcs_gcc archive template file in the build.
+	Updating the make file to ensure the ivcs-gcc file is installed.
+	Updated the autosave req template for the generic gauge object
+	Updated the release to make it work. Careful with the 937s...
