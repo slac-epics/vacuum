@@ -1,6 +1,9 @@
 #
 # RELEASE_NOTES
 #
+R1.1.2	2017-09-25, Scott Stubbs
+	Fixed typo in beckhoffModbusPorts.config, updated modules 
+
 R1.1.1	2017-05-15, Bruce Hill
 	Updated to git workflow and latest modules
 
