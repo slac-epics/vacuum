@@ -28,7 +28,7 @@ record(calcout, "$(device):PADEL") {
 }
 
 # mks937aImg.db
-# Template database for an inverted magnetron guage connected to
+# Template database for an inverted magnetron gauge connected to
 # one channel of an MKS937A Multi-Sensor System
 # Pete Owens - 29/8/03
 # 
