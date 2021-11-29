@@ -174,7 +174,7 @@ record(bo, "$(PUMPPS):MASTERRESET") {
   field(OUT, "@gammampc.proto.db masterReset $(PORT)")
   field(ONAM, "RESET")
   field(ASG, "VACWRITE")
-  field(SDIS, "@")
+  field(SDIS, "")
   field(HIGH, "1")
   field(ZSV, "NO_ALARM")
   field(OSV, "MAJOR")

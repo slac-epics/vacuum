@@ -14,7 +14,7 @@ record(calc, "$(device):PLOG") {
   field(HIHI, "0.01")
   field(LOLO, "5E-11")
   field(HHSV, "MAJOR")
-  field(LOLO, "MINOR")
+  field(LLSV, "MINOR")
   field(FLNK, "$(device):PSTATMON")
 }
 
