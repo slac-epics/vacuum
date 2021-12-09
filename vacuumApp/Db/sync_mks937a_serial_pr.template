@@ -68,7 +68,7 @@ record(sel, "$(device):PMON") {
   field(INPB, "$(device):PMONRAW PP MS") #1
   field(INPC, "$(device):PMONRAW PP MS") #2
   field(INPD, "$(device):PMONRAW PP MS") #3
-  field(INPB, "1E-3") #8
+  field(INPI, "1E-3") #8
   field(DESC, "Pressure")
   field(PREC, "11")
   field(EGU,  "Torr")
