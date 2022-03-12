@@ -357,6 +357,16 @@ record(bo, "$(device):PSTATENOUT") {
   field(OUT,  "@mks937a.proto dissp($(channel),RLY) $(port) 0")
 }
 
+record(bo, "$(device):PSTATMSTEN") {
+  field(DESC, "Relay Setpoint Master Enable")
+  field(DTYP, "stream")
+  field(DOL,  "1")
+  field(PINI, "YES")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+  field(OUT,  "@mks937a.proto ryenable($(channel)) $(port) 0")
+}
+
 # Control - IMG Enable
 record(ao, "$(device):PCTRLSPDES") {
   field(DESC, "IMG Enable")
