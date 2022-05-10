@@ -79,7 +79,7 @@ record(bo, "$(device):PSTATMSTEN") {
   field(PINI, "YES")
   field(ZNAM, "Disable")
   field(ONAM, "Enable")
-  field(OUT,  "@mks937a.proto ryenable($(channel)) $(port) 0")
+  field(OUT,  "@mks937a.proto.db ryenable($(channel)) $(port) 0")
 }
 
 record(ao, "$(device):PSTATSPOUT") {

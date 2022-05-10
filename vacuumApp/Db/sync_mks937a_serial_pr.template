@@ -14,7 +14,7 @@
 # ##############################################################################
 record(mbbi, "$(device):STATE") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto state($(channel)) $(port) 0")
+  field(INP,  "@mks937a.proto.db state($(channel)) $(port) 0")
   field(DESC, "Slot=$(slot)")
   field(SCAN, "Event")
   field(EVNT, "$(fastEvt)")
@@ -80,7 +80,7 @@ record(sel, "$(device):PMON") {
 record(ai, "$(device):PMONRAW") {
   field(DESC, "Pressure")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto pressure($(channel)) $(port) 0")
+  field(INP,  "@mks937a.proto.db pressure($(channel)) $(port) 0")
   field(EGU,  "Torr")
   field(PREC, "3")
   field(HOPR, "1000")
@@ -100,7 +100,7 @@ record(calc, "$(device):PLOG") {
 
 record(bi, "$(device):PSTATMON") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto relaystat$(channel) $(port) 0")
+  field(INP,  "@mks937a.proto.db relaystat$(channel) $(port) 0")
   field(ZNAM, "Faulted")
   field(ONAM, "OK")
   field(ZSV,  "MINOR")
@@ -111,7 +111,7 @@ record(bi, "$(device):PSTATMON") {
 record(ai, "$(device):PSTATSPRBCK") {
   field(DESC, "Setpoint Relay Actual")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto getsp($(channel),RLY) $(port) 0")
+  field(INP,  "@mks937a.proto.db getsp($(channel),RLY) $(port) 0")
   field(EGU,  "Torr")
   field(PREC, "1")
   field(HOPR, "1.2e2")
@@ -142,7 +142,7 @@ record(bi, "$(device):PSTATENRBCK") {
 
 record(mbbi, "$(device):STATUSMON") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto status($(channel)) $(port) 0")
+  field(INP,  "@mks937a.proto.db status($(channel)) $(port) 0")
   field(DESC, "Status")
   field(ZRST, "OK")
   field(ONST, "OK")
@@ -182,7 +182,7 @@ record(mbbi, "$(device):STATUSMON") {
 
 record(stringin, "$(device):STATUSRAW") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto raw($(channel)) $(port) 0")
+  field(INP,  "@mks937a.proto.db raw($(channel)) $(port) 0")
 }
 
 record(calcout, "$(device):PADEL") {
@@ -223,7 +223,7 @@ record(seq, "$(device):PSTATENSEQ") {
 record(bo, "$(device):PSTATENOUT") {
   field(DESC, "Disable Relay Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto dissp($(channel),RLY) $(port) 0")
+  field(OUT,  "@mks937a.proto.db dissp($(channel),RLY) $(port) 0")
 }
 
 record(bo, "$(device):PSTATMSTEN") {
@@ -233,13 +233,13 @@ record(bo, "$(device):PSTATMSTEN") {
   field(PINI, "YES")
   field(ZNAM, "Disable")
   field(ONAM, "Enable")
-  field(OUT,  "@mks937a.proto ryenable($(channel)) $(port) 0")
+  field(OUT,  "@mks937a.proto.db ryenable($(channel)) $(port) 0")
 }
 
 record(ao, "$(device):PSTATSPOUT") {
   field(DESC, "Output Relay Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto setsp($(channel),RLY) $(port) 0")
+  field(OUT,  "@mks937a.proto.db setsp($(channel),RLY) $(port) 0")
 }
 
 # Set Relay Setpoint

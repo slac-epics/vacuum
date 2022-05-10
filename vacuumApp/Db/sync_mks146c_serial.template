@@ -1,21 +1,21 @@
 record(stringin, "$(controller):FWVERSION") {
   field(DESC, "MKS-146C Firmware Version")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getfwversion $(port)")
+  field(INP,  "@mks146c.proto.db getfwversion $(port)")
   field(PINI, "YES")
 }
 
 record(stringin, "$(controller):POWERUP") {
   field(DESC, "MKS-146C Startup status")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getpowerup $(port)")
+  field(INP,  "@mks146c.proto.db getpowerup $(port)")
   field(PINI, "YES")
 }
 
 record(stringin, "$(controller):CNFG1") {
   field(DESC, "MKS-146C Configuration")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getconfig($(controller)) $(port)")
+  field(INP,  "@mks146c.proto.db getconfig($(controller)) $(port)")
   field(PINI, "YES")
 }
 
@@ -38,7 +38,7 @@ record(stringin, "$(controller):CNFG5") {
 record(ao, "$(controller):INTGRL_DES") {
   field(DESC, "MKS 146C Integral")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setintegral $(port)")
+  field(OUT,  "@mks146c.proto.db setintegral $(port)")
   field(DOL,  "0.75")
   field(PREC, "2")
   field(EGU,  "sec")
@@ -52,7 +52,7 @@ record(ao, "$(controller):INTGRL_DES") {
 record(longout, "$(controller):BASE_DES") {
   field(DESC, "MKS 146C Loop Base")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setbase $(port)")
+  field(OUT,  "@mks146c.proto.db setbase $(port)")
   field(DOL,  "0")
   field(EGU,  "%")
   field(DRVH, "103")
@@ -65,7 +65,7 @@ record(longout, "$(controller):BASE_DES") {
 record(longout, "$(controller):START_DES") {
   field(DESC, "MKS 146C Loop Start")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setbase $(port)")
+  field(OUT,  "@mks146c.proto.db setbase $(port)")
   field(DOL,  "0")
   field(EGU,  "%")
   field(DRVH, "103")
@@ -78,7 +78,7 @@ record(longout, "$(controller):START_DES") {
 record(longout, "$(controller):ALPHA_DES") {
   field(DESC, "MKS 146C Loop Alpha")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setalpha $(port)")
+  field(OUT,  "@mks146c.proto.db setalpha $(port)")
   field(DOL,  "20")
   field(DRVH, "99")
   field(DRVL, "5")
@@ -90,7 +90,7 @@ record(longout, "$(controller):ALPHA_DES") {
 record(longout, "$(controller):PRST_DES") {
   field(DESC, "MKS 146C Loop Preset")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setpreset $(port)")
+  field(OUT,  "@mks146c.proto.db setpreset $(port)")
   field(DOL,  "50")
   field(EGU,  "%")
   field(DRVH, "103")
@@ -103,7 +103,7 @@ record(longout, "$(controller):PRST_DES") {
 record(longout, "$(controller):NLGO_DES") {
   field(DESC, "MKS 146C Loop Analog Out")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setbase $(port)")
+  field(OUT,  "@mks146c.proto.db setbase $(port)")
   field(DOL,  "0")
   field(EGU,  "%")
   field(DRVH, "100")
@@ -116,7 +116,7 @@ record(longout, "$(controller):NLGO_DES") {
 record(longout, "$(controller):SFTSPD_DES") {
   field(DESC, "MKS 146C Loop Sft Strt Spd")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setsoftspeed $(port)")
+  field(OUT,  "@mks146c.proto.db setsoftspeed $(port)")
   field(DOL,  "10")
   field(EGU,  "sec")
   field(DRVH, "103")
@@ -129,7 +129,7 @@ record(longout, "$(controller):SFTSPD_DES") {
 record(mbbo, "$(controller):POLARITY_DES") {
   field(DESC, "MKS 146C Set Polarity")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setpolarity $(port)")
+  field(OUT,  "@mks146c.proto.db setpolarity $(port)")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(ZRST, "Direct")
@@ -140,7 +140,7 @@ record(mbbo, "$(controller):POLARITY_DES") {
 record(mbbo, "$(controller):CTLMODE_DES") {
   field(DESC, "MKS 146C Set Control Mode")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setmode $(port)")
+  field(OUT,  "@mks146c.proto.db setmode $(port)")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
@@ -157,7 +157,7 @@ record(mbbo, "$(controller):CTLMODE_DES") {
 record(ao, "$(controller):LEADHI_DES") {
   field(DESC, "MKS 146C High (3) Lead")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setlead(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setlead(3) $(port)")
   field(DOL,  "1.5")
   field(PREC, "1")
   field(EGU,  "sec")
@@ -171,7 +171,7 @@ record(ao, "$(controller):LEADHI_DES") {
 record(ao, "$(controller):LEADLO_DES") {
   field(DESC, "MKS 146C Low (4) Lead")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setlead(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setlead(4) $(port)")
   field(DOL,  "1.5")
   field(PREC, "1")
   field(EGU,  "sec")
@@ -185,7 +185,7 @@ record(ao, "$(controller):LEADLO_DES") {
 record(ao, "$(controller):GAINHI_DES") {
   field(DESC, "MKS 146C High (3) Gain")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setgain(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setgain(3) $(port)")
   field(DOL,  "10")
   field(PREC, "1")
   field(DRVH, "100")
@@ -198,7 +198,7 @@ record(ao, "$(controller):GAINHI_DES") {
 record(ao, "$(controller):GAINLO_DES") {
   field(DESC, "MKS 146C Low (4) Gain")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setgain(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setgain(4) $(port)")
   field(DOL,  "1")
   field(PREC, "1")
   field(DRVH, "100")
@@ -211,7 +211,7 @@ record(ao, "$(controller):GAINLO_DES") {
 record(mbbo, "$(controller):SOFTHI_DES") {
   field(DESC, "MKS 146C Set High (3) Soft")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setsoftstart(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setsoftstart(3) $(port)")
   field(DOL,  "0")
   field(ZRVL, "0")
   field(ONVL, "1")
@@ -223,7 +223,7 @@ record(mbbo, "$(controller):SOFTHI_DES") {
 record(mbbo, "$(controller):SOFTLO_DES") {
   field(DESC, "MKS 146C Set Low (4) Soft")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setsoftstart(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setsoftstart(4) $(port)")
   field(DOL,  "0")
   field(ZRVL, "0")
   field(ONVL, "1")
@@ -235,7 +235,7 @@ record(mbbo, "$(controller):SOFTLO_DES") {
 record(longout, "$(controller):CHANHI_DES") {
   field(DESC, "MKS 146C Set HIgh (3) Chan")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setchannel(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setchannel(3) $(port)")
   field(DOL,  "3")
   field(PINI, "YES")
 }
@@ -243,7 +243,7 @@ record(longout, "$(controller):CHANHI_DES") {
 record(longout, "$(controller):CHANLO_DES") {
   field(DESC, "MKS 146C Set Low (4) Chan")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setchannel(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setchannel(4) $(port)")
   field(DOL,  "4")
   field(PINI, "YES")
 }
@@ -251,7 +251,7 @@ record(longout, "$(controller):CHANLO_DES") {
 record(bo, "$(dev1):PWR_DES") {
   field(DESC, "MKS 146C Set power")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setpower(1) $(port)")
+  field(OUT,  "@mks146c.proto.db setpower(1) $(port)")
   field(DOL,  "1")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
@@ -263,7 +263,7 @@ record(bo, "$(dev1):PWR_DES") {
 record(bo, "$(dev2):PWR_DES") {
   field(DESC, "MKS 146C Set power")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setpower(2) $(port)")
+  field(OUT,  "@mks146c.proto.db setpower(2) $(port)")
   field(DOL,  "1")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
@@ -275,7 +275,7 @@ record(bo, "$(dev2):PWR_DES") {
 record(bo, "$(dev3):PWR_DES") {
   field(DESC, "MKS 146C Set power")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setpower(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setpower(3) $(port)")
   field(DOL,  "1")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
@@ -287,7 +287,7 @@ record(bo, "$(dev3):PWR_DES") {
 record(bo, "$(dev4):PWR_DES") {
   field(DESC, "MKS 146C Set power")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setpower(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setpower(4) $(port)")
   field(DOL,  "1")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
@@ -299,7 +299,7 @@ record(bo, "$(dev4):PWR_DES") {
 record(ao, "$(dev1):RNG_DES") {
   field(DESC, "MKS 146C Set range")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setrange(1) $(port)")
+  field(OUT,  "@mks146c.proto.db setrange(1) $(port)")
   field(DOL,  "$(dev1F)")
   field(PREC, "1")
   field(EGU,  "sccm")
@@ -309,7 +309,7 @@ record(ao, "$(dev1):RNG_DES") {
 record(ao, "$(dev2):RNG_DES") {
   field(DESC, "MKS 146C Set range")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setrange(2) $(port)")
+  field(OUT,  "@mks146c.proto.db setrange(2) $(port)")
   field(DOL,  "10.000")
   field(PREC, "3")
   field(EGU,  "sccm")
@@ -319,7 +319,7 @@ record(ao, "$(dev2):RNG_DES") {
 record(ao, "$(dev3):RNG_DES") {
   field(DESC, "MKS 146C Set range")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setrange(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setrange(3) $(port)")
   field(DOL,  "$(dev3R)")
   field(PREC, "2")
   field(EGU,  "T")
@@ -329,7 +329,7 @@ record(ao, "$(dev3):RNG_DES") {
 record(ao, "$(dev4):RNG_DES") {
   field(DESC, "MKS 146C Set range")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setrange(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setrange(4) $(port)")
   field(DOL,  "0.0500")
   field(PREC, "4")
   field(EGU,  "T")
@@ -339,7 +339,7 @@ record(ao, "$(dev4):RNG_DES") {
 record(longout, "$(dev3):RSL_DES") {
   field(DESC, "MKS 146C Set Resolution")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setresolution(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setresolution(3) $(port)")
   field(DOL,  "-2")
   field(DRVH, "0")
   field(DRVL, "-5")
@@ -351,7 +351,7 @@ record(longout, "$(dev3):RSL_DES") {
 record(longout, "$(dev4):RSL_DES") {
   field(DESC, "MKS 146C Set Resolution")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setresolution(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setresolution(4) $(port)")
   field(DOL,  "-4")
   field(DRVH, "0")
   field(DRVL, "-5")
@@ -411,7 +411,7 @@ record(ao, "$(controller):PHI_DES_DO") {
   field(DTYP, "stream")
   field(OMSL, "closed_loop")
   field(DOL,  "$(controller):PHI_DES NPP")
-  field(OUT,  "@mks146c.proto setsetpoint(3) $(port)")
+  field(OUT,  "@mks146c.proto.db setsetpoint(3) $(port)")
   field(PREC, "3")
   field(EGU,  "T")
   field(FLNK, "$(controller):P_DES_RB")
@@ -462,7 +462,7 @@ record(ao, "$(controller):PLO_DES_DO") {
   field(DTYP, "stream")
   field(OMSL, "closed_loop")
   field(DOL,  "$(controller):PLO_DES NPP")
-  field(OUT,  "@mks146c.proto setsetpoint(4) $(port)")
+  field(OUT,  "@mks146c.proto.db setsetpoint(4) $(port)")
   field(PREC, "4")
   field(EGU,  "T")
   field(FLNK, "$(controller):P_DES_RB")
@@ -471,7 +471,7 @@ record(ao, "$(controller):PLO_DES_DO") {
 record(longout, "$(controller):RECIPE_DES") {
   field(DESC, "MKC 146C Set Recipe")
   field(DTYP, "stream")
-  field(OUT,  "@mks146c.proto setrecipe $(port)")
+  field(OUT,  "@mks146c.proto.db setrecipe $(port)")
   field(DRVH, "4")
   field(DRVL, "3")
   field(FLNK, "$(controller):_SELECT_CALC_HIGH")
@@ -605,7 +605,7 @@ record(calc, "$(dev4):RSL_ACT") {
 record(mbbi, "$(controller):CTLMODE") {
   field(DESC, "MKS-146C Control Mode")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getmode $(port)")
+  field(INP,  "@mks146c.proto.db getmode $(port)")
   field(SCAN, "I/O Intr")
   field(ZRVL, "0")
   field(ONVL, "1")
@@ -627,7 +627,7 @@ record(mbbi, "$(controller):CTLMODE") {
 record(mbbi, "$(controller):CTLOVER") {
   field(DESC, "MKS-146C Control Override")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getover $(port)")
+  field(INP,  "@mks146c.proto.db getover $(port)")
   field(SCAN, "Event")
   field(EVNT, "$(medEvt)")
   field(PHAS, "8")
@@ -641,7 +641,7 @@ record(mbbi, "$(controller):CTLOVER") {
 record(mbbi, "$(controller):POLARITY") {
   field(DESC, "MKS-146C Control Override")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getPolarity $(port)")
+  field(INP,  "@mks146c.proto.db getPolarity $(port)")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(ZRST, "Direct")
@@ -654,14 +654,14 @@ record(mbbi, "$(controller):POLARITY") {
 record(longin, "$(controller):RECIPE") {
   field(DESC, "MKS-146C Get Recipe")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getrecipe $(port)")
+  field(INP,  "@mks146c.proto.db getrecipe $(port)")
   field(FLNK, "$(controller):P_DES_RB")
 }
 
 record(ai, "$(controller):P_DES_RB") {
   field(DESC, "MKS 146C Setpoint readback")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getsetpoint $(port)")
+  field(INP,  "@mks146c.proto.db getsetpoint $(port)")
   field(PREC, "4")
   field(EGU,  "T")
   field(HOPR, "2")
@@ -671,7 +671,7 @@ record(ai, "$(controller):P_DES_RB") {
 record(ai, "$(controller):PROPCTL") {
   field(DESC, "MKS 146C Prop Control")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getpropctl $(port)")
+  field(INP,  "@mks146c.proto.db getpropctl $(port)")
   field(SCAN, "Event")
   field(EVNT, "$(fastEvt)")
   field(PHAS, "8")
@@ -689,7 +689,7 @@ record(ai, "$(controller):PROPCTL") {
 record(mbbi, "$(dev1):CNDX") {
   field(DESC, "MKS-146C Channel 1 Condition")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getcondx(1) $(port)")
+  field(INP,  "@mks146c.proto.db getcondx(1) $(port)")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
@@ -732,7 +732,7 @@ record(mbbi, "$(dev1):CNDX") {
 record(mbbi, "$(dev2):CNDX") {
   field(DESC, "MKS-146C Channel 2 Condition")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getcondx(2) $(port)")
+  field(INP,  "@mks146c.proto.db getcondx(2) $(port)")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
@@ -775,7 +775,7 @@ record(mbbi, "$(dev2):CNDX") {
 record(mbbi, "$(dev3):CNDX") {
   field(DESC, "MKS-146C Channel 3 Condition")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getcondx(3) $(port)")
+  field(INP,  "@mks146c.proto.db getcondx(3) $(port)")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
@@ -818,7 +818,7 @@ record(mbbi, "$(dev3):CNDX") {
 record(mbbi, "$(dev4):CNDX") {
   field(DESC, "MKS-146C Channel 4 Condition")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getcondx(4) $(port)")
+  field(INP,  "@mks146c.proto.db getcondx(4) $(port)")
   field(ZRVL, "0")
   field(ONVL, "1")
   field(TWVL, "2")
@@ -861,7 +861,7 @@ record(mbbi, "$(dev4):CNDX") {
 record(ai, "$(dev1):F") {
   field(DESC, "MKS 146C High Flow reading")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getreading(1) $(port)")
+  field(INP,  "@mks146c.proto.db getreading(1) $(port)")
   field(PREC, "1")
   field(EGU,  "sccm")
   field(HOPR, "$(dev1F)")
@@ -872,7 +872,7 @@ record(ai, "$(dev1):F") {
 record(ai, "$(dev2):F") {
   field(DESC, "MKS 146C Low Flow reading")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getreading(2) $(port)")
+  field(INP,  "@mks146c.proto.db getreading(2) $(port)")
   field(PREC, "2")
   field(EGU,  "sccm")
   field(HOPR, "10")
@@ -883,7 +883,7 @@ record(ai, "$(dev2):F") {
 record(ai, "$(dev3):P") {
   field(DESC, "MKS 146C High Press reading")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getreading(3) $(port)")
+  field(INP,  "@mks146c.proto.db getreading(3) $(port)")
   field(PREC, "3")
   field(EGU,  "T")
   field(HOPR, "2")
@@ -894,7 +894,7 @@ record(ai, "$(dev3):P") {
 record(ai, "$(dev4):P") {
   field(DESC, "MKS 146C Low Press reading")
   field(DTYP, "stream")
-  field(INP,  "@mks146c.proto getreading(4) $(port)")
+  field(INP,  "@mks146c.proto.db getreading(4) $(port)")
   field(PREC, "4")
   field(EGU,  "T")
   field(HOPR, "0.05")

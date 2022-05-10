@@ -1,31 +1,31 @@
 record(stringin, "$(controller):VERSION") {
   field(DESC, "Firmware Versions")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto vers $(port) 0")
+  field(INP,  "@mks937a.proto.db vers $(port) 0")
 }
 
 record(stringin, "$(controller):FREQ") {
   field(DESC, "Frequency")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto freq $(port) 0")
+  field(INP,  "@mks937a.proto.db freq $(port) 0")
 # field(EGU,  "Hz")
 }
 
 record(stringin, "$(controller):GAUGES") {
   field(DESC, "Gauges")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto gauges $(port) 0")
+  field(INP,  "@mks937a.proto.db gauges $(port) 0")
 }
 
 record(stringin, "$(controller):UNIT") {
   field(DESC, "Unit")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto unit $(port) 0")
+  field(INP,  "@mks937a.proto.db unit $(port) 0")
 }
 
 record(mbbi, "$(controller):MODCC") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto modcc $(port) 0")
+  field(INP,  "@mks937a.proto.db modcc $(port) 0")
   field(DESC, "CC Module")
   field(ZRST, "Hot Cathode")
   field(ONST, "Cold Cathode")
@@ -56,7 +56,7 @@ record(mbbi, "$(controller):MODCC") {
 
 record(mbbi, "$(controller):MODA") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto moda $(port) 0")
+  field(INP,  "@mks937a.proto.db moda $(port) 0")
   field(DESC, "A1/A2 Module")
   field(ZRST, "Hot Cathode")
   field(ONST, "Cold Cathode")
@@ -87,7 +87,7 @@ record(mbbi, "$(controller):MODA") {
 
 record(mbbi, "$(controller):MODB") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto modb $(port) 0")
+  field(INP,  "@mks937a.proto.db modb $(port) 0")
   field(DESC, "B1/B2 Module")
   field(ZRST, "Hot Cathode")
   field(ONST, "Cold Cathode")
@@ -139,14 +139,14 @@ record(seq, "$(controller):SEQ") {
 record(longin, "$(controller):DELAY") {
   field(DESC, "CC Delay")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto delay $(port) 0")
+  field(INP,  "@mks937a.proto.db delay $(port) 0")
   field(EGU,  "Sec")
 }
 
 record(bi, "$(controller):FRONT") {
   field(DESC, "Front Panel Status")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto getfp $(port) 0")
+  field(INP,  "@mks937a.proto.db getfp $(port) 0")
   field(ZSV,  "MINOR")
   field(OSV,  "NO_ALARM")
   field(ZNAM, "ENABLED")
@@ -156,7 +156,7 @@ record(bi, "$(controller):FRONT") {
 record(bi, "$(controller):CAL") {
   field(DESC, "User Calibrate Status")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto getcal $(port) 0")
+  field(INP,  "@mks937a.proto.db getcal $(port) 0")
   field(ZSV,  "NO_ALARM")
   field(OSV,  "MINOR")
   field(ZNAM, "ENABLED")
@@ -166,7 +166,7 @@ record(bi, "$(controller):CAL") {
 record(bi, "$(controller):COM") {
   field(DESC, "Command Status")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto getcom $(port) 0")
+  field(INP,  "@mks937a.proto.db getcom $(port) 0")
   field(ZSV,  "NO_ALARM")
   field(OSV,  "MINOR")
   field(ZNAM, "ENABLE")
@@ -175,7 +175,7 @@ record(bi, "$(controller):COM") {
 
 record(bo, "$(controller):COM_DES") {
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto setcom $(port) 0")
+  field(OUT,  "@mks937a.proto.db setcom $(port) 0")
   field(DESC, "Command Enable/Disable")
   field(PINI, "YES")
   field(ZNAM, "ENABLE")

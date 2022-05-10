@@ -1,66 +1,109 @@
 # Autosave list for Ion Pump
 
 # High Voltage Autostart
-$(device):ASHVEDES.VAL
-$(device):ASHVE.ZSV
-$(device):ASHVE.OSV
+$(micrc):$(unitc):ASHVEDES.VAL
+$(micrc):$(unitc):ASHVE.ZSV
+$(micrc):$(unitc):ASHVE.OSV
 
 # Power Loss Autostart 
-$(device):ASPOWERDES.VAL
-$(device):ASPOWER.ZSV
-$(device):ASPOWER.OSV
-
-# Power Loss Autostart 
-$(device):ASPOWERDES.VAL
-$(device):ASPOWER.ZSV
-$(device):ASPOWER.OSV
-
-# Get Supply Size
-$(device):SUPPLYSIZE.ZSV
-$(device):SUPPLYSIZE.OSV
-
-# Analog output mode: Value and limits
-$(device):AOMODEDES.VAL
-$(device):AOMODE.VAL
-$(device):AOMODE.ZRSV
-$(device):AOMODE.ONSV
-$(device):AOMODE.TWSV
-$(device):AOMODE.THSV
-$(device):AOMODE.FRSV
-$(device):AOMODE.FVSV
-$(device):AOMODE.SXSV
-$(device):AOMODE.SVSV
-$(device):AOMODE.EISV
-$(device):AOMODE.NISV
-$(device):AOMODE.TESV
-$(device):AOMODE.ELSV
-$(device):AOMODE.TVSV
-$(device):AOMODE.TTSV
-$(device):AOMODE.FTSV
-$(device):AOMODE.FFSV
+$(micrc):$(unitc):ASPOWERDES.VAL
+$(micrc):$(unitc):ASPOWER.ZSV
+$(micrc):$(unitc):ASPOWER.OSV
 
 # Readout modes: Value only
-$(device):PEGUDES.VAL
+$(micrc):$(unitc):PEGUDES.VAL
+
+# Get Supply Size
+$(micr1):$(unit1):SUPPLYSIZE.ZSV
+$(micr1):$(unit1):SUPPLYSIZE.OSV
+
+# Analog output mode: Value and limits
+$(micr1):$(unit1):AOMODEDES.VAL
+$(micr1):$(unit1):AOMODE.VAL
+$(micr1):$(unit1):AOMODE.ZRSV
+$(micr1):$(unit1):AOMODE.ONSV
+$(micr1):$(unit1):AOMODE.TWSV
+$(micr1):$(unit1):AOMODE.THSV
+$(micr1):$(unit1):AOMODE.FRSV
+$(micr1):$(unit1):AOMODE.FVSV
+$(micr1):$(unit1):AOMODE.SXSV
+$(micr1):$(unit1):AOMODE.SVSV
+$(micr1):$(unit1):AOMODE.EISV
+$(micr1):$(unit1):AOMODE.NISV
+$(micr1):$(unit1):AOMODE.TESV
+$(micr1):$(unit1):AOMODE.ELSV
+$(micr1):$(unit1):AOMODE.TVSV
+$(micr1):$(unit1):AOMODE.TTSV
+$(micr1):$(unit1):AOMODE.FTSV
+$(micr1):$(unit1):AOMODE.FFSV
+
 
 # Set Calibration Factor: Value and limits
-$(device):CALFACTORDES.VAL
-$(device):CALFACTORDES.HIHI
-$(device):CALFACTORDES.HIGH
-$(device):CALFACTORDES.LOW
-$(device):CALFACTORDES.LOLO
-$(device):CALFACTORDES.HHSV
-$(device):CALFACTORDES.HSV
-$(device):CALFACTORDES.LSV
-$(device):CALFACTORDES.LLSV
+$(micr1):$(unit1):CALFACTORDES.VAL
+$(micr1):$(unit1):CALFACTORDES.HIHI
+$(micr1):$(unit1):CALFACTORDES.HIGH
+$(micr1):$(unit1):CALFACTORDES.LOW
+$(micr1):$(unit1):CALFACTORDES.LOLO
+$(micr1):$(unit1):CALFACTORDES.HHSV
+$(micr1):$(unit1):CALFACTORDES.HSV
+$(micr1):$(unit1):CALFACTORDES.LSV
+$(micr1):$(unit1):CALFACTORDES.LLSV
 
 # Set Pump Size: Value and limits
-$(device):PUMPSIZEDES.VAL
-$(device):PUMPSIZEDES.HIHI
-$(device):PUMPSIZEDES.HIGH
-$(device):PUMPSIZEDES.LOW
-$(device):PUMPSIZEDES.LOLO
-$(device):PUMPSIZEDES.HHSV
-$(device):PUMPSIZEDES.HSV
-$(device):PUMPSIZEDES.LSV
-$(device):PUMPSIZEDES.LLSV
+$(micr1):$(unit1):PUMPSIZEDES.VAL
+$(micr1):$(unit1):PUMPSIZEDES.HIHI
+$(micr1):$(unit1):PUMPSIZEDES.HIGH
+$(micr1):$(unit1):PUMPSIZEDES.LOW
+$(micr1):$(unit1):PUMPSIZEDES.LOLO
+$(micr1):$(unit1):PUMPSIZEDES.HHSV
+$(micr1):$(unit1):PUMPSIZEDES.HSV
+$(micr1):$(unit1):PUMPSIZEDES.LSV
+$(micr1):$(unit1):PUMPSIZEDES.LLSV
+
+# Get Supply Size
+$(micr2):$(unit2):SUPPLYSIZE.ZSV
+$(micr2):$(unit2):SUPPLYSIZE.OSV
+
+# Analog output mode: Value and limits
+$(micr2):$(unit2):AOMODEDES.VAL
+$(micr2):$(unit2):AOMODE.VAL
+$(micr2):$(unit2):AOMODE.ZRSV
+$(micr2):$(unit2):AOMODE.ONSV
+$(micr2):$(unit2):AOMODE.TWSV
+$(micr2):$(unit2):AOMODE.THSV
+$(micr2):$(unit2):AOMODE.FRSV
+$(micr2):$(unit2):AOMODE.FVSV
+$(micr2):$(unit2):AOMODE.SXSV
+$(micr2):$(unit2):AOMODE.SVSV
+$(micr2):$(unit2):AOMODE.EISV
+$(micr2):$(unit2):AOMODE.NISV
+$(micr2):$(unit2):AOMODE.TESV
+$(micr2):$(unit2):AOMODE.ELSV
+$(micr2):$(unit2):AOMODE.TVSV
+$(micr2):$(unit2):AOMODE.TTSV
+$(micr2):$(unit2):AOMODE.FTSV
+$(micr2):$(unit2):AOMODE.FFSV
+
+
+# Set Calibration Factor: Value and limits
+$(micr2):$(unit2):CALFACTORDES.VAL
+$(micr2):$(unit2):CALFACTORDES.HIHI
+$(micr2):$(unit2):CALFACTORDES.HIGH
+$(micr2):$(unit2):CALFACTORDES.LOW
+$(micr2):$(unit2):CALFACTORDES.LOLO
+$(micr2):$(unit2):CALFACTORDES.HHSV
+$(micr2):$(unit2):CALFACTORDES.HSV
+$(micr2):$(unit2):CALFACTORDES.LSV
+$(micr2):$(unit2):CALFACTORDES.LLSV
+
+# Set Pump Size: Value and limits
+$(micr2):$(unit2):PUMPSIZEDES.VAL
+$(micr2):$(unit2):PUMPSIZEDES.HIHI
+$(micr2):$(unit2):PUMPSIZEDES.HIGH
+$(micr2):$(unit2):PUMPSIZEDES.LOW
+$(micr2):$(unit2):PUMPSIZEDES.LOLO
+$(micr2):$(unit2):PUMPSIZEDES.HHSV
+$(micr2):$(unit2):PUMPSIZEDES.HSV
+$(micr2):$(unit2):PUMPSIZEDES.LSV
+$(micr2):$(unit2):PUMPSIZEDES.LLSV
 

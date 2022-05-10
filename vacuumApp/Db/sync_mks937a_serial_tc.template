@@ -96,7 +96,6 @@ record(ai, "$(device):PSTATSPRBCK") {
   field(DESC, "Setpoint Relay Actual")
   field(DTYP, "stream")
   field(INP, "@mks937a.proto.db getsp($(channel),RLY) $(port) 0")
-  field(SCAN, "2 second")
   field(EGU, "Torr")
   field(PREC, "1")
   field(HOPR, "1.2e2")
@@ -138,7 +137,9 @@ record(calcout, "$(device):PADEL") {
   field(OUT, "$(device):PMON.ADEL")
   field(INPA, "$(device):PMON.VAL")
   field(INPB, "20")
-  field(SCAN, "10 second")
+  field(SCAN, "Event")
+  field(EVNT, "$(slowEvt)")
+  field(PHAS, "$(channel)")
 }
 
 record(bi, "$(device):PSTATMON") {
@@ -148,6 +149,7 @@ record(bi, "$(device):PSTATMON") {
   field(ONAM, "OK")
   field(ZSV, "MINOR")
   field(OSV, "NO_ALARM")
+  field(FLNK, "$(device):STATUSMON PP")
 }
 
 # mks937aPirg.db
@@ -171,7 +173,9 @@ record(mbbi, "$(device):STATE") {
   field(DTYP, "stream")
   field(INP, "@mks937a.proto.db state($(channel)) $(port) 0")
   field(DESC, "Slot=$(slot)")
-  field(SCAN, "2 second")
+  field(SCAN, "Event")
+  field(EVNT, "$(fastEvt)")
+  field(PHAS, "$(channel)")
   field(FLNK, "$(device):STATUSCALC")
   field(ZRST, "OK")
   field(ONST, "OK")
@@ -212,7 +216,7 @@ record(sel, "$(device):PMON") {
   field(SELM, "Specified")
   field(NVL, "$(device):STATUSCALC")
   field(INPA, "$(device):PMONRAW PP MS")
-  field(INPB, "1E-3")
+  field(INPB, "0")
   field(DESC, "Pressure")
   field(FLNK, "$(device):PLOG")
   field(PREC, "11")
@@ -241,7 +245,7 @@ record(mbbi, "$(device):STATUSMON") {
   field(DTYP, "stream")
   field(INP, "@mks937a.proto.db status($(channel)) $(port) 0")
   field(DESC, "Status")
-  field(SCAN, "2 second")
+  field(FLNK, "$(device):STATUSRAW PP")
   field(ZRST, "OK")
   field(ONST, "OK")
   field(TWST, "Above Range")
@@ -280,6 +284,6 @@ record(mbbi, "$(device):STATUSMON") {
 record(stringin, "$(device):STATUSRAW") {
   field(DTYP, "stream")
   field(INP, "@mks937a.proto.db raw($(channel)) $(port) 0")
-  field(SCAN, "2 second")
+  field(FLNK, "$(device):PSTATSPRBCK PP")
 }
 

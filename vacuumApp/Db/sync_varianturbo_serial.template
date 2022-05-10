@@ -21,7 +21,7 @@ record(seq, "$(device):ReadSeq") {
 record(longin, "$(device):STATUSRAW") {
   field(DESC, "Raw Status")
   field(DTYP, "stream")
-  field(INP,  "@varianturbo.proto getStatus $(port) 0")
+  field(INP,  "@varianturbo.proto.db getStatus $(port) 0")
   field(FLNK, "$(device):STATCALC")
 }
 
@@ -93,7 +93,7 @@ record(bi, "$(device):R1STATMON") {
 record(longin, "$(device):COUNTERSRAW") {
   field(DESC, "Raw Counters")
   field(DTYP, "stream")
-  field(INP,  "@varianturbo.proto getCounters($(device)) $(port) 0 ")
+  field(INP,  "@varianturbo.proto.db getCounters($(device)) $(port) 0 ")
   field(SIOL, "@")
   field(FLNK, "$(device):CYCLETIME")
 }
@@ -117,7 +117,7 @@ record(ai, "$(device):CYCLENUM") {
 
 record(longin, "$(device):VALUESRAW") {
   field(DTYP, "stream")
-  field(INP,  "@varianturbo.proto getValues($(device)) $(port) 0 ")
+  field(INP,  "@varianturbo.proto.db getValues($(device)) $(port) 0 ")
   field(SIOL, "@")
   field(FLNK, "$(device):I")
 }
@@ -199,7 +199,7 @@ record(bi, "$(device):TEMPSTAT") {
 record(longin, "$(device):PARAMSRAW") {
   field(DESC, "Raw Parameters")
   field(DTYP, "stream")
-  field(INP,  "@varianturbo.proto getParameters($(device)) $(port) 0 ")
+  field(INP,  "@varianturbo.proto.db getParameters($(device)) $(port) 0 ")
   field(SIOL, "@")
   field(FLNK, "$(device):CYCLENUM2")
 }

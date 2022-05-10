@@ -118,7 +118,7 @@ record(ao, "$(device):PCTRLSPDES") {
   field(LOPR, "2.7e-3")
   field(DRVH, "9.5e-1")
   field(DRVL, "2.7e-3")
-  field(DOL, "1.0e-2")
+  field(DOL, "5e-3")
   field(ASG, "VACWRITE")
   field(PINI, "YES")
 }
@@ -265,7 +265,7 @@ record(bo, "$(device):PSTATMSTEN") {
   field(PINI, "YES")
   field(ZNAM, "Disable")
   field(ONAM, "Enable")
-  field(OUT,  "@mks937a.proto ryenable($(channel)) $(port) 0")
+  field(OUT,  "@mks937a.proto.db ryenable($(channel)) $(port) 0")
 }
 
 record(ao, "$(device):PSTATSPOUT") {

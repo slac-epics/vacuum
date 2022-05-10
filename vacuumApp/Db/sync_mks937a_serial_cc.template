@@ -14,7 +14,7 @@
 # ############################################################################
 record(mbbi, "$(device):STATE") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto state($(channel)) $(port) 0")
+  field(INP,  "@mks937a.proto.db state($(channel)) $(port) 0")
   field(DESC, "Slot=$(slot)")
   field(SCAN, "Event")
   field(EVNT, "$(fastEvt)")
@@ -80,7 +80,7 @@ record(sel, "$(device):PMON") {
 record(ai, "$(device):PMONRAW") {
   field(DESC, "Pressure")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto pressure($(channel)) $(port) 0")
+  field(INP,  "@mks937a.proto.db pressure($(channel)) $(port) 0")
   field(EGU,  "Torr")
   field(PREC, "11")
   field(HOPR, "0.01")
@@ -100,7 +100,7 @@ record(calc, "$(device):PLOG") {
 
 record(bi, "$(device):PSTATMON") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto relaystat$(channel) $(port) 0")
+  field(INP,  "@mks937a.proto.db relaystat$(channel) $(port) 0")
   field(ZNAM, "Faulted")
   field(ONAM, "OK")
   field(ZSV,  "MAJOR")
@@ -111,7 +111,7 @@ record(bi, "$(device):PSTATMON") {
 record(ai, "$(device):PSTATSPRBCK") {
   field(DESC, "Valve Interlock")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto getsp($(channel),RLY) $(port) 0")
+  field(INP,  "@mks937a.proto.db getsp($(channel),RLY) $(port) 0")
   field(EGU,  "Torr")
   field(PREC, "1")
   field(HOPR, "1.2e-2")
@@ -145,7 +145,7 @@ record(bi, "$(device):PSTATENRBCK") {
 record(ai, "$(device):PCTRLSPRBCK") {
   field(DESC, "IMG Enable")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto getsp($(channel),CTL) $(port) 0")
+  field(INP,  "@mks937a.proto.db getsp($(channel),CTL) $(port) 0")
   field(EGU,  "Torr")
   field(PREC, "1")
   field(HOPR, "9.5e-1")
@@ -179,7 +179,7 @@ record(bi, "$(device):PCTRLENRBCK") {
 record(ai, "$(device):PPROTSPRBCK") {
   field(DESC, "IMG Overpressure")
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto getsp($(channel),PRO) $(port) 0")
+  field(INP,  "@mks937a.proto.db getsp($(channel),PRO) $(port) 0")
   field(EGU,  "Torr")
   field(PREC, "1")
   field(HOPR, "1.0e-2")
@@ -212,7 +212,7 @@ record(bi, "$(device):PPROTENRBCK") {
 
 record(mbbi, "$(device):STATUSMON") {
   field(DTYP, "stream")
-  field(INP,  "@mks937a.proto status($(channel)) $(port) 0")
+  field(INP,  "@mks937a.proto.db status($(channel)) $(port) 0")
   field(DESC, "Status")
   field(ZRST, "ON")
   field(ONST, "ON")
@@ -293,7 +293,7 @@ record(calcout, "$(device):PADEL") {
 record(bo, "$(device):STATEDES") {
   field(DESC, "Cold Cathode Enable")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto ccenable($(channel),$(device)) $(port) 0")
+  field(OUT,  "@mks937a.proto.db ccenable($(channel),$(device)) $(port) 0")
   field(ZNAM, "Off")
   field(ONAM, "On")
   field(ASG,  "VACWRITE")
@@ -325,7 +325,7 @@ record(seq, "$(device):PSTATSPSEQ") {
 record(ao, "$(device):PSTATSPOUT") {
   field(DESC, "Output Relay Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto setsp($(channel),RLY) $(port) 0")
+  field(OUT,  "@mks937a.proto.db setsp($(channel),RLY) $(port) 0")
 }
 
 record(mbbo, "$(device):PSTATEN") {
@@ -354,7 +354,7 @@ record(seq, "$(device):PSTATENSEQ") {
 record(bo, "$(device):PSTATENOUT") {
   field(DESC, "Disable Relay Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto dissp($(channel),RLY) $(port) 0")
+  field(OUT,  "@mks937a.proto.db dissp($(channel),RLY) $(port) 0")
 }
 
 record(bo, "$(device):PSTATMSTEN") {
@@ -364,7 +364,7 @@ record(bo, "$(device):PSTATMSTEN") {
   field(PINI, "YES")
   field(ZNAM, "Disable")
   field(ONAM, "Enable")
-  field(OUT,  "@mks937a.proto ryenable($(channel)) $(port) 0")
+  field(OUT,  "@mks937a.proto.db ryenable($(channel)) $(port) 0")
 }
 
 # Control - IMG Enable
@@ -393,7 +393,7 @@ record(seq, "$(device):PCTRLSPSEQ") {
 record(ao, "$(device):PCTRLSPOUT") {
   field(DESC, "Output Control Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto setsp($(channel),CTL) $(port) 0")
+  field(OUT,  "@mks937a.proto.db setsp($(channel),CTL) $(port) 0")
 }
 
 record(mbbo, "$(device):PCTRLEN") {
@@ -422,7 +422,7 @@ record(seq, "$(device):PCTRLENSEQ") {
 record(bo, "$(device):PCTRLENOUT") {
   field(DESC, "Disable Control Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto dissp($(channel),CTL) $(port) 0")
+  field(OUT,  "@mks937a.proto.db dissp($(channel),CTL) $(port) 0")
 }
 
 # Protection - IMG Overpressure
@@ -451,7 +451,7 @@ record(seq, "$(device):PPROTSPSEQ") {
 record(ao, "$(device):PPROTSPOUT") {
   field(DESC, "Output Protection Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto setsp($(channel),PRO) $(port) 0")
+  field(OUT,  "@mks937a.proto.db setsp($(channel),PRO) $(port) 0")
 }
 
 record(mbbo, "$(device):PPROTEN") {
@@ -480,6 +480,6 @@ record(seq, "$(device):PPROTENSEQ") {
 record(bo, "$(device):PPROTENOUT") {
   field(DESC, "Disable Protection Setpoint")
   field(DTYP, "stream")
-  field(OUT,  "@mks937a.proto dissp($(channel),PRO) $(port) 0")
+  field(OUT,  "@mks937a.proto.db dissp($(channel),PRO) $(port) 0")
 }
 

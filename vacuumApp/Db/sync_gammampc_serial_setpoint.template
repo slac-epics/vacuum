@@ -1,6 +1,6 @@
 record(bi, "$(PUMP):PSTAT$(PSTATNUM)MON") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getSetpoint($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getSetpoint($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
   field(ZNAM, "FAULT")
   field(ONAM, "OK")
   field(SCAN, "Event")
@@ -55,7 +55,7 @@ record(calcout, "$(PUMP):PSTAT$(PSTATNUM)OFFCALCON") {
   field(INPA, "$(PUMP):PSTAT$(PSTATNUM)ONDES.VAL")
   field(INPB, "1E-4")
   field(INPC, "$(PUMP):PSTAT$(PSTATNUM)HYS.VAL")
-  field(OUT,  "@gammampc.proto setSetpointOn($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setSetpointOn($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
 }
 
 record(mbbo, "$(PUMP):PSTAT$(PSTATNUM)SUPDES") {
@@ -63,7 +63,7 @@ record(mbbo, "$(PUMP):PSTAT$(PSTATNUM)SUPDES") {
   field(ONST, "SUPPLY_1")
   field(TWST, "SUPPLY_2")
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setSetpointSup($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setSetpointSup($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
   field(ASG,  "VACWRITE")
 }
 
@@ -82,18 +82,18 @@ record(calcout, "$(PUMP):PSTAT$(PSTATNUM)OFFCALCHYS") {
   field(INPA, "$(PUMP):PSTAT$(PSTATNUM)ON.VAL")
   field(INPB, "1E-4")
   field(INPC, "$(PUMP):PSTAT$(PSTATNUM)HYSDES.VAL")
-  field(OUT,  "@gammampc.proto setSetpointOff($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setSetpointOff($(SP),$(PUMP),$(PSTATNUM)) $(PORT)")
 }
 
 record(bo, "$(PUMP):PSTAT$(PSTATNUM)SETL") {
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setSetpointLow($(SP),$(PSTATNUM)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setSetpointLow($(SP),$(PSTATNUM)) $(PORT)")
   field(ASG,  "VACWRITE")
 }
 
 record(bo, "$(PUMP):PSTAT$(PSTATNUM)SETH") {
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setSetpointHigh($(SP),$(PSTATNUM)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setSetpointHigh($(SP),$(PSTATNUM)) $(PORT)")
   field(ASG,  "VACWRITE")
 }
 

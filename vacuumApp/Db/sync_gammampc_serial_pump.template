@@ -1,13 +1,13 @@
 record(ai, "$(DEVICE):PUMPSIZE") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getPumpsize($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getPumpsize($(CHANNEL)) $(PORT)")
   field(PINI, "YES")
   field(FLNK, "$(DEVICE):SUPPLYSIZE")
 }
 
 record(bi, "$(DEVICE):SUPPLYSIZE") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getSupplysize($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getSupplysize($(CHANNEL)) $(PORT)")
   field(ZNAM, "MEDIUM")
   field(ONAM, "LARGE")
   field(ZSV,  "NO_ALARM")
@@ -17,7 +17,7 @@ record(bi, "$(DEVICE):SUPPLYSIZE") {
 
 record(mbbi, "$(DEVICE):AOMODE") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getAnalogoutmode($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getAnalogoutmode($(CHANNEL)) $(PORT)")
   field(ZRST, "LOG_P")
   field(ONST, "LOG_I")
   field(TWST, "V_PER_1_UA")
@@ -55,7 +55,7 @@ record(mbbi, "$(DEVICE):AOMODE") {
 
 record(ai, "$(DEVICE):CALFACTOR") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getCalibfactor($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getCalibfactor($(CHANNEL)) $(PORT)")
   field(PREC, "2")
 }
 
@@ -66,7 +66,7 @@ record(stringin, "$(DEVICE):VPCNAME") {
 
 record(ai, "$(DEVICE):PMON") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getPressure($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getPressure($(CHANNEL)) $(PORT)")
   field(EGU,  "T")
   field(SCAN, "Event")
   field(EVNT, "$(scanEvt)")
@@ -84,7 +84,7 @@ record(calc, "$(DEVICE):PMONLOG") {
 
 record(ai, "$(DEVICE):VMON") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getVoltage($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getVoltage($(CHANNEL)) $(PORT)")
   field(EGU,  "V")
   field(LOLO, "$(vlolo)")
   field(LLSV, "MAJOR")
@@ -99,7 +99,7 @@ record(ai, "$(DEVICE):VMON") {
 
 record(ai, "$(DEVICE):IMON") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getCurrent($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getCurrent($(CHANNEL)) $(PORT)")
   field(EGU,  "A")
   field(LOLO, "$(ilolo)")
   field(LLSV, "MAJOR")
@@ -109,23 +109,12 @@ record(ai, "$(DEVICE):IMON") {
   field(HSV,  "MINOR")
   field(HIHI, "$(ihihi)")
   field(HHSV, "MAJOR")
-  field(FLNK, "$(DEVICE):STATUSRAW")
-}
-
-record(mbbi, "$(DEVICE):STATUSRAW") {
-  field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getStatus($(CHANNEL)) $(PORT)")
-  field(FLNK, "$(DEVICE):STATUSCALC PP")
-}
-
-record(calc, "$(DEVICE):STATUSCALC") {
-  field(CALC, "A==77?7:A==78?8:FLOOR(A/11)")
-  field(INPA, "$(DEVICE):STATUSRAW NPP MS")
-  field(FLNK, "$(DEVICE):STATUS PP")
+  field(FLNK, "$(DEVICE):STATUS")
 }
 
 record(mbbi, "$(DEVICE):STATUS") {
-  field(INP,  "$(DEVICE):STATUSCALC NPP MS")
+  field(DTYP, "stream")
+  field(INP, "@gammampc.proto.db getStatus($(CHANNEL),$(DEVICE):STATUSCODE) $(PORT)")
   field(ZRST, "SAFECONN")
   field(ONST, "RUNNING")
   field(TWST, "COOLDOWN")
@@ -144,17 +133,12 @@ record(mbbi, "$(DEVICE):STATUS") {
   field(SXSV, "MAJOR")
   field(SVSV, "MINOR")
   field(EISV, "MAJOR")
-  field(FLNK, "$(DEVICE):STATUSCODECL PP")
-}
-
-record(calc, "$(DEVICE):STATUSCODECL") {
-  field(INPA, "$(DEVICE):STATUSRAW NPP MS")
-  field(CALC, "A>=77?0: A%11")
-  field(FLNK, "$(DEVICE):STATUSCODE PP")
+  field(FLNK, "$(DEVICE):STATUSCODE")
 }
 
 record(mbbi, "$(DEVICE):STATUSCODE") {
-  field(INP,  "$(DEVICE):STATUSCODECL NPP MS")
+  field(INP, "11")
+  field(DTYP, "Soft Channel")
   field(ZRST, "NO_ERROR")
   field(ONST, "TOO_MANY_COOLDN")
   field(TWST, "RUN_P_HIGH")
@@ -166,6 +150,7 @@ record(mbbi, "$(DEVICE):STATUSCODE") {
   field(EIST, "COOL_SPLY_MLFN")
   field(NIST, "COOL_V_LOW")
   field(TEST, "COOL_ARC_DETCT")
+  field(ELST, "Not Initialized")
   field(ZRSV, "NO_ALARM")
   field(ONSV, "MAJOR")
   field(TWSV, "MAJOR")
@@ -182,14 +167,14 @@ record(mbbi, "$(DEVICE):STATUSCODE") {
 
 record(ai, "$(DEVICE):VDESRBCK") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getHVStrapping($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getHVStrapping($(CHANNEL)) $(PORT)")
   field(EGU,  "V")
   field(FLNK, "$(DEVICE):STATEMON")
 }
 
 record(bi, "$(DEVICE):STATEMON") {
   field(DTYP, "stream")
-  field(INP,  "@gammampc.proto getState($(CHANNEL)) $(PORT)")
+  field(INP,  "@gammampc.proto.db getState($(CHANNEL)) $(PORT)")
   field(OSV,  "NO_ALARM")
   field(ZNAM, "OFF")
   field(ONAM, "ON")
@@ -198,7 +183,7 @@ record(bi, "$(DEVICE):STATEMON") {
 
 record(ao, "$(DEVICE):PUMPSIZEDES") {
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setPumpsize($(CHANNEL)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setPumpsize($(CHANNEL)) $(PORT)")
   field(DRVH, "1200")
   field(DRVL, "10")
   field(ASG,  "VACWRITE")
@@ -207,7 +192,7 @@ record(ao, "$(DEVICE):PUMPSIZEDES") {
 
 record(mbbo, "$(DEVICE):AOMODEDES") {
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setAnalogoutmode($(CHANNEL)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setAnalogoutmode($(CHANNEL)) $(PORT)")
   field(ZRST, "LOG_P")
   field(ONST, "LOG_I")
   field(TWST, "V_PER_1_UA")
@@ -222,7 +207,7 @@ record(mbbo, "$(DEVICE):AOMODEDES") {
 
 record(ao, "$(DEVICE):CALFACTORDES") {
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setCalibfactor($(CHANNEL)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setCalibfactor($(CHANNEL)) $(PORT)")
   field(DRVH, "0")
   field(DRVL, "9.99")
   field(PREC, "2")
@@ -232,13 +217,13 @@ record(ao, "$(DEVICE):CALFACTORDES") {
 
 record(bo, "$(DEVICE):STATEDES") {
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setOnoff($(CHANNEL)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setOnoff($(CHANNEL)) $(PORT)")
   field(ASG,  "VACWRITE")
 }
 
 record(mbbo, "$(DEVICE):DISPDES") {
   field(DTYP, "stream")
-  field(OUT,  "@gammampc.proto setDisplaymode($(CHANNEL)) $(PORT)")
+  field(OUT,  "@gammampc.proto.db setDisplaymode($(CHANNEL)) $(PORT)")
   field(ZRST, "VOLTAGE")
   field(ONST, "CURRENT")
   field(TWST, "PRESSURE")

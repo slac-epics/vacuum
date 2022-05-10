@@ -14,6 +14,7 @@ include $(TOP)/configure/CONFIG
 DB += sync_master.db
 DB += sync_mks146c_serial.template
 DB += sync_mks937a_serial.template
+DB += sync_mks937a_serial_tc.template
 DB += sync_mks937a_serial_cc.template
 DB += sync_mks937a_serial_pr.template
 DB += sync_mks937b_serial.template
