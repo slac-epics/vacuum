@@ -1,0 +1,42 @@
+#==============================================================================
+#
+# Abs:  Database template for serial control of Gamma MPC.
+#
+# Name:  sync_pumps_serial.substitutions
+#
+# Macros: port is name of asyn port
+#         micrc, unitc are fields of the controller.
+#         micr1, unit1 are fields of pump 1.
+#         micr2, unit2 are fields of pump 2.
+#         
+#==============================================================================
+#
+file sync_gammampc_serial_pump.template
+{
+   pattern
+     { PUMPPS               , PORT   , DEVICE           , CHANNEL, scanEvt, phase }
+     { $(micrc):$(unitc)    , $(port), $(micr1):$(unit1), 1      ,       2,     9 }
+     { $(micrc):$(unitc)    , $(port), $(micr2):$(unit2), 2      ,       2,     9 }
+}
+
+file sync_gammampc_serial_controller.template
+{
+   pattern
+     { PUMPPS           ,    PORT  , CHANNEL1          , CHANNEL2          , scanEvt, phase }
+     { $(micrc):$(unitc),   $(port), $(micr1):$(unit1) , $(micr2):$(unit2) ,       3,    10 }
+}
+
+file sync_gammampc_serial_setpoint.template
+{ 
+   pattern
+     { PUMP                , PORT       , SP , PSTATNUM ,
+         PSTATOKSV , PSTATFLTSV , INACTSV  , SUP1SV   , SUP2SV   , scanEvt,    phase } 
+     { $(micr1):$(unit1)  , $(port)     , 1  , 1        ,
+         NO_ALARM  , MAJOR      , MAJOR    , NO_ALARM , MAJOR    ,       2, "\$(phas1=20)" } 
+     { $(micr1):$(unit1)  , $(port)     , 2  , 2        ,
+         NO_ALARM  , NO_ALARM   , NO_ALARM , MAJOR    , MAJOR    ,       2, "\$(phas2=20)" } 
+     { $(micr2):$(unit2)  , $(port)     , 3  , 1        ,
+         NO_ALARM  , MAJOR      , MAJOR    , MAJOR    , NO_ALARM ,       2, "\$(phas3=20)" } 
+     { $(micr2):$(unit2)  , $(port)     , 4  , 2        ,
+         NO_ALARM  , NO_ALARM   , NO_ALARM , MAJOR    , MAJOR    ,       2, "\$(phas4=20)" } 
+}

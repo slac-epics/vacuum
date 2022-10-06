@@ -49,6 +49,11 @@ MODBUSTCPCLNT   = $(EPICS_MODULES)/ModBusTCPClnt/$(MODBUSTCPCLNT_MODULE_VERSION)
 STREAMDEVICE    = $(EPICS_MODULES)/streamdevice/$(STREAMDEVICE_MODULE_VERSION)
 PLCADMIN        = $(EPICS_MODULES)/plcAdmin/$(PLCADMIN_MODULE_VERSION)
 
+#MCB_MODULES     = /cds/home/m/mcbrowne/git/modules
+#ASYN            = $(MCB_MODULES)/asyn
+#STREAMDEVICE    = $(MCB_MODULES)/streamdevice
+#MODBUS          = $(MCB_MODULES)/modbus
+
 # Set EPICS_BASE last so it appears last in the DB, DBD, INCLUDE, and LIB search paths
 EPICS_BASE = $(EPICS_SITE_TOP)/base/$(BASE_MODULE_VERSION)
 

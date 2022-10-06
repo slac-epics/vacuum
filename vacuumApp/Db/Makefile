@@ -20,6 +20,7 @@ DB += sync_mks937a_serial_pr.template
 DB += sync_mks937b_serial.template
 DB += sync_mks937b_serial_cc.template
 DB += sync_mks937b_serial_pr.template
+DB += sync_pumps_serial.db
 DB += vac_mks937a_serial.template
 DB += vac_mks937a_serial_cc.template
 DB += vac_mks937a_serial_pr.template

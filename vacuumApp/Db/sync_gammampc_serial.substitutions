@@ -32,11 +32,11 @@ file sync_gammampc_serial_setpoint.template
   { PUMP                  , PORT   , SP, PSTATNUM,
          PSTATOKSV, PSTATFLTSV, INACTSV , SUP1SV  , SUP2SV  , scanEvt,    phase } 
   { VPIO:$(micr1):$(unit1), $(port), 1 , 1       ,
-         NO_ALARM , MAJOR     , MAJOR   , NO_ALARM, MAJOR   ,       2, $(phas1) } 
+         NO_ALARM , MAJOR     , MAJOR   , NO_ALARM, MAJOR   ,       2, "\$(phas1=20)" } 
   { VPIO:$(micr1):$(unit1), $(port), 2 , 2       ,
-         NO_ALARM , NO_ALARM  , NO_ALARM, MAJOR   , MAJOR   ,       2, $(phas2) } 
+         NO_ALARM , NO_ALARM  , NO_ALARM, MAJOR   , MAJOR   ,       2, "\$(phas2=20)" } 
   { VPIO:$(micr2):$(unit2), $(port), 3 , 1       ,
-         NO_ALARM , MAJOR     , MAJOR   , MAJOR   , NO_ALARM,       2, $(phas3) }
+         NO_ALARM , MAJOR     , MAJOR   , MAJOR   , NO_ALARM,       2, "\$(phas3=20)" }
   { VPIO:$(micr2):$(unit2), $(port), 4 , 2       ,
-         NO_ALARM , NO_ALARM  , NO_ALARM, MAJOR   , MAJOR   ,       2, $(phas4) } 
+         NO_ALARM , NO_ALARM  , NO_ALARM, MAJOR   , MAJOR   ,       2, "\$(phas4=20)" } 
 }

@@ -82,17 +82,21 @@ record(calc, "$(DEVICE):PMONLOG") {
   field(FLNK, "$(DEVICE):VMON")
 }
 
+#
+# According to the manual, max current is 500mA, max voltage is 7000V.
+# Let's just set ridiculous default values here.
+#
 record(ai, "$(DEVICE):VMON") {
   field(DTYP, "stream")
   field(INP,  "@gammampc.proto.db getVoltage($(CHANNEL)) $(PORT)")
   field(EGU,  "V")
-  field(LOLO, "$(vlolo)")
+  field(LOLO, "$(vlolo=-10000)")
   field(LLSV, "MAJOR")
-  field(LOW,  "$(vlo)")
+  field(LOW,  "$(vlo=-10000)")
   field(LSV,  "MINOR")
-  field(HIGH, "$(vhi)")
+  field(HIGH, "$(vhi=10000)")
   field(HSV,  "MINOR")
-  field(HIHI, "$(vhihi)")
+  field(HIHI, "$(vhihi=10000)")
   field(HHSV, "MAJOR")
   field(FLNK, "$(DEVICE):IMON")
 }
@@ -101,13 +105,13 @@ record(ai, "$(DEVICE):IMON") {
   field(DTYP, "stream")
   field(INP,  "@gammampc.proto.db getCurrent($(CHANNEL)) $(PORT)")
   field(EGU,  "A")
-  field(LOLO, "$(ilolo)")
+  field(LOLO, "$(ilolo=-10)")
   field(LLSV, "MAJOR")
-  field(LOW,  "$(ilo)")
+  field(LOW,  "$(ilo=-10)")
   field(LSV,  "MINOR")
-  field(HIGH, "$(ihi)")
+  field(HIGH, "$(ihi=10)")
   field(HSV,  "MINOR")
-  field(HIHI, "$(ihihi)")
+  field(HIHI, "$(ihihi=10)")
   field(HHSV, "MAJOR")
   field(FLNK, "$(DEVICE):STATUS")
 }
