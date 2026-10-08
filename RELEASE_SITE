@@ -1,13 +1,13 @@
-# =============================================================
-# Define the top of the EPICS tree for your site.
-# We will build some tools/scripts that allow us to
-# change this easily when relocating software.
-# ==============================================================
-EPICS_SITE_TOP=/reg/g/pcds/package/epics/3.14
+BASE_MODULE_VERSION = R7.0.3.1-2.0
+EPICS_SITE_TOP = /cds/group/pcds/epics
+EPICS_MODULES = $(EPICS_SITE_TOP)/$(BASE_MODULE_VERSION)/modules
+ifeq ($(origin EPICS_HOST_ARCH), undefined)
+EPICS_HOST_ARCH := $(shell $(EPICS_SITE_TOP)/base/$(BASE_MODULE_VERSION)/startup/EpicsHostArch)
+endif
+PSPKG_ROOT = /cds/group/pcds/pkg_mgr
 
-# EPICS module releases are kept here
-EPICS_MODULES=$(EPICS_SITE_TOP)/modules
-
-# Use the latest version of msi to avoid dependency on the extensions version
-MSI=$(EPICS_SITE_TOP)/extensions/current/bin/$(EPICS_HOST_ARCH)/msi
+# Define EPICS_BASE last in configure/RELEASE.local for dependency search ordering.
+ifeq ($(wildcard $(EPICS_SITE_TOP)/base/$(BASE_MODULE_VERSION)),)
+$(warning EPICS_BASE is invalid: $(EPICS_SITE_TOP)/base/$(BASE_MODULE_VERSION))
+endif
 
