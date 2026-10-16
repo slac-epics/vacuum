@@ -15,7 +15,7 @@ DBD += vacuum.dbd
 # vacuum.dbd will be made up from these files:
 vacuum_DBD += base.dbd
 vacuum_DBD += iocAdmin.dbd
-vacuum_DBD += autosaveSupport.dbd
+vacuum_DBD += asSupport.dbd
 vacuum_DBD += asyn.dbd
 vacuum_DBD += stream.dbd
 vacuum_DBD += modbus.dbd
