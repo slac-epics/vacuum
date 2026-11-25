@@ -2,8 +2,8 @@
 # RELEASE_NOTES
 #
 R2.0.0 2026-11-24, Jane Liu
-	Updated for Rocky Linux 9: bumped up module version numbers, added a 
-	.gitignore file, deleted the configure/RULES.copy helper (unused).
+	Updated for Rocky Linux 9: bumped up several module version numbers, 
+	added a .gitignore file.
 
 R1.1.2	2017-09-25, Scott Stubbs
 	Fixed typo in beckhoffModbusPorts.config, updated modules 
